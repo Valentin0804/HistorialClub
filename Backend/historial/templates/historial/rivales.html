@@ -1,0 +1,40 @@
+{% extends "historial/base.html" %}
+{% load static %}
+
+{% block title %}Rivales{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/rivales.css' %}">
+{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Rivales del Club Chabás</h1>
+
+<div class="clubes-container">
+  {% for club in clubes %}
+  <div class="club-card">
+    {% if club.escudo %}
+    <img src="{{ club.escudo }}" alt="{{ club.nombre }}">
+    {% endif %}
+    <h2>{{ club.nombre }}</h2>
+    <p><strong>Fundado:</strong> {{ club.fundacion }}</p>
+    <p><strong>Campeonatos:</strong> {{ club.campeonatos }}</p>
+    {% with g=club.ganados %}
+    {% with e=club.empatados %}
+    {% with p=club.perdidos %}
+    {% if g > p %}
+    <p class="resultado verde"><strong>Vs Chabás:</strong> {{ g }}G, {{ e }}E, {{ p }}P</p>
+    {% elif p > g  %}
+    <p class="resultado rojo"><strong>Vs Chabás:</strong> {{ g }}G, {{ e }}E, {{ p }}P</p>
+    {% elif g == p  %}
+    <p class="resultado amarillo"><strong>Vs Chabás:</strong> {{ g }}G, {{ e }}E, {{ p }}P</p>
+    {% else %}
+    <p class="resultado"><strong>Vs Chabás:</strong> {{ g }}G, {{ e }}E, {{ p }}P</p>
+    {% endif %}
+    {% endwith %}
+    {% endwith %}
+    {% endwith %}
+
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}

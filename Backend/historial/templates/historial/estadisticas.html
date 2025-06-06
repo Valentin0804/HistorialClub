@@ -1,0 +1,127 @@
+{% extends "historial/base.html" %}
+{% load static %}
+{% block title %}Estadísticas{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/estadisticas.css' %}">
+{% endblock %}
+
+{% block content %}
+
+
+<h1 class="mb-4">Estadísticas</h1>
+
+<div class="card mb-4">
+    <div class="card-body">
+        <form method="get" class="row g-3">
+            <div class="col-md-4">
+                <label for="temporada" class="form-label">Temporada</label>
+                <select name="temporada" id="temporada" class="form-select">
+                    <option value="">Todas las temporadas</option>
+                    {% for temporada in temporadas %}
+                    <option value="{{ temporada }}" {% if filtros.temporada == temporada %}selected{% endif %}>
+                        {{ temporada }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label for="jugador" class="form-label">Jugador</label>
+                <select name="jugador" id="jugador" class="form-select">
+                    <option value="">Todos los jugadores</option>
+                    {% for jugador in jugadores %}
+                    <option value="{{ jugador.id }}" {% if filtros.jugador == jugador.id|stringformat:"s" %}selected{% endif %}>
+                        {{ jugador.nombre }} {{ jugador.apellido }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label for="equipo" class="form-label">Equipo Rival</label>
+                <select name="equipo" id="equipo" class="form-select">
+                    <option value="">Todos los equipos</option>
+                    {% for equipo in equipos %}
+                    <option value="{{ equipo.id }}" {% if filtros.equipo == equipo.id|stringformat:"s" %}selected{% endif %}>
+                        {{ equipo.nombre }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-12">
+                <button type="submit" class="btn btn-primary">Filtrar</button>
+                <a href="{% url 'estadisticas' %}" class="btn btn-secondary">Limpiar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Goleadores -->
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+            <div class="card-header bg-success text-white">
+                <h3>⚽ Top Goleadores</h3>
+            </div>
+            <div class="card-body">
+                <ol class="list-group list-group-numbered">
+                    {% for jugador in estadisticas.goleadores|dictsortreversed:"total_goles"|slice:":10" %}
+                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                        <div class="ms-2 me-auto">
+                            {{ jugador.nombre }} {{ jugador.apellido }}
+                        </div>
+                        <span class="badge bg-primary rounded-pill">{{ jugador.total_goles }}</span>
+                    </li>
+                    {% empty %}
+                    <li class="list-group-item">No hay datos</li>
+                    {% endfor %}
+                </ol>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Amarillas -->
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+            <div class="card-header bg-warning text-dark">
+                <h3>🟨 Top Amonestados</h3>
+            </div>
+            <div class="card-body">
+                <ol class="list-group list-group-numbered">
+                    {% for jugador in estadisticas.amarillas|dictsortreversed:"total_amarillas"|slice:":10" %}
+                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                        <div class="ms-2 me-auto">
+                            {{ jugador.nombre }} {{ jugador.apellido }}
+                        </div>
+                        <span class="badge bg-warning rounded-pill">{{ jugador.total_amarillas }}</span>
+                    </li>
+                    {% empty %}
+                    <li class="list-group-item">No hay datos</li>
+                    {% endfor %}
+                </ol>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Rojas -->
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+            <div class="card-header bg-danger text-white">
+                <h3>🟥 Top Expulsados</h3>
+            </div>
+            <div class="card-body">
+                <ol class="list-group list-group-numbered">
+                    {% for jugador in estadisticas.rojas|dictsortreversed:"total_rojas"|slice:":5" %}
+                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                        <div class="ms-2 me-auto">
+                            {{ jugador.nombre }} {{ jugador.apellido }}
+                        </div>
+                        <span class="badge bg-danger rounded-pill">{{ jugador.total_rojas }}</span>
+                    </li>
+                    {% empty %}
+                    <li class="list-group-item">No hay datos</li>
+                    {% endfor %}
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

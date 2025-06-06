@@ -1,0 +1,56 @@
+{% extends "historial/base.html" %}
+{% load static %}
+{% block title %}Temporada Actual{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/temporada_actual.css' %}">
+{% endblock %}
+{% block content %}
+
+<h1 class="mb-4">Temporada {{ temporada_actual }}</h1>
+
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>Fecha</th>
+                <th>Torneo</th>
+                <th>Rival</th>
+                <th>Resultado</th>
+                <th>Condición</th>
+                <th>info</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for partido in partidos %}
+            <tr  class="{% if partido.goles_chabas > partido.goles_rival %}ganado
+                {% elif partido.goles_chabas < partido.goles_rival %}perdido
+                {% else %}empate{% endif %}">
+
+                <td>{{ partido.fecha|date:"d/m/Y" }}</td>
+                <td>{{ partido.torneo.nombre }}</td>
+                <td>vs {{ partido.rival.nombre }}</td>
+                <td>
+                    {% if partido.tipo == 'L' %}
+                        {{ partido.goles_chabas }} - {{ partido.goles_rival }}
+                    {% else %}
+                        {{ partido.goles_rival }} - {{ partido.goles_chabas }}
+                    {% endif %}
+                </td>
+                <td>
+                    {% if partido.tipo == 'L' %}
+                        <span class="badge bg-primary">Local</span>
+                    {% else %}
+                        <span class="badge bg-secondary">Visitante</span>
+                    {% endif %}
+                </td>             
+                <td>
+                    <a href="{% url 'detalle_partido' partido.id %}" class="btn btn-sm btn-outline-primary">
+                        Ver más
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

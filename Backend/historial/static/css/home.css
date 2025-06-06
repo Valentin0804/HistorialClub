@@ -1,0 +1,196 @@
+/* Estilo del logo */
+img[alt="Logo CA Chabás"] {
+    transition: transform 0.3s ease;
+}
+
+img[alt="Logo CA Chabás"]:hover {
+    transform: scale(1.05);
+}
+
+/* Título principal */
+.display-3 {
+    color: #019ee3;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    position: relative;
+    display: inline-block;
+}
+
+.display-2 {
+    color: #019ee3;
+    font-weight: 900;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    position: relative;
+    display: inline-block;
+    padding-bottom: 40px;
+}
+
+.display-3::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, #019ee3, #f8f5f6);
+}
+
+/* Lema destacado */
+.display-1 {
+    color: #019ee3;
+    font-weight: 900;
+    letter-spacing: 2px;
+    margin: 20px 0;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    background: linear-gradient(45deg, #f7f5f5, #019ee3);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    position: relative;
+    padding: 0 15px;
+}
+
+/* Tarjetas de estadísticas */
+.card {
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+.card-body {
+    padding: 20px;
+}
+
+.card-body h3 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.card-body p {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #6c757d;
+}
+
+/* Estilos para el último partido */
+.card-header {
+    background: linear-gradient(90deg, #019ee3, #0353ff);
+    color: white;
+}
+
+.escudo-partido {
+    max-height: 130px;
+    width: auto;
+    margin: 0 80px 0 0;
+    padding-right: 10px;
+}
+
+/* Estilos para los botones */
+.btn {
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    border-radius: 50px;
+    padding: 12px 25px;
+    transition: all 0.3s ease;
+    border: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn-lg {
+    padding: 15px 30px;
+    font-size: 1.1rem;
+}
+
+.btn-outline-secondary {
+    border: 2px solid #6c757d;
+    color: #6c757d;
+}
+
+.btn-outline-secondary:hover {
+    background: linear-gradient(135deg,#019ee3, #0353ff);
+    color: white;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Efectos para el marcador del partido */
+h1 {
+    font-size: 3.5rem;
+    font-weight: 800;
+    margin: 0 20px;
+    color: #212529;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .display-3 {
+        font-size: 2.5rem;
+    }
+    
+    .display-1 {
+        font-size: 2.5rem;
+    }
+    
+    .card-body h3 {
+        font-size: 2rem;
+    }
+    
+    h1 {
+        font-size: 2.5rem;
+    }
+    
+    .btn-lg {
+        padding: 10px 20px;
+        font-size: 1rem;
+    }
+    
+    .escudo-partido {
+        max-height: 60px;
+    }
+}
+
+/* Animación de entrada */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.container.my-5 {
+    animation: fadeIn 0.8s ease-out;
+}
+
+/* Efecto de hover en las tarjetas de estadísticas */
+.card-border-primary:hover {
+    border-color: #019ee3!important;
+}
+
+.card-border-warning:hover {
+    border-color: #019ee3 !important;
+}
+
+.card-border-success:hover {
+    border-color: #019ee3 !important;
+}
+
+
+.imagen-banner {
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    display: block;
+}

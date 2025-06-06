@@ -1,0 +1,153 @@
+/* Estilos para el formulario de filtros */
+.card {
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    border: none;
+    overflow: hidden;
+}
+
+.card-header {
+    font-weight: 600;
+    font-size: 1.2rem;
+    padding: 15px 20px;
+}
+
+.form-label {
+    font-weight: 500;
+    color: #495057;
+    margin-bottom: 8px;
+}
+
+.form-select {
+    border-radius: 8px;
+    padding: 10px 15px;
+    border: 1px solid #ced4da;
+    transition: all 0.3s ease;
+}
+
+.form-select:focus {
+    border-color: #019ee3;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+    transform: translateY(-2px);
+}
+
+/* Estilos para los botones */
+.btn {
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    border-radius: 8px;
+    padding: 10px 20px;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #019ee3, #eceaea);
+    border: none;
+}
+
+.btn-secondary {
+    background: linear-gradient(135deg, #6c757d, #5a6268);
+    border: none;
+    color: white;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Estilos para las tarjetas de estadísticas */
+.card {
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+.bg-success {
+    background: linear-gradient(135deg, #198754, #157347) !important;
+}
+
+.bg-warning {
+    background: linear-gradient(135deg, #ffc107, #e0a800) !important;
+}
+
+.bg-danger {
+    background: linear-gradient(135deg, #dc3545, #c82333) !important;
+}
+
+/* Estilos para las listas de jugadores */
+.list-group-item {
+    border-radius: 8px !important;
+    margin-bottom: 8px;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    transition: all 0.2s ease;
+    padding: 12px 15px;
+}
+
+.list-group-item:hover {
+    background-color: #f8f9fa;
+    transform: translateX(5px);
+}
+
+.badge {
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 8px 12px;
+}
+
+.bg-primary {
+    background: linear-gradient(135deg, #0d6efd, #0353ff) !important;
+}
+
+/* Estilos para los emojis en los títulos */
+h3 {
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Efectos de animación */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.row > div {
+    animation: fadeIn 0.5s ease-out;
+    animation-fill-mode: both;
+}
+
+.row > div:nth-child(1) { animation-delay: 0.1s; }
+.row > div:nth-child(2) { animation-delay: 0.2s; }
+.row > div:nth-child(3) { animation-delay: 0.3s; }
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .form-select, .btn {
+        width: 100%;
+    }
+    
+    .col-md-4 {
+        margin-bottom: 20px;
+    }
+    
+    h1 {
+        font-size: 1.8rem;
+    }
+    
+    .card-header h3 {
+        font-size: 1.2rem;
+    }
+}
+
+/* Efecto de hover especial para las tarjetas de estadísticas */
+.card:hover .card-header {
+    background-size: 200% auto;
+    background-position: right center;
+}

@@ -1,0 +1,124 @@
+{% extends "historial/base.html" %}
+{% load static %}
+
+{% block title %}Club Atlético Chabás - El Más Campeón del Pueblo{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+{% endblock %}
+
+{% block content %}
+
+
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-10 text-center">
+            <!-- Logo del Club -->
+            <img src="{% static '../static/img/logo_chabas.png' %}" alt="Logo CA Chabás"
+                class="mb-4">
+
+            <!-- Título principal -->
+            <h2 class="display-3 fw-bold mb-3">CLUB ATLÉTICO CHABÁS</h2>
+            <h1 class="display-2 fw-bold mb-3">EL MÁS CAMPEÓN DEL PUEBLO</h1>
+
+          
+            <!-- Estadísticas rápidas -->
+            <div class="row justify-content-center g-4 mb-5">
+                <div class="col-md-3">
+                    <div class="card border-primary h-100">
+                        <div class="card-body">
+                            <h3 class="text-primary">{{ partidos_count }}</h3>
+                            <p class="mb-0">PARTIDOS CARGADOS</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card border-primary h-100">
+                        <div class="card-body">
+                            <h3 class="text-primary">{{ jugadores_count }}</h3>
+                            <p class="mb-0">JUGADORES CARGADOS</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card border-primary h-100">
+                        <div class="card-body">
+                            <h3 class="text-primary">{{ titulos_count }}</h3>
+                            <p class="mb-0">TÍTULOS OBTENIDOS</p>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+
+            <!-- Último partido -->
+            {% if ultimo_partido %}
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h4>Último Partido</h4>
+                </div>
+                <div class="card-body text-center">
+                    <h4>
+                        {{ ultimo_partido.fecha|date:"d/m/Y" }} -
+                        {{ ultimo_partido.torneo.nombre }}
+                    </h4>
+                    <h6>
+                            <span
+                                class="badge {% if ultimo_partido.tipo == 'L' %}bg-primary{% else %}bg-secondary{% endif %}">
+                                {% if partido.tipo == 'L' %}🏠 Local{% else %}✈️
+                                Visitante{% endif %}
+                            </span>
+                    </h6>
+
+                    <div
+                        class="d-flex justify-content-center align-items-center mb-3">
+                        <!-- Lado izquierdo -->
+                        <div class="text-center">
+                            <img src="{% static 'img/logo_chabas.png' %}"
+                                alt="Logo CA Chabás" class="mb-4">
+                        </div>
+
+                        <!-- Centro con el VS y nombre del rival -->
+                        <div class="text-center m-auto">
+                            <h1>{{ ultimo_partido.goles_chabas }}
+                                -
+                                {{ ultimo_partido.goles_rival }}
+                                <h5>
+                                    vs {{ ultimo_partido.rival.nombre }}
+                                </h5>
+                            </div>
+
+                            <!-- Lado derecho con escudo rival -->
+                            <div class="text-center">
+                                {% if ultimo_partido.rival.escudo %}
+                                <img src="{{ ultimo_partido.rival.escudo.url }}"
+                                    alt="Escudo {{ ultimo_partido.rival.nombre }}"
+                                    class="escudo-partido mb-2">
+                                {% endif %}
+
+                            </div>
+                        </div>
+
+                        <a href="{% url 'detalle_partido' ultimo_partido.id %}"
+                            class="btn btn-success mt-2">
+                            Ver detalles completos
+                        </a>
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Botones de acceso rápido -->
+                <div
+                    class="d-grid gap-3 d-sm-flex justify-content-sm-center mt-4">
+                    <a href="{% url 'temporada_actual' %}"
+                        class="btn btn-outline-secondary btn-lg px-4">TEMPORADA ACTUAL</a>
+                    <a href="{% url 'historicos' %}"
+                        class="btn btn-outline-secondary btn-lg px-4">HISTÓRICOS</a>
+                    <a href="{% url 'estadisticas' %}"
+                        class="btn btn-outline-secondary btn-lg px-4">ESTADÍSTICAS</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    {% endblock %}

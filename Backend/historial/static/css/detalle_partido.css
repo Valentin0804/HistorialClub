@@ -1,0 +1,264 @@
+/* Estilo de la tarjeta principal */
+.card {
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+    border: none;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+}
+
+/* Encabezado de la tarjeta */
+.card-header {
+    padding: 20px;
+    background: linear-gradient(135deg, #019ee3, #0051ff);
+    border-bottom: none;
+}
+
+.card-header h2 {
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    margin: 0;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* Cuerpo de la tarjeta */
+.card-body {
+    padding: 30px;
+}
+
+/* Sección del resultado */
+.text-center {
+    margin-bottom: 30px;
+}
+
+.badge {
+    font-size: 1rem;
+    padding: 8px 16px;
+    border-radius: 50px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.bg-primary {
+    background: linear-gradient(135deg, #019ee3, #0353ff);
+}
+
+.bg-secondary {
+    background: linear-gradient(135deg, #6c757d, #5a6268);
+}
+
+.display-4 {
+    font-size: 3.5rem;
+    font-weight: 800;
+    margin: 15px 0;
+    color: #212529;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Secciones de estadísticas */
+h4 {
+    font-weight: 600;
+    color: #495057;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.border-bottom {
+    border-bottom: 2px solid #dee2e6 !important;
+    padding-bottom: 8px;
+}
+
+/* Listas de jugadores */
+.list-group {
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.list-group-item {
+    padding: 12px 20px;
+    border-left: none;
+    border-right: none;
+    transition: all 0.2s ease;
+    font-weight: 500;
+}
+
+.list-group-item:hover {
+    background-color: #f2f2f2;
+    transform: translateX(5px);
+}
+
+.list-group-item:nth-child(odd) {
+    background-color: rgba(248, 249, 250, 0.5);
+}
+
+/* Alertas */
+.alert {
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-weight: 500;
+}
+
+.alert-info {
+    background-color: #f2f2f2;
+    border-color: #d0ebff;
+    color: #1864ab;
+}
+
+/* Efectos de animación */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.card {
+    animation: fadeIn 0.6s ease-out;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .container {
+        padding: 0 15px;
+    }
+    
+    .card-header h2 {
+        font-size: 1.5rem;
+    }
+    
+    .display-4 {
+        font-size: 2.5rem;
+    }
+    
+    .card-body {
+        padding: 20px;
+    }
+    
+    .list-group-item {
+        padding: 10px 15px;
+    }
+}
+
+/* Efectos especiales para el marcador */
+.display-4 {
+    position: relative;
+    display: inline-block;
+    padding: 0 20px;
+}
+
+.display-4::before, .display-4::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 30px;
+    height: 3px;
+    background: linear-gradient(90deg, #019ee3, #f2f2f2);
+}
+
+.display-4::before {
+    left: -40px;
+}
+
+.display-4::after {
+    right: -40px;
+}
+
+/* Estilo para los iconos de las secciones */
+h4::before {
+    font-size: 1.4em;
+    margin-right: 10px;
+}
+/* Contenedor principal del marcador */
+.d-flex.justify-content-center.align-items-center.mb-3 {
+    gap: 30px; /* Espacio entre elementos */
+    padding: 20px 0;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilos para los escudos */
+.text-center img {
+    max-height: 120px; /* Altura máxima igual para ambos escudos */
+    width: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+    transition: transform 0.3s ease;
+}
+
+/* Efecto hover para los escudos */
+.text-center img:hover {
+    transform: scale(1.05);
+}
+
+/* Estilo específico para el escudo rival */
+.escudo-partido {
+    max-height: 120px !important; /* Fuerza misma altura */
+    max-width: 120px; /* Ancho máximo para consistencia */
+}
+
+/* Estilo para el logo del club */
+.text-center img[alt="Logo CA Chabás"] {
+    max-height: 120px;
+    max-width: 120px;
+}
+
+/* Contenedores de los escudos */
+.text-center {
+    min-width: 120px; /* Ancho mínimo para alineación */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Estilos para el marcador */
+.text-center.m-auto h1 {
+    font-size: 3.5rem;
+    font-weight: 800;
+    margin: 10px 0;
+    color: #212529;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.text-center.m-auto h5 {
+    font-size: 1.2rem;
+    color: #6c757d;
+    margin-top: 5px;
+}
+
+/* Badge de local/visitante */
+.badge {
+    font-size: 1rem;
+    padding: 8px 16px;
+    border-radius: 50px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+/* Responsive para móviles */
+@media (max-width: 768px) {
+    .d-flex.justify-content-center.align-items-center.mb-3 {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .text-center img {
+        max-height: 80px;
+    }
+    
+    .text-center.m-auto h1 {
+        font-size: 2.5rem;
+    }
+    
+    .text-center {
+        min-width: auto;
+    }
+}
