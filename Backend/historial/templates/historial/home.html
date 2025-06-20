@@ -7,118 +7,116 @@
 {% endblock %}
 
 {% block content %}
-
+<div class="hero-section py-5">
+    <div class="container py-5">
+        <div class="row justify-content-center align-items-center">
+            <div class="col-lg-8 text-center">
+                <img src="{% static 'img/logo_chabas.png' %}" alt="Logo CA Chabás" class="img-fluid mb-4" style="max-height: 150px;">
+                <h1 class="display-4 fw-bold mb-3">Atlético Chabás</h1>
+                <p class="lead mb-4">La gran institución. Creciste desde siempre, ¡Lagunero soy!</p>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class="container my-5">
-    <div class="row justify-content-center">
-        <div class="col-md-10 text-center">
-            <!-- Logo del Club -->
-            <img src="{% static '../static/img/logo_chabas.png' %}" alt="Logo CA Chabás"
-                class="mb-4">
-
-            <!-- Título principal -->
-            <h2 class="display-3 fw-bold mb-3">CLUB ATLÉTICO CHABÁS</h2>
-            <h1 class="display-2 fw-bold mb-3">EL MÁS CAMPEÓN DEL PUEBLO</h1>
-
-          
-            <!-- Estadísticas rápidas -->
-            <div class="row justify-content-center g-4 mb-5">
-                <div class="col-md-3">
-                    <div class="card border-primary h-100">
-                        <div class="card-body">
-                            <h3 class="text-primary">{{ partidos_count }}</h3>
-                            <p class="mb-0">PARTIDOS CARGADOS</p>
-                        </div>
-                    </div>
+    <!-- Estadísticas rápidas -->
+    <div class="row justify-content-center g-4 mb-5">
+        <div class="col-md-4 col-lg-3">
+            <div class="card border-1 shadow-sm h-100 stats-card">
+                <div class="card-body text-center py-4">
+                    <i class="fas fa-futbol text-primary mb-3 fa-3x"></i>
+                    <h2 class="text-primary">{{ partidos_count }}</h2>
+                    <p class="mb-0 fw-bold">PARTIDOS CARGADOS</p>
                 </div>
-                <div class="col-md-3">
-                    <div class="card border-primary h-100">
-                        <div class="card-body">
-                            <h3 class="text-primary">{{ jugadores_count }}</h3>
-                            <p class="mb-0">JUGADORES CARGADOS</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card border-primary h-100">
-                        <div class="card-body">
-                            <h3 class="text-primary">{{ titulos_count }}</h3>
-                            <p class="mb-0">TÍTULOS OBTENIDOS</p>
-                        </div>
-                    </div>
-                </div>
-                
             </div>
-
-            <!-- Último partido -->
-            {% if ultimo_partido %}
-            <div class="card mb-4">
-                <div class="card-header">
-                    <h4>Último Partido</h4>
+        </div>
+        <div class="col-md-4 col-lg-3">
+            <div class="card border-1 shadow-sm h-100 stats-card">
+                <div class="card-body text-center py-4">
+                    <i class="fas fa-users text-primary mb-3 fa-3x"></i>
+                    <h2 class="text-primary">{{ jugadores_count }}</h2>
+                    <p class="mb-0 fw-bold">JUGADORES CARGADOS</p>
                 </div>
-                <div class="card-body text-center">
-                    <h4>
-                        {{ ultimo_partido.fecha|date:"d/m/Y" }} -
-                        {{ ultimo_partido.torneo.nombre }}
-                    </h4>
-                    <h6>
-                            <span
-                                class="badge {% if ultimo_partido.tipo == 'L' %}bg-primary{% else %}bg-secondary{% endif %}">
-                                {% if partido.tipo == 'L' %}🏠 Local{% else %}✈️
-                                Visitante{% endif %}
-                            </span>
-                    </h6>
-
-                    <div
-                        class="d-flex justify-content-center align-items-center mb-3">
-                        <!-- Lado izquierdo -->
-                        <div class="text-center">
-                            <img src="{% static 'img/logo_chabas.png' %}"
-                                alt="Logo CA Chabás" class="mb-4">
-                        </div>
-
-                        <!-- Centro con el VS y nombre del rival -->
-                        <div class="text-center m-auto">
-                            <h1>{{ ultimo_partido.goles_chabas }}
-                                -
-                                {{ ultimo_partido.goles_rival }}
-                                <h5>
-                                    vs {{ ultimo_partido.rival.nombre }}
-                                </h5>
-                            </div>
-
-                            <!-- Lado derecho con escudo rival -->
-                            <div class="text-center">
-                                {% if ultimo_partido.rival.escudo %}
-                                <img src="{{ ultimo_partido.rival.escudo.url }}"
-                                    alt="Escudo {{ ultimo_partido.rival.nombre }}"
-                                    class="escudo-partido mb-2">
-                                {% endif %}
-
-                            </div>
-                        </div>
-
-                        <a href="{% url 'detalle_partido' ultimo_partido.id %}"
-                            class="btn btn-success mt-2">
-                            Ver detalles completos
-                        </a>
-                    </div>
-                </div>
-                {% endif %}
-
-                <!-- Botones de acceso rápido -->
-                <div
-                    class="d-grid gap-3 d-sm-flex justify-content-sm-center mt-4">
-                    <a href="{% url 'temporada_actual' %}"
-                        class="btn btn-outline-secondary btn-lg px-4">TEMPORADA ACTUAL</a>
-                    <a href="{% url 'historicos' %}"
-                        class="btn btn-outline-secondary btn-lg px-4">HISTÓRICOS</a>
-                    <a href="{% url 'estadisticas' %}"
-                        class="btn btn-outline-secondary btn-lg px-4">ESTADÍSTICAS</a>
+            </div>
+        </div>
+        <div class="col-md-4 col-lg-3">
+            <div class="card border-1 shadow-sm h-100 stats-card">
+                <div class="card-body text-center py-4">
+                    <i class="fas fa-trophy text-primary mb-3 fa-3x"></i>
+                    <h2 class="text-primary">{{ titulos_count }}</h2>
+                    <p class="mb-0 fw-bold">TÍTULOS OBTENIDOS</p>
                 </div>
             </div>
         </div>
     </div>
 
-    
-    {% endblock %}
+    <!-- Último partido -->
+    {% if ultimo_partido %}
+    <div class="row justify-content-center mb-5">
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0"><i class="fas fa-clock me-2"></i>Último Partido</h4>
+                </div>
+                <div class="card-body">
+                    <div class="text-center mb-3">
+                        <h5 class="text-muted">{{ ultimo_partido.torneo.nombre }}</h5>
+                        <h6 class="text-muted">{{ ultimo_partido.fecha|date:"d/m/Y" }}</h6>
+                        <span class="badge bg-secondary">
+                            {% if ultimo_partido.tipo == 'L' %}🏠 Local{% else %}✈️ Visitante{% endif %}
+                        </span>
+                    </div>
+
+                    <div class="d-flex justify-content-center align-items-center my-4">
+                        <div class="text-center mx-4">
+                            <img src="{% static 'img/logo_chabas.png' %}" alt="Logo CA Chabás" class="img-fluid" style="max-height: 80px;">
+                            <h3 class="mt-2">{{ ultimo_partido.goles_chabas }}</h3>
+                        </div>
+
+                        <div class="text-center mx-4">
+                            <h1 class="display-4 fw-bold">VS</h1>
+                            <h4 class="mt-2">{{ ultimo_partido.rival.nombre }}</h4>
+                        </div>
+
+                        <div class="text-center mx-4">
+                            {% if ultimo_partido.rival.escudo %}
+                            <img src="{{ ultimo_partido.rival.escudo.url }}" alt="Escudo {{ ultimo_partido.rival.nombre }}" class="img-fluid" style="max-height: 80px;">
+                            {% endif %}
+                            <h3 class="mt-2">{{ ultimo_partido.goles_rival }}</h3>
+                        </div>
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <a href="{% url 'detalle_partido' ultimo_partido.id %}" class="btn btn-primary px-4">
+                            <i class="fas fa-info-circle me-2"></i>Ver detalles
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Accesos rápidos -->
+    <div class="row justify-content-center mb-5">
+        <div class="col-lg-10 text-center">
+            <h3 class="mb-4 text-primary">Explorar el sitio</h3>
+            <div class="d-flex flex-wrap justify-content-center gap-3">
+                <a href="{% url 'temporada_actual' %}" class="btn btn-outline-primary btn-lg px-4 rounded-pill">
+                    <i class="fas fa-calendar-alt me-2"></i>Temporada Actual
+                </a>
+                <a href="{% url 'historicos' %}" class="btn btn-outline-primary btn-lg px-4 rounded-pill">
+                    <i class="fas fa-history me-2"></i>Históricos
+                </a>
+                <a href="{% url 'estadisticas' %}" class="btn btn-outline-primary btn-lg px-4 rounded-pill">
+                    <i class="fas fa-chart-bar me-2"></i>Estadísticas
+                </a>
+                <a href="{% url 'rivales' %}" class="btn btn-outline-primary btn-lg px-4 rounded-pill">
+                    <i class="fas fa-users me-2"></i>Rivales
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

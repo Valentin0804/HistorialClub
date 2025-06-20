@@ -1,66 +1,84 @@
-.clubes-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 20px;
-  margin: 40px auto;
-  max-width: 1200px;
+/* Estilos específicos para la página de rivales */
+
+.rival-card {
+    transition: all 0.3s ease;
+    border-radius: 1rem;
+    overflow: hidden;
 }
 
-.club-card {
-  background-color: #fff;
-  border-radius: 12px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  width: 260px;
-  padding: 20px;
-  text-align: center;
-  transition: transform 0.2s ease;
+.rival-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(30, 136, 229, 0.2);
 }
 
-.club-card:hover {
-  transform: scale(1.03);
+.rival-logo {
+    max-height: 100px;
+    width: auto;
+    object-fit: contain;
 }
 
-.club-card img {
-  width: 100px;
-  height: auto;
-  margin-bottom: 10px;
-  border-radius: 8px;
+.rival-placeholder {
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #e0e0e0;
 }
 
-.club-card h2 {
-  font-size: 20px;
-  margin: 10px 0;
-  color: #222;
+.rival-info {
+    background-color: #f8f9fa;
+    border-radius: 0.5rem;
+    padding: 1rem;
 }
 
-.club-card p {
-  margin: 5px 0;
-  color: #555;
-  font-size: 14px;
+.rival-stats {
+    margin-top: 1.5rem;
 }
 
-.resultado {
-  font-weight: bold;
+.stat-value {
+    font-size: 1.5rem;
+    font-weight: bold;
+    line-height: 1;
 }
 
-.resultado.rojo {
-  color: red;
-  padding: 5px;
-  border-radius: 5px;
-  background-color: #ffece6;
+.stat-label {
+    font-size: 0.8rem;
+    color: #6c757d;
+    text-transform: uppercase;
+    margin-top: 0.3rem;
 }
 
-.resultado.amarillo {
-  color: rgb(218, 32, 156);
-  background-color: #ffffe6;
-  padding: 5px;
-  border-radius: 5px;
+.rival-advantage {
+    font-weight: 500;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    background-color: rgba(0, 0, 0, 0.03);
 }
 
-.resultado.verde {
-  background-color: #e6ffe6;
-  color: #008000;
-  padding: 5px;
-  border-radius: 5px;
+/* Colores para los resultados */
+.text-success {
+    color: #28a745 !important;
+}
+
+.text-danger {
+    color: #dc3545 !important;
+}
+
+.text-warning {
+    color: #ffc107 !important;
+}
+
+.text-info {
+    color: #17a2b8 !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .rival-logo {
+        max-height: 80px;
+    }
+    
+    .stat-value {
+        font-size: 1.2rem;
+    }
 }

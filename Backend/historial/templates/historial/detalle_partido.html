@@ -1,115 +1,113 @@
 {% extends "historial/base.html" %}
 {% load static %}
+
+{% block title %}Detalle del Partido{% endblock %}
+
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/detalle_partido.css' %}">
 {% endblock %}
 
 {% block content %}
 
-<div class="container mt-4">
-    <div class="card">
-        <div class="card-header bg-primary text-white text-center">
-            <h2 class="mb-0">
-                {{ partido.fecha|date:"d/m/Y" }} - {{ partido.torneo.nombre }}
-            </h2>
-        </div>
+<div class="container py-5 match-detail-container">
+    <div class="match-header">
+        <div class="match-date">{{ partido.fecha|date:"d/m/Y" }}</div>
+        <h1>{{ partido.torneo.nombre }}</h1>
+        <div class="match-divider"></div>
+    </div>
 
-        <div class="card-body">
-            <!-- Resultado -->
+    <div class="match-result-card">
+        <div class="team-display">
+            <div class="team home-team">
+                <img src="{% static 'img/logo_chabas.png' %}" alt="Logo CA Chabás" class="team-logo">
+                <div class="team-name">CA Chabás</div>
+            </div>
 
-            <div class="d-flex justify-content-center align-items-center mb-3">
-                <!-- Lado izquierdo (sin escudo) -->
-                <div class="text-center">
-                    <img src="{% static 'img/logo_chabas.png' %}"
-                        alt="Logo CA Chabás" class="mb-4">
+            <div class="match-score">
+                <div class="match-condition {% if partido.tipo == 'L' %}local{% else %}visitor{% endif %}">
+                    {% if partido.tipo == 'L' %}Local{% else %}Visitante{% endif %}
                 </div>
-
-                <!-- Centro con el VS y nombre del rival -->
-                <div class="text-center m-auto">
-                    <h3>
-                        <span
-                            class="badge {% if partido.tipo == 'L' %}bg-primary{% else %}bg-secondary{% endif %}">
-                            {% if partido.tipo == 'L' %}🏠 Local{% else %}✈️
-                            Visitante{% endif %}
-                        </span>
-                    </h3>
-                    <h1>{{ partido.goles_chabas }}
-                        -
-                        {{ partido.goles_rival }}
-                        <h5>
-                            vs {{ partido.rival.nombre }}
-                        </h5>
-                    </div>
-
-                    <!-- Lado derecho con escudo rival -->
-                    <div class="text-center">
-                        {% if partido.rival.escudo %}
-                        <img src="{{ partido.rival.escudo.url }}"
-                            alt="Escudo {{ partido.rival.nombre }}"
-                            class="escudo-partido mb-2">
-                        {% endif %}
-
-                    </div>
+                <div class="score">
+                    <span class="goals">{{ partido.goles_chabas }}</span>
+                    <span class="separator">-</span>
+                    <span class="goals">{{ partido.goles_rival }}</span>
                 </div>
+                <div class="vs-text">vs {{ partido.rival.nombre }}</div>
             </div>
 
-            <!-- Goles -->
-            <div class="mb-4">
-                <h4 class="border-bottom pb-2">⚽ Goles</h4>
-                {% if goles %}
-                <ul class="list-group">
-                    {% for gol in goles %}
-                    <li class="list-group-item">
-                        {{ gol.jugador.nombre }} {{ gol.jugador.apellido }}
-                        ({{ gol.minuto }}')
-                    </li>
-                    {% endfor %}
-                </ul>
+            <div class="team away-team">
+                {% if partido.rival.escudo %}
+                <img src="{{ partido.rival.escudo.url }}" alt="Escudo {{ partido.rival.nombre }}" class="team-logo">
                 {% else %}
-                <div class="alert alert-info">No hubo goles en Atlético</div>
+                <div class="team-logo placeholder"></div>
                 {% endif %}
+                <div class="team-name">{{ partido.rival.nombre }}</div>
             </div>
-
-            <!-- Tarjetas Amarillas -->
-            <div class="mb-4">
-                <h4 class="border-bottom pb-2">🟨 Amarillas</h4>
-                {% if amarillas %}
-                <ul class="list-group">
-                    {% for am in amarillas %}
-                    <li class="list-group-item">
-                        {{ am.jugador.nombre }} {{ am.jugador.apellido }}
-                        ({{ am.minuto }}')
-                    </li>
-                    {% endfor %}
-                </ul>
-                {% else %}
-                <div class="alert alert-info">No hubo amonestados en
-                    Atlético</div>
-                {% endif %}
-            </div>
-
-            <!-- Tarjetas Rojas -->
-            <div class="mb-4">
-                <h4 class="border-bottom pb-2">🟥 Expulsiones</h4>
-                {% if rojas %}
-                <ul class="list-group">
-                    {% for roja in rojas %}
-                    <li class="list-group-item">
-                        {{ roja.jugador.nombre }} {{ roja.jugador.apellido }}
-                        ({{ roja.minuto }}')
-                    </li>
-                    {% endfor %}
-                </ul>
-                {% else %}
-                <div class="alert alert-info">No hubo expulsados en
-                    Atlético</div>
-                {% endif %}
-            </div>
-
-        </div>
-        <div class="mb-4 bg-dark-subtle">
-            <p>(0') = No hay datos del minuto del partido</p>
         </div>
     </div>
+
+    <div class="match-details">
+        <!-- Goles -->
+        <div class="detail-section">
+            <h2 class="section-title">
+                <i class="fas fa-futbol"></i> Goles
+            </h2>
+            {% if goles %}
+            <ul class="detail-list">
+                {% for gol in goles %}
+                <li class="detail-item">
+                    <span class="player-name">{{ gol.jugador.nombre }} {{ gol.jugador.apellido }}</span>
+                    <span class="minute-badge">{{ gol.minuto }}'</span>
+                </li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <div class="empty-message">No hubo goles en este partido</div>
+            {% endif %}
+        </div>
+
+        <!-- Tarjetas Amarillas -->
+        <div class="detail-section">
+            <h2 class="section-title yellow-card">
+                <i class="fas fa-square yellow"></i> Amarillas
+            </h2>
+            {% if amarillas %}
+            <ul class="detail-list">
+                {% for am in amarillas %}
+                <li class="detail-item">
+                    <span class="player-name">{{ am.jugador.nombre }} {{ am.jugador.apellido }}</span>
+                    <span class="minute-badge">{{ am.minuto }}'</span>
+                </li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <div class="empty-message">No hubo amonestados en este partido</div>
+            {% endif %}
+        </div>
+
+        <!-- Tarjetas Rojas -->
+        <div class="detail-section">
+            <h2 class="section-title red-card">
+                <i class="fas fa-square red"></i> Expulsiones
+            </h2>
+            {% if rojas %}
+            <ul class="detail-list">
+                {% for roja in rojas %}
+                <li class="detail-item">
+                    <span class="player-name">{{ roja.jugador.nombre }} {{ roja.jugador.apellido }}</span>
+                    <span class="minute-badge">{{ roja.minuto }}'</span>
+                </li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <div class="empty-message">No hubo expulsados en este partido</div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="match-footer">
+        <p>(0') = No hay datos del minuto del partido</p>
+    </div>
 </div>
+
 {% endblock %}

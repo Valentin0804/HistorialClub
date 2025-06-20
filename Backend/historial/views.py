@@ -82,6 +82,37 @@ def historicos(request):
     derrotas = partidos.filter(goles_chabas__lt=F('goles_rival')).count()
     empates = partidos.filter(goles_chabas=F('goles_rival')).count()
 
+    vallas_invictas = partidos.filter(goles_rival=0).count()
+    
+    # Cálculo de rachas
+    partidos_ordenados = partidos.order_by('fecha')
+    racha_actual_no_perdidos = 0
+    max_racha_no_perdidos = 0
+    racha_actual_ganados = 0
+    max_racha_ganados = 0
+    
+    for partido in partidos_ordenados:
+        # Cálculo racha no perdidos (victorias o empates)
+        if partido.goles_chabas >= partido.goles_rival:
+            racha_actual_no_perdidos += 1
+            if racha_actual_no_perdidos > max_racha_no_perdidos:
+                max_racha_no_perdidos = racha_actual_no_perdidos
+        else:
+            racha_actual_no_perdidos = 0
+            
+        # Cálculo racha ganados
+        if partido.goles_chabas > partido.goles_rival:
+            racha_actual_ganados += 1
+            if racha_actual_ganados > max_racha_ganados:
+                max_racha_ganados = racha_actual_ganados
+        else:
+            racha_actual_ganados = 0
+    
+    # Porcentajes de rendimiento
+    porcentaje_victorias = (victorias / total_partidos * 100) if total_partidos > 0 else 0
+    promedio_goles_favor = (total_goles_a_favor / total_partidos) if total_partidos > 0 else 0
+    promedio_goles_contra = (total_goles_en_contra / total_partidos) if total_partidos > 0 else 0
+
     estadisticas = {
         'partidos': total_partidos,
         'goles_a_favor': total_goles_a_favor,
@@ -91,6 +122,11 @@ def historicos(request):
         'empates': empates,
         'amarillas': total_amarillas,
         'rojas': total_rojas,
+        'vallas_invictas': vallas_invictas,
+        'porcentaje_victorias': round(porcentaje_victorias, 2),
+        'max_racha_no_perdidos': max_racha_no_perdidos,
+        'promedio_goles_favor': round(promedio_goles_favor, 2),
+        'promedio_goles_contra': round(promedio_goles_contra, 2),
     }
 
     return render(request, 'historial/historicos.html', {

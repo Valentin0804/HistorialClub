@@ -1,264 +1,283 @@
-/* Estilo de la tarjeta principal */
-.card {
-    border-radius: 12px;
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
-    border: none;
-    overflow: hidden;
-    transition: transform 0.3s ease;
+/* Utilizando las variables definidas en base.css */
+:root {
+    --celeste-primario: var(--primary-color);
+    --celeste-claro: var(--primary-light);
+    --celeste-oscuro: var(--primary-dark);
+    --fondo-secundario: var(--secondary-color);
+    --texto-principal: var(--text-color);
+    --texto-secundario: var(--light-text);
+    --blanco: var(--white);
+    --verde-positivo: #66bb6a;
+    --naranja-neutral: #ffb74d;
+    --gris-oscuro: #616161;
+    --amarillo-tarjeta: #ffc107;
+    --rojo-tarjeta: #dc3545;
 }
 
-.card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+.match-detail-container {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* Encabezado de la tarjeta */
-.card-header {
-    padding: 20px;
-    background: linear-gradient(135deg, #019ee3, #0051ff);
-    border-bottom: none;
+.match-header {
+    text-align: center;
+    margin-bottom: 2rem;
 }
 
-.card-header h2 {
-    font-weight: 700;
-    letter-spacing: 0.5px;
-    margin: 0;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
-}
-
-/* Cuerpo de la tarjeta */
-.card-body {
-    padding: 30px;
-}
-
-/* Sección del resultado */
-.text-center {
-    margin-bottom: 30px;
-}
-
-.badge {
+.match-date {
+    color: var(--texto-secundario);
     font-size: 1rem;
-    padding: 8px 16px;
-    border-radius: 50px;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 0.5rem;
 }
 
-.bg-primary {
-    background: linear-gradient(135deg, #019ee3, #0353ff);
+.match-header h1 {
+    color: var(--celeste-oscuro);
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
 }
 
-.bg-secondary {
-    background: linear-gradient(135deg, #6c757d, #5a6268);
+.match-divider {
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--celeste-primario), transparent);
+    width: 60%;
+    margin: 0 auto;
 }
 
-.display-4 {
-    font-size: 3.5rem;
-    font-weight: 800;
-    margin: 15px 0;
-    color: #212529;
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+/* Tarjeta de resultado */
+.match-result-card {
+    background: var(--blanco);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    padding: 1.5rem;
+    margin-bottom: 2rem;
 }
 
-/* Secciones de estadísticas */
-h4 {
-    font-weight: 600;
-    color: #495057;
-    margin-bottom: 15px;
+.team-display {
     display: flex;
     align-items: center;
-    gap: 10px;
+    justify-content: space-between;
+    flex-wrap: wrap;
 }
 
-.border-bottom {
-    border-bottom: 2px solid #dee2e6 !important;
-    padding-bottom: 8px;
-}
-
-/* Listas de jugadores */
-.list-group {
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-}
-
-.list-group-item {
-    padding: 12px 20px;
-    border-left: none;
-    border-right: none;
-    transition: all 0.2s ease;
-    font-weight: 500;
-}
-
-.list-group-item:hover {
-    background-color: #f2f2f2;
-    transform: translateX(5px);
-}
-
-.list-group-item:nth-child(odd) {
-    background-color: rgba(248, 249, 250, 0.5);
-}
-
-/* Alertas */
-.alert {
-    border-radius: 8px;
-    padding: 12px 16px;
-    font-weight: 500;
-}
-
-.alert-info {
-    background-color: #f2f2f2;
-    border-color: #d0ebff;
-    color: #1864ab;
-}
-
-/* Efectos de animación */
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-.card {
-    animation: fadeIn 0.6s ease-out;
-}
-
-/* Responsive design */
-@media (max-width: 768px) {
-    .container {
-        padding: 0 15px;
-    }
-    
-    .card-header h2 {
-        font-size: 1.5rem;
-    }
-    
-    .display-4 {
-        font-size: 2.5rem;
-    }
-    
-    .card-body {
-        padding: 20px;
-    }
-    
-    .list-group-item {
-        padding: 10px 15px;
-    }
-}
-
-/* Efectos especiales para el marcador */
-.display-4 {
-    position: relative;
-    display: inline-block;
-    padding: 0 20px;
-}
-
-.display-4::before, .display-4::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    width: 30px;
-    height: 3px;
-    background: linear-gradient(90deg, #019ee3, #f2f2f2);
-}
-
-.display-4::before {
-    left: -40px;
-}
-
-.display-4::after {
-    right: -40px;
-}
-
-/* Estilo para los iconos de las secciones */
-h4::before {
-    font-size: 1.4em;
-    margin-right: 10px;
-}
-/* Contenedor principal del marcador */
-.d-flex.justify-content-center.align-items-center.mb-3 {
-    gap: 30px; /* Espacio entre elementos */
-    padding: 20px 0;
-    background-color: rgba(255, 255, 255, 0.8);
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-/* Estilos para los escudos */
-.text-center img {
-    max-height: 120px; /* Altura máxima igual para ambos escudos */
-    width: auto;
-    object-fit: contain;
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
-    transition: transform 0.3s ease;
-}
-
-/* Efecto hover para los escudos */
-.text-center img:hover {
-    transform: scale(1.05);
-}
-
-/* Estilo específico para el escudo rival */
-.escudo-partido {
-    max-height: 120px !important; /* Fuerza misma altura */
-    max-width: 120px; /* Ancho máximo para consistencia */
-}
-
-/* Estilo para el logo del club */
-.text-center img[alt="Logo CA Chabás"] {
-    max-height: 120px;
-    max-width: 120px;
-}
-
-/* Contenedores de los escudos */
-.text-center {
-    min-width: 120px; /* Ancho mínimo para alineación */
+.team {
+    flex: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    min-width: 120px;
 }
 
-/* Estilos para el marcador */
-.text-center.m-auto h1 {
-    font-size: 3.5rem;
-    font-weight: 800;
-    margin: 10px 0;
-    color: #212529;
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+.team-logo {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    margin-bottom: 0.5rem;
 }
 
-.text-center.m-auto h5 {
-    font-size: 1.2rem;
-    color: #6c757d;
-    margin-top: 5px;
+.team-logo.placeholder {
+    background: var(--fondo-secundario);
+    border-radius: 50%;
 }
 
-/* Badge de local/visitante */
-.badge {
-    font-size: 1rem;
-    padding: 8px 16px;
-    border-radius: 50px;
+.team-name {
+    font-weight: 500;
+    text-align: center;
+    color: var(--texto-principal);
+}
+
+.home-team .team-name {
+    color: var(--celeste-oscuro);
     font-weight: 600;
-    letter-spacing: 0.5px;
 }
 
-/* Responsive para móviles */
-@media (max-width: 768px) {
-    .d-flex.justify-content-center.align-items-center.mb-3 {
-        flex-direction: column;
-        gap: 15px;
+.match-score {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 1rem;
+    min-width: 180px;
+}
+
+.match-condition {
+    padding: 0.25rem 0.75rem;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+.match-condition.local {
+    background: var(--celeste-claro);
+    color: var(--celeste-oscuro);
+}
+
+.match-condition.visitor {
+    background: var(--fondo-secundario);
+    color: var(--texto-principal);
+}
+
+.score {
+    display: flex;
+    align-items: center;
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin: 0.5rem 0;
+}
+
+.goals {
+    min-width: 40px;
+    text-align: center;
+}
+
+.separator {
+    margin: 0 0.5rem;
+}
+
+.vs-text {
+    font-size: 1rem;
+    color: var(--texto-secundario);
+    margin-top: 0.5rem;
+}
+
+/* Secciones de detalles */
+.match-details {
+    background: var(--blanco);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    padding: 1.5rem;
+}
+
+.detail-section {
+    margin-bottom: 1.5rem;
+}
+
+.detail-section:last-child {
+    margin-bottom: 0;
+}
+
+.section-title {
+    font-size: 1.2rem;
+    color: var(--celeste-oscuro);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--fondo-secundario);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.section-title.yellow-card {
+    color: var(--amarillo-tarjeta);
+}
+
+.section-title.red-card {
+    color: var(--rojo-tarjeta);
+}
+
+.section-title i {
+    font-size: 0.9rem;
+}
+
+.section-title i.yellow {
+    color: var(--amarillo-tarjeta);
+}
+
+.section-title i.red {
+    color: var(--rojo-tarjeta);
+}
+
+.detail-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.detail-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--fondo-secundario);
+}
+
+.detail-item:last-child {
+    border-bottom: none;
+}
+
+.player-name {
+    font-weight: 500;
+}
+
+.minute-badge {
+    background: var(--fondo-secundario);
+    color: var(--texto-principal);
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.empty-message {
+    color: var(--texto-secundario);
+    font-style: italic;
+    text-align: center;
+    padding: 1rem 0;
+}
+
+.match-footer {
+    text-align: center;
+    margin-top: 1rem;
+    color: var(--texto-secundario);
+    font-size: 0.8rem;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .team {
+        min-width: 100px;
     }
     
-    .text-center img {
-        max-height: 80px;
+    .team-logo {
+        width: 60px;
+        height: 60px;
     }
     
-    .text-center.m-auto h1 {
-        font-size: 2.5rem;
+    .score {
+        font-size: 2rem;
     }
     
-    .text-center {
-        min-width: auto;
+    .match-score {
+        min-width: 140px;
+    }
+    
+    .match-detail-container {
+        padding: 1rem;
+    }
+    
+    .match-result-card, .match-details {
+        padding: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .team {
+        min-width: 80px;
+    }
+    
+    .team-logo {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .score {
+        font-size: 1.8rem;
+    }
+    
+    .vs-text {
+        font-size: 0.9rem;
+    }
+    
+    .section-title {
+        font-size: 1.1rem;
     }
 }

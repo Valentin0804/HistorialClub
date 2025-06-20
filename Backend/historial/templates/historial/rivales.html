@@ -1,40 +1,88 @@
 {% extends "historial/base.html" %}
 {% load static %}
 
-{% block title %}Rivales{% endblock %}
+{% block title %}Rivales - Club Atlético Chabás{% endblock %}
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/rivales.css' %}">
 {% endblock %}
 
 {% block content %}
-<h1 class="mb-4">Rivales del Club Chabás</h1>
+<div class="container py-5">
+    <div class="text-center mb-5">
+        <h1 class="display-4 fw-bold text-primary mb-3">
+            <i class="fas fa-users me-2"></i>Rivales Históricos
+        </h1>
+        <p class="lead text-muted">Conoce los equipos que han enfrentado a nuestra institución a lo largo de la historia</p>
+    </div>
 
-<div class="clubes-container">
-  {% for club in clubes %}
-  <div class="club-card">
-    {% if club.escudo %}
-    <img src="{{ club.escudo }}" alt="{{ club.nombre }}">
-    {% endif %}
-    <h2>{{ club.nombre }}</h2>
-    <p><strong>Fundado:</strong> {{ club.fundacion }}</p>
-    <p><strong>Campeonatos:</strong> {{ club.campeonatos }}</p>
-    {% with g=club.ganados %}
-    {% with e=club.empatados %}
-    {% with p=club.perdidos %}
-    {% if g > p %}
-    <p class="resultado verde"><strong>Vs Chabás:</strong> {{ g }}G, {{ e }}E, {{ p }}P</p>
-    {% elif p > g  %}
-    <p class="resultado rojo"><strong>Vs Chabás:</strong> {{ g }}G, {{ e }}E, {{ p }}P</p>
-    {% elif g == p  %}
-    <p class="resultado amarillo"><strong>Vs Chabás:</strong> {{ g }}G, {{ e }}E, {{ p }}P</p>
-    {% else %}
-    <p class="resultado"><strong>Vs Chabás:</strong> {{ g }}G, {{ e }}E, {{ p }}P</p>
-    {% endif %}
-    {% endwith %}
-    {% endwith %}
-    {% endwith %}
-
-  </div>
-  {% endfor %}
+    <div class="row g-4 justify-content-center">
+        {% for club in clubes %}
+        <div class="col-md-6 col-lg-4">
+            <div class="card rival-card border-0 shadow-sm h-100">
+                <div class="card-header bg-primary text-white py-3">
+                    <h3 class="h5 mb-0 text-center">{{ club.nombre }}</h3>
+                </div>
+                <div class="card-body text-center py-4">
+                    {% if club.escudo %}
+                    <img src="{{ club.escudo }}" alt="{{ club.nombre }}" class="img-fluid rival-logo mb-4">
+                    {% else %}
+                    <div class="rival-placeholder mb-4">
+                        <i class="fas fa-shield-alt fa-4x text-light"></i>
+                    </div>
+                    {% endif %}
+                    
+                    <div class="rival-info mb-4">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="text-muted">Fundación:</span>
+                            <strong>{{ club.fundacion }}</strong>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="text-muted">Campeonatos:</span>
+                            <strong>{{ club.campeonatos }}</strong>
+                        </div>
+                    </div>
+                    
+                    {% with g=club.ganados e=club.empatados p=club.perdidos %}
+                    <div class="rival-stats">
+                        <h5 class="text-primary mb-3">Historial vs Chabás</h5>
+                        <div class="d-flex justify-content-around text-center">
+                            <div>
+                                <div class="stat-value {% if g > p %}text-success{% elif p > g %}text-danger{% else %}text-warning{% endif %}">
+                                    {{ g }}
+                                </div>
+                                <div class="stat-label">Victorias</div>
+                            </div>
+                            <div>
+                                <div class="stat-value text-info">{{ e }}</div>
+                                <div class="stat-label">Empates</div>
+                            </div>
+                            <div>
+                                <div class="stat-value {% if p > g %}text-success{% elif g > p %}text-danger{% else %}text-warning{% endif %}">
+                                    {{ p }}
+                                </div>
+                                <div class="stat-label">Derrotas</div>
+                            </div>
+                        </div>
+                        
+                        {% if g > p %}
+                        <div class="rival-advantage mt-3 text-success">
+                            <i class="fas fa-thumbs-up me-2"></i>Ventaja favorable
+                        </div>
+                        {% elif p > g %}
+                        <div class="rival-advantage mt-3 text-danger">
+                            <i class="fas fa-thumbs-down me-2"></i>Ventaja desfavorable
+                        </div>
+                        {% else %}
+                        <div class="rival-advantage mt-3 text-warning">
+                            <i class="fas fa-balance-scale me-2"></i>Historial equilibrado
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% endwith %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
 </div>
 {% endblock %}
