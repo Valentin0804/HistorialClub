@@ -35,7 +35,17 @@
                         {% endfor %}
                     </select>
                 </div>
-                
+
+                <div class="form-group">    
+                    <label for="Año">Año</label>
+                    <select name="anio">
+                        <option>Año</option>
+                        {% for año in años %}
+                            <option value="{{ año }}" {% if filtros.anio == año|stringformat:"s" %}selected{% endif %}>{{ año }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                    
                 <div class="form-group">
                     <label for="equipo">Equipo Rival</label>
                     <select name="equipo" id="equipo">

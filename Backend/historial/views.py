@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Partido, Jugador, Club, Gol, TarjetaAmarilla, TarjetaRoja, Torneo
 from django.db.models import Count, F, Sum
+from django.utils import timezone
 
 
 def home(request):
@@ -41,74 +42,79 @@ def detalle_partido(request, partido_id):
         'rojas': partido.tarjetaroja_set.all().order_by('minuto')
     })
 
+
 def temporada_actual(request):
-    # Obtener el nombre del último torneo
-    ultimo_torneo_nombre = Torneo.objects.order_by('-fecha_fin').values_list('nombre', flat=True).first()
-    
+    # Obtener el año actual
+    año_actual = timezone.now().year
+
+    # Filtrar partidos cuya fecha sea en el año actual
     partidos = Partido.objects.filter(
-        torneo__nombre=ultimo_torneo_nombre
+        fecha__year=año_actual
     ).order_by('fecha')
-    
+
     return render(request, 'historial/temporada_actual.html', {
         'partidos': partidos,
-        'temporada_actual': ultimo_torneo_nombre or "No hay torneos"
+        'temporada_actual': f"Temporada {año_actual}"
     })
 
 def historicos(request):
-    temporadas = Torneo.objects.values_list('nombre', flat=True).distinct()
+    # Años únicos disponibles (extraídos de las fechas de los partidos)
+    años_disponibles = Partido.objects.dates('fecha', 'year', order='DESC')
     equipos = Club.objects.all()
-    
-    # Filtros
+    temporadas = Torneo.objects.values_list('nombre', flat=True).distinct()
+
+    # Filtros desde GET
     temporada_seleccionada = request.GET.get('temporada')
     equipo_seleccionado = request.GET.get('equipo')
-    
+    año_seleccionado = request.GET.get('anio')
+
     partidos = Partido.objects.all()
-    
+
+    # Filtro por temporada
     if temporada_seleccionada:
         partidos = partidos.filter(torneo__nombre=temporada_seleccionada)
-    
-    if equipo_seleccionado:
-        partidos = partidos.filter(rival__id=equipo_seleccionado)
-    
-     # Estadísticas base
+
+    # Filtro por año
+    if año_seleccionado and año_seleccionado.isdigit():
+        partidos = partidos.filter(fecha__year=int(año_seleccionado))
+
+    # Filtro por equipo
+    if equipo_seleccionado and equipo_seleccionado.isdigit():
+        partidos = partidos.filter(rival__id=int(equipo_seleccionado))
+
+
+    # Estadísticas
     total_partidos = partidos.count()
     total_goles_a_favor = partidos.aggregate(total=Sum('goles_chabas'))['total'] or 0
     total_goles_en_contra = partidos.aggregate(total=Sum('goles_rival'))['total'] or 0
     total_amarillas = TarjetaAmarilla.objects.filter(partido__in=partidos).count()
     total_rojas = TarjetaRoja.objects.filter(partido__in=partidos).count()
 
-    # Conteo de resultados
     victorias = partidos.filter(goles_chabas__gt=F('goles_rival')).count()
     derrotas = partidos.filter(goles_chabas__lt=F('goles_rival')).count()
     empates = partidos.filter(goles_chabas=F('goles_rival')).count()
-
     vallas_invictas = partidos.filter(goles_rival=0).count()
-    
+
     # Cálculo de rachas
     partidos_ordenados = partidos.order_by('fecha')
     racha_actual_no_perdidos = 0
     max_racha_no_perdidos = 0
     racha_actual_ganados = 0
     max_racha_ganados = 0
-    
+
     for partido in partidos_ordenados:
-        # Cálculo racha no perdidos (victorias o empates)
         if partido.goles_chabas >= partido.goles_rival:
             racha_actual_no_perdidos += 1
-            if racha_actual_no_perdidos > max_racha_no_perdidos:
-                max_racha_no_perdidos = racha_actual_no_perdidos
+            max_racha_no_perdidos = max(max_racha_no_perdidos, racha_actual_no_perdidos)
         else:
             racha_actual_no_perdidos = 0
-            
-        # Cálculo racha ganados
+
         if partido.goles_chabas > partido.goles_rival:
             racha_actual_ganados += 1
-            if racha_actual_ganados > max_racha_ganados:
-                max_racha_ganados = racha_actual_ganados
+            max_racha_ganados = max(max_racha_ganados, racha_actual_ganados)
         else:
             racha_actual_ganados = 0
-    
-    # Porcentajes de rendimiento
+
     porcentaje_victorias = (victorias / total_partidos * 100) if total_partidos > 0 else 0
     promedio_goles_favor = (total_goles_a_favor / total_partidos) if total_partidos > 0 else 0
     promedio_goles_contra = (total_goles_en_contra / total_partidos) if total_partidos > 0 else 0
@@ -133,9 +139,11 @@ def historicos(request):
         'partidos': partidos.order_by('-fecha'),
         'temporadas': temporadas,
         'equipos': equipos,
+        'años': [año.year for año in años_disponibles],  # Solo el número de año
         'filtros': {
             'temporada': temporada_seleccionada,
-            'equipo': equipo_seleccionado
+            'equipo': equipo_seleccionado,
+            'anio': año_seleccionado
         },
         'estadisticas': estadisticas
     })

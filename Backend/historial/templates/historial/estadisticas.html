@@ -166,7 +166,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                {% for jugador in estadisticas.rojas|dictsortreversed:"total_rojas"|slice:":5" %}
+                                {% for jugador in estadisticas.rojas|dictsortreversed:"total_rojas"|slice:":10" %}
                                 <tr>
                                     <th scope="row">{{ forloop.counter }}</th>
                                     <td>{{ jugador.nombre }} {{ jugador.apellido }}</td>
