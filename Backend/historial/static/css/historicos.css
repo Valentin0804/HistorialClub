@@ -12,6 +12,20 @@
     --rojo-negativo: #d62727;
 }
 
+/* Estilos generales para cards */
+.card {
+    background: var(--blanco);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+}
+
+.card-body {
+    padding: 1.5rem;
+}
+
+/* Header */
 .historicos-header h1 {
     color: var(--celeste-oscuro);
     font-size: 2.2rem;
@@ -20,18 +34,6 @@
 }
 
 /* Filtros */
-.filter-card {
-    background: var(--blanco);
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    margin-bottom: 2rem;
-    overflow: hidden;
-}
-
-.card-body {
-    padding: 1.5rem;
-}
-
 .filter-form {
     display: flex;
     flex-wrap: wrap;
@@ -89,22 +91,14 @@
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 1.5rem;
-    margin-bottom: 1.5rem;
 }
 
-.stats-card, .secondary-stats-card {
-    background: var(--blanco);
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    overflow: hidden;
-}
-
-.stats-table, .secondary-stats-table {
+.stats-table {
     width: 100%;
     border-collapse: collapse;
 }
 
-.stats-table th, .secondary-stats-table th {
+.stats-table th {
     background: var(--celeste-primario);
     color: var(--blanco);
     padding: 1rem;
@@ -112,24 +106,23 @@
     font-weight: 500;
 }
 
-.stats-table td, .secondary-stats-table td {
+.stats-table td {
     padding: 1rem;
     text-align: center;
     border-top: 1px solid var(--fondo-secundario);
 }
 
-.stats-table tbody tr:nth-child(odd), 
-.secondary-stats-table tbody tr:nth-child(odd) {
+.stats-table tbody tr:nth-child(odd) {
     background: var(--fondo-secundario);
 }
 
 /* Colores para estadísticas */
-.win {
+.win, .win-percentage, .goals-for {
     color: var(--verde-positivo);
     font-weight: 600;
 }
 
-.loss {
+.loss, .goals-against {
     color: var(--rojo-negativo);
 }
 
@@ -137,30 +130,7 @@
     color: var(--naranja-neutral);
 }
 
-.goals-for {
-    color: var(--verde-positivo);
-    font-weight: 500;
-}
-
-.goals-against {
-    color: var(--rojo-negativo); /* Rojo suave (no es rojo brillante) */
-    font-weight: 500;
-}
-
-.win-percentage {
-    color: var(--verde-positivo);
-    font-weight: 600;
-}
-
 /* Tabla de partidos */
-.matches-card {
-    background: var(--blanco);
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    padding: 1.5rem;
-    margin-top: 2rem;
-}
-
 .matches-card h2 {
     color: var(--celeste-oscuro);
     margin-bottom: 1.5rem;
@@ -273,5 +243,15 @@
     .matches-table th, 
     .matches-table td {
         padding: 0.75rem 0.5rem;
+    }
+
+    /* Ocultar columnas en móvil */
+    .matches-table th:nth-child(1),
+    .matches-table td:nth-child(1),
+    .matches-table th:nth-child(5),
+    .matches-table td:nth-child(5),
+    .matches-table th:nth-child(6),
+    .matches-table td:nth-child(6) {
+        display: none;
     }
 }

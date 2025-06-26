@@ -7,17 +7,72 @@
 {% endblock %}
 
 {% block content %}
+<!-- 
+<div id="heroCarousel" class="carousel slide vh-100" data-bs-ride="carousel">
+    <div class="carousel-inner">
+        
+        Slide 1: Bienvenida con logo 
+        <div class="carousel-item active vh-100"
+            style="background-color: #000;">
+            <div
+                class="container h-100 d-flex align-items-center justify-content-center">
+                <div class="row justify-content-center text-center text-white">
+                    <div class="col-lg-8">
+                        <img src="{% static 'img/foto1.png' %}"
+                            alt="Logo CA Chabás" class="img-fluid mb-4"
+                            style="max-height: 150px;">
+                        <h1 class="display-4 fw-bold mb-3">Atlético Chabás</h1>
+                        <p class="lead mb-4">La gran institución. Creciste desde
+                            siempre, ¡Lagunero soy!</p>
+                    </div>
+                </div>
+            </div>
+        </div>-->
+
+<!-- Slide 2: Imagen del estadio u otra 
+        <div class="carousel-item vh-100"
+            style="background-image: url('{% static 'img/estadio_chabas.jpg' %}'); background-size: cover;">
+            <div
+                class="container h-100 d-flex align-items-center justify-content-center">
+                <div class="row justify-content-center text-center text-white">
+                    <div class="col-lg-8 bg-dark bg-opacity-75 p-5 rounded">
+                        <h2 class="display-5 fw-bold mb-3">Nuestro Estadio</h2>
+                        <p class="lead mb-4">El corazón del fútbol lagunero</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    -->
+
 <div class="hero-section py-5">
     <div class="container py-5">
         <div class="row justify-content-center align-items-center">
             <div class="col-lg-8 text-center">
-                <img src="{% static 'img/logo_chabas.png' %}" alt="Logo CA Chabás" class="img-fluid mb-4" style="max-height: 150px;">
+                <img src="{% static 'img/logo_chabas.png' %}"
+                    alt="Logo CA Chabás" class="img-fluid mb-4"
+                    style="max-height: 150px;">
                 <h1 class="display-4 fw-bold mb-3">Atlético Chabás</h1>
-                <p class="lead mb-4">La gran institución. Creciste desde siempre, ¡Lagunero soy!</p>
+                <p class="lead mb-4">La gran institución. Creciste desde
+                    siempre, ¡Lagunero soy!</p>
             </div>
         </div>
     </div>
 </div>
+
+<!-- Controles 
+    <button class="carousel-control-prev" type="button"
+        data-bs-target="#heroCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Anterior</span>
+    </button>
+    <button class="carousel-control-next" type="button"
+        data-bs-target="#heroCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Siguiente</span>
+    </button>
+</div> -->
 
 <div class="container my-5">
     <!-- Estadísticas rápidas -->
@@ -57,20 +112,24 @@
         <div class="col-lg-8">
             <div class="card border-0 shadow-sm">
                 <div class="card-header bg-primary text-white">
-                    <h4 class="mb-0"><i class="fas fa-clock me-2"></i>Último Partido</h4>
+                    <h4 class="mb-0"><i class="fas fa-clock me-2"></i>Último
+                        Partido</h4>
                 </div>
                 <div class="card-body">
                     <div class="text-center mb-3">
                         <h5 class="text-muted">{{ ultimo_partido.torneo.nombre }}</h5>
-                        <h6 class="text-muted">{{ ultimo_partido.fecha|date:"d/m/Y" }}</h6>
+                        <h6 class="text-muted">{{utimo_partido.fecha|date:"d/m/Y" }}</h6>
                         <span class="badge bg-secondary">
                             {% if ultimo_partido.tipo == 'L' %}🏠 Local{% else %}✈️ Visitante{% endif %}
                         </span>
                     </div>
 
-                    <div class="d-flex justify-content-center align-items-center my-4">
+                    <div
+                        class="d-flex justify-content-center align-items-center my-4">
                         <div class="text-center mx-4">
-                            <img src="{% static 'img/logo_chabas.png' %}" alt="Logo CA Chabás" class="img-fluid" style="max-height: 80px;">
+                            <img src="{% static 'img/logo_chabas.png' %}"
+                                alt="Logo CA Chabás" class="img-fluid"
+                                style="max-height: 80px;">
                             <h3 class="mt-2">{{ ultimo_partido.goles_chabas }}</h3>
                         </div>
 
@@ -81,14 +140,17 @@
 
                         <div class="text-center mx-4">
                             {% if ultimo_partido.rival.escudo %}
-                            <img src="{{ ultimo_partido.rival.escudo.url }}" alt="Escudo {{ ultimo_partido.rival.nombre }}" class="img-fluid" style="max-height: 80px;">
+                            <img src="{{ ultimo_partido.rival.escudo.url }}"
+                                alt="Escudo {{ ultimo_partido.rival.nombre }}"
+                                class="img-fluid" style="max-height: 80px;">
                             {% endif %}
                             <h3 class="mt-2">{{ ultimo_partido.goles_rival }}</h3>
                         </div>
                     </div>
 
                     <div class="text-center mt-4">
-                        <a href="{% url 'detalle_partido' ultimo_partido.id %}" class="btn btn-primary px-4">
+                        <a href="{% url 'detalle_partido' ultimo_partido.id %}"
+                            class="btn btn-primary px-4">
                             <i class="fas fa-info-circle me-2"></i>Ver detalles
                         </a>
                     </div>
@@ -103,16 +165,20 @@
         <div class="col-lg-10 text-center">
             <h3 class="mb-4 text-primary">Explorar el sitio</h3>
             <div class="d-flex flex-wrap justify-content-center gap-3">
-                <a href="{% url 'temporada_actual' %}" class="btn btn-outline-primary btn-lg px-4 rounded-pill">
+                <a href="{% url 'temporada_actual' %}"
+                    class="btn btn-outline-primary btn-lg px-4 rounded-pill">
                     <i class="fas fa-calendar-alt me-2"></i>Temporada Actual
                 </a>
-                <a href="{% url 'historicos' %}" class="btn btn-outline-primary btn-lg px-4 rounded-pill">
+                <a href="{% url 'historicos' %}"
+                    class="btn btn-outline-primary btn-lg px-4 rounded-pill">
                     <i class="fas fa-history me-2"></i>Históricos
                 </a>
-                <a href="{% url 'estadisticas' %}" class="btn btn-outline-primary btn-lg px-4 rounded-pill">
+                <a href="{% url 'estadisticas' %}"
+                    class="btn btn-outline-primary btn-lg px-4 rounded-pill">
                     <i class="fas fa-chart-bar me-2"></i>Estadísticas
                 </a>
-                <a href="{% url 'rivales' %}" class="btn btn-outline-primary btn-lg px-4 rounded-pill">
+                <a href="{% url 'rivales' %}"
+                    class="btn btn-outline-primary btn-lg px-4 rounded-pill">
                     <i class="fas fa-users me-2"></i>Rivales
                 </a>
             </div>

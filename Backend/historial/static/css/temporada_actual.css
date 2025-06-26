@@ -149,4 +149,18 @@
         height: 28px;
         font-size: 0.9rem;
     }
+
+    .matches-table {
+        min-width: auto; /* para que no requiera mínimo de columnas */
+    }
+
+    /* Solo aplicar cuando el ancho sea menor a 768px */
+
+    /* Ocultar las columnas Fecha (1ª) y Condición (5ª) */
+    .matches-table th:nth-child(1),
+    .matches-table td:nth-child(1),
+    .matches-table th:nth-child(5),
+    .matches-table td:nth-child(5) {
+        display: none;
+    }
 }

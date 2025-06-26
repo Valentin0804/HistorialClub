@@ -47,17 +47,17 @@
                         <h5 class="text-primary mb-3">Historial vs Chabás</h5>
                         <div class="d-flex justify-content-around text-center">
                             <div>
-                                <div class="stat-value {% if g > p %}text-success{% elif p > g %}text-danger{% else %}text-warning{% endif %}">
+                                <div class="stat-value text-success">
                                     {{ g }}
                                 </div>
                                 <div class="stat-label">Victorias</div>
                             </div>
                             <div>
-                                <div class="stat-value text-info">{{ e }}</div>
+                                <div class="stat-value text-warning">{{ e }}</div>
                                 <div class="stat-label">Empates</div>
                             </div>
                             <div>
-                                <div class="stat-value {% if p > g %}text-success{% elif g > p %}text-danger{% else %}text-warning{% endif %}">
+                                <div class="stat-value text-danger">
                                     {{ p }}
                                 </div>
                                 <div class="stat-label">Derrotas</div>

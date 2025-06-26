@@ -1,4 +1,3 @@
-/* Estilos específicos para la página de inicio */
 :root {
     --celeste-primario: var(--primary-color);
     --celeste-claro: var(--primary-light);
@@ -12,11 +11,11 @@
     --rojo-negativo: #d62727;
 }
 
-/* Hero section */
 .hero-section {
     position: relative;
     overflow: hidden;
 }
+
 .hero-section h1 {
     color: #000;
 }
@@ -24,10 +23,7 @@
 .hero-section::before {
     content: "";
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    inset: 0;
     background: url('{% static "img/pattern.png" %}') repeat;
     opacity: 0.8;
     z-index: 0;
@@ -38,17 +34,27 @@
     z-index: 1;
 }
 
-/* Estadísticas */
-.stats-card {
-    background-color: white;
-    border-top: 4px solid var(--primary-color);
+/* Cards */
+.card, .stats-card {
+    background-color: var(--blanco);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    animation: fadeIn 0.2s ease-out forwards;
 }
+
+.stats-card {
+    border-top: 4px solid var(--celeste-primario);
+}
+
+.stats-card:nth-child(1) { animation-delay: 0.1s; }
+.stats-card:nth-child(2) { animation-delay: 0.2s; }
+.stats-card:nth-child(3) { animation-delay: 0.3s; }
 
 /* Último partido */
 .match-result {
     font-size: 3rem;
     font-weight: bold;
-    color: var(--primary-color);
+    color: var(--celeste-primario);
 }
 
 .team-logo {
@@ -58,11 +64,8 @@
 }
 
 /* Animaciones */
-
-.stats-card, .card {
-    animation: step-end 0.2s ease-out forwards;
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
-.stats-card:nth-child(1) { animation-delay: 0.1s; }
-.stats-card:nth-child(2) { animation-delay: 0.2s; }
-.stats-card:nth-child(3) { animation-delay: 0.3s; }

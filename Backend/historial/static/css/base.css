@@ -7,16 +7,14 @@
     --light-text: #777;
     --white: #ffffff;
 }
-.bg-primary{
-    background-color:  #65b3f8 !important;
-    color: #000000 !important;
-}
 
+/* Base Styles */
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: var(--text-color);
 }
 
+/* Navbar Styles */
 .navbar {
     padding: 0.8rem 0;
 }
@@ -42,28 +40,36 @@ body {
     font-weight: 600;
 }
 
+/* Hero Section */
 .hero-section {
     background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary-color) 100%);
-    color: white;
+    color: var(--white);
     border-radius: 0 0 2rem 2rem;
     margin-bottom: 3rem;
 }
 
+/* Card Styles */
+.card,
 .stats-card {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     border-radius: 1rem;
+    overflow: hidden;
+    background: var(--white);
 }
 
+.card:hover,
 .stats-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }
 
+/* Button Styles */
 .btn-primary {
     background-color: var(--primary-color);
     border-color: var(--primary-color);
     padding: 0.5rem 1.5rem;
     font-weight: 500;
+    color: var(--white);
 }
 
 .btn-primary:hover {
@@ -78,29 +84,32 @@ body {
 
 .btn-outline-primary:hover {
     background-color: var(--primary-color);
-    color: white;
+    color: var(--white);
 }
 
+/* Utility Classes */
+.bg-primary {
+    background-color: var(--primary-color) !important;
+    color: var(--primary-dark) !important;
+}
+
+/* Footer Styles */
 footer {
     background-color: var(--primary-color);
+    color: var(--white);
+}
+
+footer a {
+    color: var(--white);
+    transition: opacity 0.3s ease;
 }
 
 footer a:hover {
     opacity: 0.8;
+    text-decoration: none;
 }
 
-/* Efectos para el último partido */
-.card {
-    transition: all 0.3s ease;
-    border-radius: 1rem;
-    overflow: hidden;
-}
-
-.card:hover {
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-}
-
-/* Responsive adjustments */
+/* Responsive Adjustments */
 @media (max-width: 768px) {
     .hero-section h1 {
         font-size: 2.2rem;
@@ -109,5 +118,13 @@ footer a:hover {
     .btn-lg {
         padding: 0.5rem 1rem;
         font-size: 0.9rem;
+    }
+    
+    .navbar-brand {
+        font-size: 1.3rem;
+    }
+    
+    .nav-link {
+        padding: 0.5rem 0.75rem;
     }
 }

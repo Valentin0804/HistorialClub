@@ -9,7 +9,7 @@
 
 {% block content %}
 
-<div class="container py-5 match-detail-container">
+<div class="match-detail-container container py-5 ">
     <div class="match-header">
         <div class="match-date">{{ partido.fecha|date:"d/m/Y" }}</div>
         <h1>{{ partido.torneo.nombre }}</h1>
@@ -46,8 +46,9 @@
         </div>
     </div>
 
+    
+    <!-- Goles -->
     <div class="match-details">
-        <!-- Goles -->
         <div class="detail-section">
             <h2 class="section-title">
                 <i class="fas fa-futbol"></i> Goles

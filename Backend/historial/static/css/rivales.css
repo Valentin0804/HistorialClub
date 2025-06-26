@@ -1,9 +1,21 @@
-/* Estilos específicos para la página de rivales */
+:root {
+    --celeste-primario: var(--primary-color);
+    --celeste-claro: var(--primary-light);
+    --celeste-oscuro: var(--primary-dark);
+    --fondo-secundario: var(--secondary-color);
+    --texto-principal: var(--text-color);
+    --texto-secundario: var(--light-text);
+    --blanco: var(--white);
+    --verde-positivo: #66bb6a;
+    --naranja-neutral: #ffb74d;
+    --rojo-negativo: #d62727;
+}
 
 .rival-card {
     transition: all 0.3s ease;
     border-radius: 1rem;
     overflow: hidden;
+    background: var(--blanco);
 }
 
 .rival-card:hover {
@@ -22,11 +34,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #e0e0e0;
+    color: var(--texto-secundario);
 }
 
 .rival-info {
-    background-color: #f8f9fa;
+    background-color: var(--fondo-secundario);
     border-radius: 0.5rem;
     padding: 1rem;
 }
@@ -43,7 +55,7 @@
 
 .stat-label {
     font-size: 0.8rem;
-    color: #6c757d;
+    color: var(--texto-secundario);
     text-transform: uppercase;
     margin-top: 0.3rem;
 }
@@ -55,21 +67,21 @@
     background-color: rgba(0, 0, 0, 0.03);
 }
 
-/* Colores para los resultados */
+/* Colores para los resultados usando variables existentes */
 .text-success {
-    color: #28a745 !important;
+    color: var(--verde-positivo) ;
 }
 
 .text-danger {
-    color: #dc3545 !important;
+    color: var(--rojo-negativo) ;
 }
 
 .text-warning {
-    color: #ffc107 !important;
+    color: var(--naranja-neutral);
 }
 
 .text-info {
-    color: #17a2b8 !important;
+    color: var(--naranja-neutral) ;
 }
 
 /* Responsive adjustments */
