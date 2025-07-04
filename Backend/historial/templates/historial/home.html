@@ -7,45 +7,6 @@
 {% endblock %}
 
 {% block content %}
-<!-- 
-<div id="heroCarousel" class="carousel slide vh-100" data-bs-ride="carousel">
-    <div class="carousel-inner">
-        
-        Slide 1: Bienvenida con logo 
-        <div class="carousel-item active vh-100"
-            style="background-color: #000;">
-            <div
-                class="container h-100 d-flex align-items-center justify-content-center">
-                <div class="row justify-content-center text-center text-white">
-                    <div class="col-lg-8">
-                        <img src="{% static 'img/foto1.png' %}"
-                            alt="Logo CA Chabás" class="img-fluid mb-4"
-                            style="max-height: 150px;">
-                        <h1 class="display-4 fw-bold mb-3">Atlético Chabás</h1>
-                        <p class="lead mb-4">La gran institución. Creciste desde
-                            siempre, ¡Lagunero soy!</p>
-                    </div>
-                </div>
-            </div>
-        </div>-->
-
-<!-- Slide 2: Imagen del estadio u otra 
-        <div class="carousel-item vh-100"
-            style="background-image: url('{% static 'img/estadio_chabas.jpg' %}'); background-size: cover;">
-            <div
-                class="container h-100 d-flex align-items-center justify-content-center">
-                <div class="row justify-content-center text-center text-white">
-                    <div class="col-lg-8 bg-dark bg-opacity-75 p-5 rounded">
-                        <h2 class="display-5 fw-bold mb-3">Nuestro Estadio</h2>
-                        <p class="lead mb-4">El corazón del fútbol lagunero</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </div>
-    -->
-
 <div class="hero-section py-5">
     <div class="container py-5">
         <div class="row justify-content-center align-items-center">
@@ -60,19 +21,6 @@
         </div>
     </div>
 </div>
-
-<!-- Controles 
-    <button class="carousel-control-prev" type="button"
-        data-bs-target="#heroCarousel" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Anterior</span>
-    </button>
-    <button class="carousel-control-next" type="button"
-        data-bs-target="#heroCarousel" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Siguiente</span>
-    </button>
-</div> -->
 
 <div class="container my-5">
     <!-- Estadísticas rápidas -->
@@ -179,7 +127,11 @@
                 </a>
                 <a href="{% url 'rivales' %}"
                     class="btn btn-outline-primary btn-lg px-4 rounded-pill">
-                    <i class="fas fa-users me-2"></i>Rivales
+                    <i class="fas fa-shield me-2"></i>Rivales
+                </a>
+                <a href="{% url 'jugadores_por_anio' %}"
+                    class="btn btn-outline-primary btn-lg px-4 rounded-pill">
+                    <i class="fas fa-users me-2"></i>Jugadores por año
                 </a>
             </div>
         </div>

@@ -1,0 +1,61 @@
+{% extends "historial/base.html" %}
+{% load static %}
+
+{% block title %}Jugadores por Año{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/jugadores_por_anio.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="jugadores-container">
+
+    <div class="text-center mb-5">
+        <h1 class="display-4 fw-bold text-primary mb-3">
+            <i class="fas fa-users me-2"></i>Plantillas anuales
+        </h1>
+        <p class="lead text-muted">Conoce a los protagonistas de cada año</p>
+    </div>
+
+    <div class="card border-0 shadow-sm mb-5">
+        <div class="card-header bg-primary text-white py-3">
+            <h3 class="h5 mb-0"><i class="fas fa-filter me-2"></i>Filtrar Plantilla por año</h3>
+        </div>
+        <div class="card-body">
+            <form method="get" class="jugadores-filtros">
+                <select name="anio" id="anio" onchange="this.form.submit()">
+                    <option value=""> Elegir Año </option>
+                    {% for a in anios_disponibles %}
+                        <option value="{{ a }}" {% if a|stringformat:"s" == anio_seleccionado %}selected{% endif %}>
+                            {{ a }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </form>
+        </div>
+    </div>
+
+    {% if jugadores %}
+        <div class="jugadores-lista">
+            {% for jugador in jugadores %}
+                <div class="jugador-card">
+                   {% if jugador.foto %}
+                        <img src="{{ jugador.foto.url }}" alt="{{ jugador }}">
+                    {% else %}
+                        <img src="{% static 'img/jugador_default.jpg' %}" alt="Jugador sin foto">
+                    {% endif %}
+                    <div class="jugador-nombre">
+                        {{ jugador.nombre }} {{ jugador.apellido }}
+                    </div>
+                    <div class="jugador-posicion">
+                        {{ jugador.get_posicion_display }}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="jugadores-vacio">No hay jugadores para el año seleccionado.</p>
+    {% endif %}
+
+</div>
+{% endblock %}

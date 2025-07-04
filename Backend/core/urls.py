@@ -13,6 +13,7 @@ urlpatterns = [
     path('temporada-actual/', views.temporada_actual, name='temporada_actual'),
     path('historicos/', views.historicos, name='historicos'),
     path('rivales/', views.rivales, name='rivales'),
+    path('jugadores_por_anio/', views.jugadores_por_anio, name='jugadores_por_anio'),
 
 ]
 

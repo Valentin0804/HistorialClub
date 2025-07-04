@@ -1,4 +1,16 @@
-/* Estilos específicos para la página de estadísticas */
+:root {
+    --celeste-primario: var(--primary-color);
+    --celeste-claro: var(--primary-light);
+    --celeste-oscuro: var(--primary-dark);
+    --fondo-secundario: var(--secondary-color);
+    --texto-principal: var(--text-color);
+    --texto-secundario: var(--light-text);
+    --blanco: var(--white);
+    --verde-positivo: #66bb6a;
+    --naranja-neutral: #ffb74d;
+    --rojo-negativo: #d62727;
+}
+
 .stats-card {
     transition: all 0.3s ease;
     border-radius: 1rem;
@@ -50,11 +62,11 @@
 
 /* Colores específicos para las tarjetas */
 .card-header.bg-warning {
-    background-color: var(--naranja-neutral) !important;
+    background-color: var(--naranja-neutral);
 }
 
 .card-header.bg-danger {
-    background-color: var(--rojo-negativo) !important;
+    background-color: var(--rojo-negativo) ;
 }
 
 /* Ajustes para móviles */

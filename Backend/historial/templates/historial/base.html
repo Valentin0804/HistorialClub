@@ -44,7 +44,13 @@
                         <li class="nav-item mx-1">
                             <a class="nav-link {% if request.resolver_match.url_name == 'rivales' %}active{% endif %}" 
                                href="{% url 'rivales' %}">
-                               <i class="fas fa-users me-1"></i>Rivales
+                               <i class="fas fa-shield me-1"></i>Rivales
+                            </a>
+                        </li>
+                        <li class="nav-item mx-1">
+                            <a class="nav-link {% if request.resolver_match.url_name == 'jugadores_por_anio' %}active{% endif %}" 
+                               href="{% url 'jugadores_por_anio' %}">
+                               <i class="fas fa-users me-1"></i>Plantillas
                             </a>
                         </li>
                     </ul>
@@ -64,9 +70,9 @@
                         <p class="mb-0">EL MÁS CAMPEON DEL PUEBLO</p>
                     </div>
                     <div class="col-md-6 text-center text-md-end">
-                        <a href="#" class="text-white mx-2"><i class="fab fa-facebook-f fa-lg"></i></a>
-                        <a href="#" class="text-white mx-2"><i class="fab fa-instagram fa-lg"></i></a>
-                        <a href="#" class="text-white mx-2"><i class="fab fa-twitter fa-lg"></i></a>
+                        <a href="https://www.facebook.com/clubatleticochabas" target="_blank"  class="text-white mx-2" ><i class="fab fa-facebook-f fa-lg"></i></a>
+                        <a href="https://www.instagram.com/clubatleticochabas/"  target="_blank" class="text-white mx-2" ><i class="fab fa-instagram fa-lg"></i></a>
+                        <a href="#" class="text-white mx-2"><i class="fab fa-x fa-lg"></i></a>
                         <a href="#" class="text-white mx-2"><i class="fab fa-whatsapp fa-lg"></i></a>
                         <p>⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐</p>
                     </div>

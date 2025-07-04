@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Partido, Jugador, Club, Gol, TarjetaAmarilla, TarjetaRoja, Torneo
-from django.db.models import Count, F, Sum
+from django.db.models import Count, F, Sum, Q
 from django.utils import timezone
 
 
@@ -233,3 +233,26 @@ def rivales(request):
         })
 
     return render(request, 'historial/rivales.html', {'clubes': data})
+
+def jugadores_por_anio(request):
+    anio = request.GET.get('anio')
+
+    jugadores = Jugador.objects.none()
+    anios_disponibles = Torneo.objects.dates('fecha_inicio', 'year', order='DESC')
+
+    if anio:
+        torneos_en_anio = Torneo.objects.filter(
+            Q(fecha_inicio__year=anio) | Q(fecha_fin__year=anio)
+        )
+        jugadores = Jugador.objects.filter(
+            participacionjugador__torneo__in=torneos_en_anio,
+            
+        ).distinct()
+
+    context = {
+        'anios_disponibles': [a.year for a in anios_disponibles],
+        'jugadores': jugadores,
+        'anio_seleccionado': anio,
+    }
+
+    return render(request, 'historial/jugadores_por_anio.html', context)
