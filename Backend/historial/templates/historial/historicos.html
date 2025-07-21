@@ -13,7 +13,8 @@
 
     <div class="text-center mb-5">
         <h1 class="display-4 fw-bold text-primary mb-3">
-            <i class="fas fa-history me-2"></i>Partidos Históricos </h1>
+            <i class="fas fa-history me-2"></i>Partidos Históricos
+        </h1>
         <p class="lead text-muted"> Resultados y estadisticas de todas las temporadas </p>
     </div>
 
@@ -24,41 +25,102 @@
         </div>
         <div class="card-body">
             <form method="get" class="filter-form">
-                <div class="form-group">
-                    <label for="temporada">Temporada</label>
-                    <select name="temporada" id="temporada">
-                        <option value>Todas las temporadas</option>
-                        {% for temporada in temporadas %}
-                        <option value="{{ temporada }}" {% if filtros.temporada == temporada %}selected{% endif %}>
-                            {{ temporada }}
-                        </option>
-                        {% endfor %}
-                    </select>
+                <div class="row g-3">
+                    <!-- Temporada -->
+                    <div class="col-md-4">
+                        <label for="temporada" class="form-label">Temporada</label>
+                        <select name="temporada" id="temporada" class="form-select">
+                            <option value="">Todas las temporadas</option>
+                            {% for temporada in temporadas %}
+                            <option value="{{ temporada }}" {% if filtros.temporada == temporada %} selected {% endif %}>
+                                {{ temporada }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <!-- Año -->
+                    <div class="col-md-4">
+                        <label for="anio" class="form-label">Año</label>
+                        <select name="anio" id="anio" class="form-select">
+                            <option value="">Todos los años</option>
+                            {% for año in años %}
+                            <option value="{{ año }}" {% if filtros.anio == año|stringformat:"s" %} selected {% endif %}>
+                                {{ año }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <!-- Equipo -->
+                    <div class="col-md-4">
+                        <label for="equipo" class="form-label">Equipo Rival</label>
+                        <select name="equipo" id="equipo" class="form-select">
+                            <option value="">Todos los equipos</option>
+                            {% for equipo in equipos %}
+                            <option value="{{ equipo.id }}" {% if filtros.equipo == equipo.id|stringformat:"s" %} selected {% endif %}>
+                                {{ equipo.nombre }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
                 </div>
 
-                <div class="form-group">    
-                    <label for="Año">Año</label>
-                    <select name="anio">
-                        <option>Año</option>
-                        {% for año in años %}
-                            <option value="{{ año }}" {% if filtros.anio == año|stringformat:"s" %}selected{% endif %}>{{ año }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                    
-                <div class="form-group">
-                    <label for="equipo">Equipo Rival</label>
-                    <select name="equipo" id="equipo">
-                        <option value>Todos los equipos</option>
-                        {% for equipo in equipos %}
-                        <option value="{{ equipo.id }}" {% if filtros.equipo == equipo.id|stringformat:"s" %}selected{% endif %}>
-                            {{ equipo.nombre }}
-                        </option>
-                        {% endfor %}
-                    </select>
-                </div>
                 
-                <div class="col-12 text-end">
+
+                <!-- Filtros Avanzados -->
+                <div class="collapse mt-3" id="filtrosAvanzados">
+                    <div class="row g-3">
+
+                        <!-- Fecha desde -->
+                        <div class="col-md-4">
+                            <label for="fecha_desde" class="form-label">Desde (fecha)</label>
+                            <input type="date" name="fecha_desde" id="fecha_desde" value="{{ filtros.fecha_desde }}"
+                                class="form-control">
+                        </div>
+
+                        <!-- Fecha hasta -->
+                        <div class="col-md-4">
+                            <label for="fecha_hasta" class="form-label">Hasta (fecha)</label>
+                            <input type="date" name="fecha_hasta" id="fecha_hasta" value="{{ filtros.fecha_hasta }}"
+                                class="form-control">
+                        </div>
+
+                        <!-- Últimos N partidos -->
+                        <div class="col-md-4">
+                            <label for="ultimos" class="form-label">Últimos N partidos</label>
+                            <input type="number" min="1" name="ultimos" id="ultimos" value="{{ filtros.ultimos }}"
+                                class="form-control" placeholder="Ej: 10">
+                        </div>
+
+                        <!-- Desde tal partido -->
+                        <div class="col-md-6">
+                            <label for="desde_partido" class="form-label">Desde el siguiente partido</label>
+                            <select name="desde_partido" id="desde_partido" class="form-select">
+                                <option value="">Seleccionar partido</option>
+                                {% for p in partidos_disponibles %}
+                                <option value="{{ p.id }}" {% if filtros.desde_partido == p.id|stringformat:"s" %} selected {% endif %}>
+                                    {{ p.fecha|date:"d/m/Y" }} vs {{ p.rival.nombre }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Botones -->
+
+                <!-- Botón para mostrar filtros avanzados -->
+                
+                <div class="col-12 text-end mt-4">
+                    
+                    <a class="btn btn-outline-primary" data-bs-toggle="collapse" href="#filtrosAvanzados" role="button"
+                        aria-expanded="false" aria-controls="filtrosAvanzados">
+                        <i class="fas fa-cogs me-2"></i>Filtros Avanzados
+                    </a>
+                   
+
                     <button type="submit" class="btn btn-primary px-4">
                         <i class="fas fa-search me-2"></i>Filtrar
                     </button>
@@ -68,6 +130,7 @@
                 </div>
             </form>
         </div>
+
     </div>
 
     <div class="stats-grid">
@@ -91,7 +154,7 @@
                 </tbody>
             </table>
         </div>
-        
+
         <div class="card stats-card">
             <table class="stats-table">
                 <thead>
@@ -126,7 +189,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>               
+                <tr>
                     <td>{{ estadisticas.vallas_invictas }}</td>
                     <td class="win-percentage">{{ estadisticas.porcentaje_victorias }}</td>
                     <td>{{ estadisticas.max_racha_no_perdidos }}</td>
@@ -163,16 +226,16 @@
                         <td>{{ partido.instancia }}</td>
                         <td>
                             {% if partido.tipo == 'L' %}
-                                <span class="team-goal">{{ partido.goles_chabas }}</span> - {{ partido.goles_rival }}
+                            <span class="team-goal">{{ partido.goles_chabas }}</span> - {{ partido.goles_rival }}
                             {% else %}
-                                {{ partido.goles_rival }} - <span class="team-goal">{{ partido.goles_chabas }}</span>
+                            {{ partido.goles_rival }} - <span class="team-goal">{{ partido.goles_chabas }}</span>
                             {% endif %}
                         </td>
                         <td>
                             {% if partido.tipo == 'L' %}
-                                <span class="badge local">Local</span>
+                            <span class="badge local">Local</span>
                             {% else %}
-                                <span class="badge visitor">Visitante</span>
+                            <span class="badge visitor">Visitante</span>
                             {% endif %}
                         </td>
                         <td>

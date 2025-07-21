@@ -129,7 +129,7 @@ class RojaInline(admin.TabularInline):
 
 @admin.register(Partido)
 class PartidoAdmin(admin.ModelAdmin):
-    list_display = ('fecha','instancia', 'vs_rival', 'resultado', 'arbitro','torneo_link', 'detalle_link')
+    list_display = ('fecha','instancia', 'vs_rival', 'jugado','resultado', 'arbitro','torneo_link', 'detalle_link')
     list_filter = ('torneo', 'fecha', 'tipo')
     search_fields = ('rival__nombre', 'torneo__nombre', 'arbitro')
     inlines = [GolInline, AmarillaInline, RojaInline]
@@ -137,7 +137,7 @@ class PartidoAdmin(admin.ModelAdmin):
     
     fieldsets = (
         (None, {
-            'fields': ('fecha', 'torneo', 'rival', 'tipo', 'arbitro', 'instancia', 'descripcion')
+            'fields': ('fecha', 'torneo', 'rival', 'tipo', 'arbitro', 'instancia', 'descripcion', 'jugado')
         }),
         ('Resultado', {
             'fields': ('goles_chabas', 'goles_rival')

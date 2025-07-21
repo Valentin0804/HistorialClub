@@ -5,19 +5,29 @@ from django.utils import timezone
 
 
 def home(request):
-    # Obtener estadísticas para la portada
+     # Obtener estadísticas para la portada
     partidos_count = Partido.objects.count()
     titulos_count = 12  # Reemplaza con tu modelo real si lo tienes
     jugadores_count = Jugador.objects.count()
     
-    # Obtener último partido jugado
-    ultimo_partido = Partido.objects.select_related('rival', 'torneo').order_by('-fecha').first()
+    # Último partido jugado
+    ultimo_partido = Partido.objects.select_related('rival', 'torneo')\
+        .filter(jugado=True)\
+        .order_by('-fecha')\
+        .first()
     
+    # Próximo partido (aún no jugado)
+    proximo_partido = Partido.objects.select_related('rival', 'torneo')\
+        .filter(jugado=False)\
+        .order_by('fecha')\
+        .first()
+
     return render(request, 'historial/home.html', {
         'partidos_count': partidos_count,
         'titulos_count': titulos_count,
         'jugadores_count': jugadores_count,
-        'ultimo_partido': ultimo_partido
+        'ultimo_partido': ultimo_partido,
+        'proximo_partido': proximo_partido,
     })
 
 def lista_partidos(request):
@@ -58,45 +68,71 @@ def temporada_actual(request):
     })
 
 def historicos(request):
-    # Años únicos disponibles (extraídos de las fechas de los partidos)
+    # Filtros y opciones
     años_disponibles = Partido.objects.dates('fecha', 'year', order='DESC')
     equipos = Club.objects.all()
     temporadas = Torneo.objects.values_list('nombre', flat=True).distinct()
+    partidos_disponibles = Partido.objects.order_by('-fecha')
 
-    # Filtros desde GET
+    # Filtros GET
     temporada_seleccionada = request.GET.get('temporada')
     equipo_seleccionado = request.GET.get('equipo')
     año_seleccionado = request.GET.get('anio')
+    fecha_desde = request.GET.get('fecha_desde')
+    fecha_hasta = request.GET.get('fecha_hasta')
+    ultimos_n = request.GET.get('ultimos')
+    desde_partido_id = request.GET.get('desde_partido')
 
+    # Aplicar filtros
     partidos = Partido.objects.all()
 
-    # Filtro por temporada
     if temporada_seleccionada:
         partidos = partidos.filter(torneo__nombre=temporada_seleccionada)
 
-    # Filtro por año
     if año_seleccionado and año_seleccionado.isdigit():
         partidos = partidos.filter(fecha__year=int(año_seleccionado))
 
-    # Filtro por equipo
     if equipo_seleccionado and equipo_seleccionado.isdigit():
         partidos = partidos.filter(rival__id=int(equipo_seleccionado))
 
+    if fecha_desde:
+        partidos = partidos.filter(fecha__gte=fecha_desde)
 
-    # Estadísticas
-    total_partidos = partidos.count()
-    total_goles_a_favor = partidos.aggregate(total=Sum('goles_chabas'))['total'] or 0
-    total_goles_en_contra = partidos.aggregate(total=Sum('goles_rival'))['total'] or 0
-    total_amarillas = TarjetaAmarilla.objects.filter(partido__in=partidos).count()
-    total_rojas = TarjetaRoja.objects.filter(partido__in=partidos).count()
+    if fecha_hasta:
+        partidos = partidos.filter(fecha__lte=fecha_hasta)
 
-    victorias = partidos.filter(goles_chabas__gt=F('goles_rival')).count()
-    derrotas = partidos.filter(goles_chabas__lt=F('goles_rival')).count()
-    empates = partidos.filter(goles_chabas=F('goles_rival')).count()
-    vallas_invictas = partidos.filter(goles_rival=0).count()
+    if desde_partido_id and desde_partido_id.isdigit():
+        partido_ref = Partido.objects.filter(id=int(desde_partido_id)).first()
+        if partido_ref:
+            partidos = partidos.filter(fecha__gte=partido_ref.fecha)
 
-    # Cálculo de rachas
-    partidos_ordenados = partidos.order_by('fecha')
+    # Ordenamos por fecha descendente antes del corte
+    partidos_filtrados = partidos.order_by('-fecha')
+
+    # Si se pidieron los últimos N partidos, se aplica después del resto de filtros
+    if ultimos_n and ultimos_n.isdigit():
+        partidos_mostrados = list(partidos_filtrados[:int(ultimos_n)])
+    else:
+        partidos_mostrados = list(partidos_filtrados)
+
+    # Estadísticas (solo de los partidos mostrados)
+    total_partidos = len(partidos_mostrados)
+    total_goles_a_favor = sum(p.goles_chabas for p in partidos_mostrados)
+    total_goles_en_contra = sum(p.goles_rival for p in partidos_mostrados)
+
+    partidos_ids = [p.id for p in partidos_mostrados]
+    total_amarillas = TarjetaAmarilla.objects.filter(partido_id__in=partidos_ids).count()
+    total_rojas = TarjetaRoja.objects.filter(partido_id__in=partidos_ids).count()
+
+    victorias = sum(1 for p in partidos_mostrados if p.goles_chabas > p.goles_rival)
+    empates = sum(1 for p in partidos_mostrados if p.goles_chabas == p.goles_rival)
+    derrotas = sum(1 for p in partidos_mostrados if p.goles_chabas < p.goles_rival)
+    vallas_invictas = sum(1 for p in partidos_mostrados if p.goles_rival == 0)
+
+    # Cálculo de rachas (en orden cronológico)
+    partidos_ordenados = sorted(
+    [p for p in partidos_mostrados if p.fecha is not None],
+    key=lambda p: p.fecha)
     racha_actual_no_perdidos = 0
     max_racha_no_perdidos = 0
     racha_actual_ganados = 0
@@ -133,17 +169,23 @@ def historicos(request):
         'max_racha_no_perdidos': max_racha_no_perdidos,
         'promedio_goles_favor': round(promedio_goles_favor, 2),
         'promedio_goles_contra': round(promedio_goles_contra, 2),
+        'max_racha_ganados': max_racha_ganados,
     }
 
     return render(request, 'historial/historicos.html', {
-        'partidos': partidos.order_by('-fecha'),
+        'partidos': partidos_mostrados,  # Se muestran en la tabla
         'temporadas': temporadas,
         'equipos': equipos,
-        'años': [año.year for año in años_disponibles],  # Solo el número de año
+        'años': [año.year for año in años_disponibles],
+        'partidos_disponibles': partidos_disponibles,
         'filtros': {
             'temporada': temporada_seleccionada,
             'equipo': equipo_seleccionado,
-            'anio': año_seleccionado
+            'anio': año_seleccionado,
+            'fecha_desde': fecha_desde,
+            'fecha_hasta': fecha_hasta,
+            'ultimos': ultimos_n,
+            'desde_partido': desde_partido_id,
         },
         'estadisticas': estadisticas
     })

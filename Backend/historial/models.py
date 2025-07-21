@@ -19,6 +19,7 @@ class Jugador(models.Model):
         ('MED', 'Mediocampista'),
         ('DEL', 'Delantero'),
         ('DT', 'Director Técnico'),
+        ('SD', 'Sin Definir'),
     ]
 
     ESTADO_OPCIONES = [
@@ -83,7 +84,7 @@ class Partido(models.Model):
 
     TIPO = [('L', 'Local'), ('V', 'Visitante')]
     
-    fecha = models.DateField()
+    fecha = models.DateField(blank=True, null=True)
     torneo = models.ForeignKey(Torneo, on_delete=models.PROTECT)
     rival = models.ForeignKey(Club, on_delete=models.PROTECT)
     arbitro = models.CharField(max_length=100, blank=True, default="", verbose_name="árbitro")
@@ -92,6 +93,8 @@ class Partido(models.Model):
     goles_chabas = models.PositiveIntegerField(default=0)
     goles_rival = models.PositiveIntegerField(default=0)
     descripcion = models.TextField(blank=True, null=True)
+    jugado = models.BooleanField(default=True, help_text="Marcar si el partido ya fue jugado")
+
     
     # Relaciones para estadísticas
     goleadores = models.ManyToManyField(
