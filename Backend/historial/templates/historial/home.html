@@ -28,30 +28,33 @@
         <div class="col-md-4 col-lg-3">
             <div class="card border-1 shadow-sm h-100 stats-card">
                 <div class="card-body text-center py-4">
-                    <i class="fas fa-futbol text-primary mb-3 fa-3x"></i>
-                    <h2 class="text-primary">{{ partidos_count }}</h2>
+                    <i class="fas fa-futbol color1  mb-3 fa-3x"></i>
+                    <h2 class="">{{ partidos_count }}</h2>
                     <p class="mb-0 fw-bold">PARTIDOS CARGADOS</p>
                 </div>
             </div>
         </div>
+
         <div class="col-md-4 col-lg-3">
             <div class="card border-1 shadow-sm h-100 stats-card">
                 <div class="card-body text-center py-4">
-                    <i class="fas fa-users text-primary mb-3 fa-3x"></i>
-                    <h2 class="text-primary">{{ jugadores_count }}</h2>
-                    <p class="mb-0 fw-bold">JUGADORES CARGADOS</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4 col-lg-3">
-            <div class="card border-1 shadow-sm h-100 stats-card">
-                <div class="card-body text-center py-4">
-                    <i class="fas fa-trophy text-primary mb-3 fa-3x"></i>
-                    <h2 class="text-primary">{{ titulos_count }}</h2>
+                    <i class="fas fa-trophy text-warning mb-3 fa-3x"></i>
+                    <h2 class="">{{ titulos_count }}</h2>
                     <p class="mb-0 fw-bold">TÍTULOS OBTENIDOS</p>
                 </div>
             </div>
         </div>
+
+        <div class="col-md-4 col-lg-3">
+            <div class="card border-1 shadow-sm h-100 stats-card">
+                <div class="card-body text-center py-4">
+                    <i class="fas fa-users color1 mb-3 fa-3x"></i>
+                    <h2 class="">{{ jugadores_count }}</h2>
+                    <p class="mb-0 fw-bold">JUGADORES CARGADOS</p>
+                </div>
+            </div>
+        </div>
+        
     </div>
 
     <!-- Último partido -->
@@ -60,8 +63,7 @@
         <div class="col-lg-8">
             <div class="card border-0 shadow-sm">
                 <div class="card-header bg-primary text-white">
-                    <h4 class="mb-0"><i class="fas fa-clock me-2"></i>Último
-                        Partido</h4>
+                    <h4 class="mb-0"><i class="fas fa-clock me-2"></i>Último Partido</h4>
                 </div>
                 <div class="card-body">
                     <div class="text-center mb-3">
@@ -163,7 +165,7 @@
     <!-- Accesos rápidos -->
     <div class="row justify-content-center mb-5">
         <div class="col-lg-10 text-center">
-            <h3 class="mb-4 text-primary">Explorar el sitio</h3>
+            <h3 class="mb-4 titulo1 ">Explorar el sitio</h3>
             <div class="d-flex flex-wrap justify-content-center gap-3">
                 <a href="{% url 'temporada_actual' %}"
                     class="btn btn-outline-primary btn-lg px-4 rounded-pill">

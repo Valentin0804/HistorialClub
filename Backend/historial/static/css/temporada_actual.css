@@ -1,166 +1,170 @@
-/* Utilizando las variables definidas en base.css */
 :root {
-    --celeste-primario: var(--primary-color);
-    --celeste-claro: var(--primary-light);
-    --celeste-oscuro: var(--primary-dark);
-    --fondo-secundario: var(--secondary-color);
-    --texto-principal: var(--text-color);
-    --texto-secundario: var(--light-text);
-    --blanco: var(--white);
-    --verde-positivo: #66bb6a;
-    --naranja-neutral: #ffb74d;
-    --rojo-negativo: #d62727;
+  --celeste-primario: var(--primary-color);
+  --celeste-claro: var(--primary-light);
+  --celeste-oscuro: var(--primary-dark);
+  --fondo-secundario: var(--secondary-color);
+  --texto-principal: var(--text-color);
+  --texto-secundario: var(--light-text);
+  --blanco: var(--white);
+  --verde-positivo: #66bb6a;
+  --naranja-neutral: #ffb74d;
+  --rojo-negativo: #d62727;
 }
 
 .season-container {
-    padding: 2rem;
-    max-width: 1200px;
-    margin: 0 auto;
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .season-header {
-    margin-bottom: 2rem;
-    text-align: center;
+  margin-bottom: 2rem;
+  text-align: center;
 }
 
 .season-header h1 {
-    color: var(--celeste-oscuro);
-    font-size: 2.2rem;
-    font-weight: 600;
-    margin-bottom: 1rem;
+  color: var(--celeste-oscuro);
+  font-size: 2.2rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
 }
 
 .season-divider {
-    height: 3px;
-    background: linear-gradient(90deg, transparent, var(--celeste-primario), transparent);
-    width: 80%;
-    margin: 0 auto;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--celeste-primario),
+    transparent
+  );
+  width: 80%;
+  margin: 0 auto;
 }
 
 /* Tarjeta de partidos */
 .matches-card {
-    background: var(--blanco);
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    padding: 1.5rem;
-    overflow: hidden;
+  background: var(--blanco);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  padding: 1.5rem;
+  overflow: hidden;
 }
 
 .table-container {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .matches-table {
-    width: 100%;
-    border-collapse: collapse;
-    min-width: 600px;
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 600px;
 }
 
 .matches-table th {
-    background: var(--celeste-primario);
-    color: var(--blanco);
-    padding: 1rem;
-    text-align: left;
-    font-weight: 500;
-    position: sticky;
-    top: 0;
+  background: var(--celeste-primario);
+  color: var(--blanco);
+  padding: 1rem;
+  text-align: left;
+  font-weight: 500;
+  position: sticky;
+  top: 0;
 }
 
 .matches-table td {
-    padding: 1rem;
-    border-top: 1px solid var(--fondo-secundario);
-    vertical-align: middle;
+  padding: 1rem;
+  border-top: 1px solid var(--fondo-secundario);
+  vertical-align: middle;
 }
 
 .matches-table tbody tr:nth-child(odd) {
-    background: var(--fondo-secundario);
+  background: var(--fondo-secundario);
 }
 
 /* Estilos para filas según resultado */
 .win-row {
-    border-left: 4px solid var(--verde-positivo);
+  border-left: 4px solid var(--verde-positivo);
 }
 
 .loss-row {
-    border-left: 4px solid var(--rojo-negativo);
+  border-left: 4px solid var(--rojo-negativo);
 }
 
 .draw-row {
-    border-left: 4px solid var(--naranja-neutral);
+  border-left: 4px solid var(--naranja-neutral);
 }
 
 /* Badges y botones */
 .badge {
-    padding: 0.375rem 0.75rem;
-    border-radius: 50px;
-    font-size: 0.75rem;
-    font-weight: 500;
-    display: inline-block;
+  padding: 0.375rem 0.75rem;
+  border-radius: 50px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  display: inline-block;
 }
 
 .local {
-    background: var(--celeste-claro);
-    color: var(--celeste-oscuro);
+  background: var(--celeste-claro);
+  color: var(--celeste-oscuro);
 }
 
 .visitor {
-    background: var(--fondo-secundario);
-    color: var(--texto-principal);
+  background: var(--fondo-secundario);
+  color: var(--texto-principal);
 }
 
 .team-goal {
-    font-weight: 600;
-    color: var(--celeste-oscuro);
+  font-weight: 600;
+  color: var(--celeste-primario);
 }
 
 .info-btn {
-    color: var(--celeste-primario);
-    font-size: 1.25rem;
-    transition: all 0.2s ease;
+  color: var(--celeste-primario);
+  font-size: 1.25rem;
+  transition: all 0.2s ease;
 }
 
 .info-btn:hover {
-    color: var(--celeste-oscuro);
-    transform: scale(1.1);
+  color: var(--celeste-oscuro);
+  transform: scale(1.1);
 }
 
-/* Responsive */
+/* Ajuste Responsive */
 @media (max-width: 768px) {
-    .season-container {
-        padding: 1rem;
-    }
-    
-    .season-header h1 {
-        font-size: 1.8rem;
-    }
-    
-    .matches-card {
-        padding: 1rem;
-    }
-    
-    .matches-table th, 
-    .matches-table td {
-        padding: 0.75rem 0.5rem;
-    }
-    
-    .info-btn {
-        width: 28px;
-        height: 28px;
-        font-size: 0.9rem;
-    }
+  .season-container {
+    padding: 1rem;
+  }
 
-    .matches-table {
-        min-width: auto; /* para que no requiera mínimo de columnas */
-    }
+  .season-header h1 {
+    font-size: 1.8rem;
+  }
 
-    /* Solo aplicar cuando el ancho sea menor a 768px */
+  .matches-card {
+    padding: 1rem;
+  }
 
-    /* Ocultar las columnas Fecha (1ª) y Condición (5ª) */
-    .matches-table th:nth-child(1),
-    .matches-table td:nth-child(1),
-    .matches-table th:nth-child(5),
-    .matches-table td:nth-child(5) {
-        display: none;
-    }
+  .matches-table th,
+  .matches-table td {
+    padding: 0.75rem 0.5rem;
+  }
+
+  .info-btn {
+    width: 28px;
+    height: 28px;
+    font-size: 0.9rem;
+  }
+
+  .matches-table {
+    min-width: auto; /* para que no requiera mínimo de columnas */
+  }
+
+  /* Solo aplicar cuando el ancho sea menor a 768px */
+
+  /* Ocultar las columnas Fecha (1ª) y Condición (5ª) */
+  .matches-table th:nth-child(1),
+  .matches-table td:nth-child(1),
+  .matches-table th:nth-child(5),
+  .matches-table td:nth-child(5) {
+    display: none;
+  }
 }

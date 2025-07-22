@@ -1,96 +1,96 @@
 :root {
-    --celeste-primario: var(--primary-color);
-    --celeste-claro: var(--primary-light);
-    --celeste-oscuro: var(--primary-dark);
-    --fondo-secundario: var(--secondary-color);
-    --texto-principal: var(--text-color);
-    --texto-secundario: var(--light-text);
-    --blanco: var(--white);
-    --verde-positivo: #66bb6a;
-    --naranja-neutral: #ffb74d;
-    --rojo-negativo: #d62727;
+  --celeste-primario: var(--primary-color);
+  --celeste-claro: var(--primary-light);
+  --celeste-oscuro: var(--primary-dark);
+  --fondo-secundario: var(--secondary-color);
+  --texto-principal: var(--text-color);
+  --texto-secundario: var(--light-text);
+  --blanco: var(--white);
+  --verde-positivo: #66bb6a;
+  --naranja-neutral: #ffb74d;
+  --rojo-negativo: #d62727;
 }
 
 .rival-card {
-    transition: all 0.3s ease;
-    border-radius: 1rem;
-    overflow: hidden;
-    background: var(--blanco);
+  transition: all 0.3s ease;
+  border-radius: 1rem;
+  overflow: hidden;
+  background: var(--blanco);
 }
 
 .rival-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(30, 136, 229, 0.2);
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(30, 136, 229, 0.2);
 }
 
 .rival-logo {
-    max-height: 100px;
-    width: auto;
-    object-fit: contain;
+  max-height: 100px;
+  width: auto;
+  object-fit: contain;
 }
 
 .rival-placeholder {
-    height: 100px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--texto-secundario);
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--texto-secundario);
 }
 
 .rival-info {
-    background-color: var(--fondo-secundario);
-    border-radius: 0.5rem;
-    padding: 1rem;
+  background-color: var(--fondo-secundario);
+  border-radius: 0.5rem;
+  padding: 1rem;
 }
 
 .rival-stats {
-    margin-top: 1.5rem;
+  margin-top: 1.5rem;
 }
 
 .stat-value {
-    font-size: 1.5rem;
-    font-weight: bold;
-    line-height: 1;
+  font-size: 1.5rem;
+  font-weight: bold;
+  line-height: 1;
 }
 
 .stat-label {
-    font-size: 0.8rem;
-    color: var(--texto-secundario);
-    text-transform: uppercase;
-    margin-top: 0.3rem;
+  font-size: 0.8rem;
+  color: var(--texto-secundario);
+  text-transform: uppercase;
+  margin-top: 0.3rem;
 }
 
 .rival-advantage {
-    font-weight: 500;
-    padding: 0.5rem;
-    border-radius: 0.5rem;
-    background-color: rgba(0, 0, 0, 0.03);
+  font-weight: 500;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  background-color: rgba(0, 0, 0, 0.03);
 }
 
 /* Colores para los resultados usando variables existentes */
 .text-success {
-    color: var(--verde-positivo) ;
+  color: var(--verde-positivo);
 }
 
 .text-danger {
-    color: var(--rojo-negativo) ;
+  color: var(--rojo-negativo);
 }
 
 .text-warning {
-    color: var(--naranja-neutral);
+  color: var(--naranja-neutral);
 }
 
 .text-info {
-    color: var(--naranja-neutral) ;
+  color: var(--naranja-neutral);
 }
 
-/* Responsive adjustments */
+/* Ajuste Responsive */
 @media (max-width: 768px) {
-    .rival-logo {
-        max-height: 80px;
-    }
-    
-    .stat-value {
-        font-size: 1.2rem;
-    }
+  .rival-logo {
+    max-height: 80px;
+  }
+
+  .stat-value {
+    font-size: 1.2rem;
+  }
 }

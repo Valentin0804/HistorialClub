@@ -19,14 +19,25 @@
     <div class="match-result-card">
         <div class="team-display">
             <div class="team home-team">
-                <img src="{% static 'img/logo_chabas.png' %}" alt="Logo CA Chabás" class="team-logo">
+                <img src="{% static 'img/logo_chabas.png' %}"
+                    alt="Logo CA Chabás" class="team-logo">
                 <div class="team-name">CA Chabás</div>
             </div>
 
             <div class="match-score">
-                <div class="match-condition {% if partido.tipo == 'L' %}local{% else %}visitor{% endif %}">
+                <div
+                    class="match-condition {% if partido.tipo == 'L' %}local{% else %}visitor{% endif %}">
                     {% if partido.tipo == 'L' %}Local{% else %}Visitante{% endif %}
                 </div>
+                <div class="match-condition">
+                    <p><strong>Instancia:</strong> {{ instancia }}</p>
+                </div>
+                <div class="match-condition">
+                    {% if arbitro %}
+                    <p><strong>Árbitro:</strong> {{ arbitro }}</p>
+                    {% endif %}
+                </div>
+
                 <div class="score">
                     <span class="goals">{{ partido.goles_chabas }}</span>
                     <span class="separator">-</span>
@@ -37,7 +48,8 @@
 
             <div class="team away-team">
                 {% if partido.rival.escudo %}
-                <img src="{{ partido.rival.escudo.url }}" alt="Escudo {{ partido.rival.nombre }}" class="team-logo">
+                <img src="{{ partido.rival.escudo.url }}"
+                    alt="Escudo {{ partido.rival.nombre }}" class="team-logo">
                 {% else %}
                 <div class="team-logo placeholder"></div>
                 {% endif %}
@@ -46,7 +58,6 @@
         </div>
     </div>
 
-    
     <!-- Goles -->
     <div class="match-details">
         <div class="detail-section">
@@ -104,6 +115,19 @@
             <div class="empty-message">No hubo expulsados en este partido</div>
             {% endif %}
         </div>
+
+        <div class="detail-section">
+            <h2 class="section-title">
+                <i class="fas fa-square"></i> Observaciones
+            </h2>
+            {% if descripcion %}
+            <p><strong>Observaciones:</strong> {{ descripcion }}</p>
+            {% else %}
+            <div class="empty-message">No hubo observaciones en este
+                partido</div>
+            {% endif %}
+        </div>
+
     </div>
 
     <div class="match-footer">

@@ -45,11 +45,15 @@ def detalle_partido(request, partido_id):
         ), 
         pk=partido_id
     )
+
     return render(request, 'historial/detalle_partido.html', {
         'partido': partido,
         'goles': partido.gol_set.all().order_by('minuto'),
         'amarillas': partido.tarjetaamarilla_set.all().order_by('minuto'),
-        'rojas': partido.tarjetaroja_set.all().order_by('minuto')
+        'rojas': partido.tarjetaroja_set.all().order_by('minuto'),
+        'arbitro': partido.arbitro if partido.arbitro else None,
+        'instancia': partido.get_instancia_display(),
+        'descripcion': partido.descripcion
     })
 
 
@@ -298,3 +302,7 @@ def jugadores_por_anio(request):
     }
 
     return render(request, 'historial/jugadores_por_anio.html', context)
+
+
+def sobre_datos(request):
+    return render(request, 'historial/sobre_datos.html')

@@ -1,259 +1,265 @@
 :root {
-    --celeste-primario: var(--primary-color);
-    --celeste-claro: var(--primary-light);
-    --celeste-oscuro: var(--primary-dark);
-    --fondo-secundario: var(--secondary-color);
-    --texto-principal: var(--text-color);
-    --texto-secundario: var(--light-text);
-    --blanco: var(--white);
-    --verde-positivo: #66bb6a;
-    --naranja-neutral: #ffb74d;
-    --rojo-negativo: #d62727;
+  --celeste-primario: var(--primary-color);
+  --celeste-claro: var(--primary-light);
+  --celeste-oscuro: var(--primary-dark);
+  --fondo-secundario: var(--secondary-color);
+  --texto-principal: var(--text-color);
+  --texto-secundario: var(--light-text);
+  --blanco: var(--white);
+  --negro: var(--black);
+  --verde-positivo: #66bb6a;
+  --naranja-neutral: #ffb74d;
+  --rojo-negativo: #d62727;
 }
 
 .match-detail-container {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    padding: 1rem;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  padding: 1rem;
 }
 
 /* Encabezado del partido */
 .match-header {
-    text-align: center;
-    margin-bottom: 2rem;
+  text-align: center;
+  margin-bottom: 2rem;
 }
 
 .match-date {
-    color: var(--texto-secundario);
-    font-size: 1rem;
-    margin-bottom: 0.5rem;
+  color: var(--texto-secundario);
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
 }
 
 .match-header h1 {
-    color: var(--celeste-oscuro);
-    font-size: 1.8rem;
-    margin-bottom: 1rem;
+  color: var(--celeste-oscuro);
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
 }
 
 .match-divider {
-    height: 2px;
-    background: linear-gradient(90deg, transparent, var(--celeste-primario), transparent);
-    width: 60%;
-    margin: 0 auto;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--celeste-primario),
+    transparent
+  );
+  width: 60%;
+  margin: 0 auto;
 }
 
 /* Tarjeta de resultado */
 .match-result-card,
 .match-details {
-    background: var(--blanco);
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    padding: 1.5rem;
-    margin-bottom: 2rem;
+  background: var(--blanco);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  padding: 1.5rem;
+  margin-bottom: 2rem;
 }
 
 /* Display de equipos */
 .team-display {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: center;
-    gap: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
 }
 
 .team {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-width: 120px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 120px;
 }
 
 .team-logo {
-    width: 80px;
-    height: 80px;
-    object-fit: contain;
-    margin-bottom: 0.5rem;
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  margin-bottom: 0.5rem;
 }
 
 .team-logo.placeholder {
-    background: var(--fondo-secundario);
-    border-radius: 50%;
+  background: var(--fondo-secundario);
+  border-radius: 50%;
 }
 
 .team-name {
-    font-weight: 500;
-    text-align: center;
-    color: var(--texto-principal);
+  font-weight: 500;
+  text-align: center;
+  color: var(--texto-principal);
 }
 
 .home-team .team-name {
-    color: var(--celeste-oscuro);
-    font-weight: 600;
+  color: var(--celeste-oscuro);
+  font-weight: 600;
 }
 
 /* Área de marcador */
 .match-score {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 0 1rem;
-    min-width: 180px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 1rem;
+  min-width: 180px;
 }
 
 .match-condition {
-    padding: 0.25rem 0.75rem;
-    border-radius: 50px;
-    font-size: 0.8rem;
-    font-weight: 500;
-    margin-bottom: 0.5rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 50px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
 }
 
 .match-condition.local {
-    background: var(--celeste-claro);
-    color: var(--celeste-oscuro);
+  background: var(--celeste-claro);
+  color: var(--negro);
 }
 
 .match-condition.visitor {
-    background: var(--fondo-secundario);
-    color: var(--texto-principal);
+  background: var(--fondo-secundario);
+  color: var(--texto-principal);
 }
 
 .score {
-    display: flex;
-    align-items: center;
-    font-size: 2.5rem;
-    font-weight: 700;
-    margin: 0.5rem 0;
+  display: flex;
+  align-items: center;
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 0.5rem 0;
 }
 
 .goals {
-    min-width: 40px;
-    text-align: center;
+  min-width: 40px;
+  text-align: center;
 }
 
 .separator {
-    margin: 0 0.5rem;
+  margin: 0 0.5rem;
 }
 
 /* Secciones de detalles */
 .detail-section {
-    margin-bottom: 1.5rem;
+  margin-bottom: 1.5rem;
 }
 
 .detail-section:last-child {
-    margin-bottom: 0;
+  margin-bottom: 0;
 }
 
 .section-title {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 1.2rem;
-    color: var(--celeste-oscuro);
-    margin-bottom: 1rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 1px solid var(--fondo-secundario);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.2rem;
+  color: var(--negro);
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--fondo-secundario);
 }
 
 .section-title.yellow-card {
-    color: var(--naranja-neutral);
+  color: var(--naranja-neutral);
 }
 
 .section-title.red-card {
-    color: var(--rojo-negativo);
+  color: var(--rojo-negativo);
 }
 
 .detail-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
 .detail-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.75rem 0;
-    border-bottom: 1px solid var(--fondo-secundario);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--fondo-secundario);
 }
 
 .detail-item:last-child {
-    border-bottom: none;
+  border-bottom: none;
 }
 
 .player-name {
-    font-weight: 500;
+  font-weight: 500;
 }
 
 .minute-badge {
-    background: var(--fondo-secundario);
-    color: var(--texto-principal);
-    padding: 0.25rem 0.5rem;
-    border-radius: 4px;
-    font-size: 0.8rem;
-    font-weight: 500;
+  background: var(--fondo-secundario);
+  color: var(--texto-principal);
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 500;
 }
 
 /* Mensajes y footer */
 .empty-message {
-    color: var(--texto-secundario);
-    font-style: italic;
-    text-align: center;
-    padding: 1rem 0;
+  color: var(--texto-secundario);
+  font-style: italic;
+  text-align: center;
+  padding: 1rem 0;
 }
 
 .match-footer {
-    text-align: center;
-    margin-top: 1rem;
-    color: var(--texto-secundario);
-    font-size: 0.8rem;
+  text-align: center;
+  margin-top: 1rem;
+  color: var(--texto-secundario);
+  font-size: 0.8rem;
 }
 
 /* Responsive */
 @media (max-width: 768px) {
-    .match-result-card,
-    .match-details {
-        padding: 1rem;
-    }
-    
-    .team {
-        min-width: 100px;
-    }
-    
-    .team-logo {
-        width: 60px;
-        height: 60px;
-    }
-    
-    .score {
-        font-size: 2rem;
-    }
-    
-    .match-score {
-        min-width: 140px;
-    }
+  .match-result-card,
+  .match-details {
+    padding: 1rem;
+  }
+
+  .team {
+    min-width: 100px;
+  }
+
+  .team-logo {
+    width: 60px;
+    height: 60px;
+  }
+
+  .score {
+    font-size: 2rem;
+  }
+
+  .match-score {
+    min-width: 140px;
+  }
 }
 
 @media (max-width: 480px) {
-    .team {
-        min-width: 80px;
-    }
-    
-    .team-logo {
-        width: 50px;
-        height: 50px;
-    }
-    
-    .score {
-        font-size: 1.8rem;
-    }
-    
-    .section-title {
-        font-size: 1.1rem;
-    }
-    
-    .match-header h1 {
-        font-size: 1.5rem;
-    }
+  .team {
+    min-width: 80px;
+  }
+
+  .team-logo {
+    width: 50px;
+    height: 50px;
+  }
+
+  .score {
+    font-size: 1.8rem;
+  }
+
+  .section-title {
+    font-size: 1.1rem;
+  }
+
+  .match-header h1 {
+    font-size: 1.5rem;
+  }
 }

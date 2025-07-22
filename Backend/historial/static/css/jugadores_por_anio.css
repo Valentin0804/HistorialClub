@@ -1,110 +1,110 @@
 /* Contenedor principal */
 .jugadores-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 2rem 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
 }
 
 /* Título */
 .jugadores-header h2 {
-    color: var(--celeste-oscuro);
-    font-size: 2rem;
-    text-align: center;
-    margin-bottom: 2rem;
-    font-weight: 600;
+  color: var(--celeste-oscuro);
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: 2rem;
+  font-weight: 600;
 }
 
 /* Selector de año */
 .jugadores-filtros {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 2rem;
-    gap: 1rem;
-    flex-wrap: wrap;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+  gap: 1rem;
+  flex-wrap: wrap;
 }
 
 .jugadores-filtros select {
-    padding: 0.75rem 1rem;
-    border: 1px solid var(--fondo-secundario);
-    border-radius: 8px;
-    background: var(--blanco);
-    color: var(--texto-principal);
-    font-size: 1rem;
-    min-width: 200px;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--fondo-secundario);
+  border-radius: 8px;
+  background: var(--blanco);
+  color: var(--texto-principal);
+  font-size: 1rem;
+  min-width: 200px;
 }
 
 /* Lista de jugadores */
 .jugadores-lista {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 1.5rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
 }
 
 /* Card de jugador */
 .jugador-card {
-    background: var(--blanco);
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 1.5rem;
-    text-align: center;
-    transition: transform 0.3s ease;
+  background: var(--blanco);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.5rem;
+  text-align: center;
+  transition: transform 0.3s ease;
 }
 
 .jugador-card:hover {
-    transform: translateY(-4px);
+  transform: translateY(-4px);
 }
 
 /* Imagen del jugador */
 .jugador-card img {
-    width: 100px;
-    height: 100px;
-    zoom: 150%;
-    object-fit: cover;
-    margin-bottom: 1rem;
-    border: 2px solid var(--celeste-primario);
+  width: 100px;
+  height: 100px;
+  zoom: 150%;
+  object-fit: cover;
+  margin-bottom: 1rem;
+  border: 2px solid var(--celeste-primario);
 }
 
 /* Nombre y posición */
 .jugador-nombre {
-    font-size: 1.2rem;
-    font-weight: 600;
-    color: var(--texto-principal);
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--texto-principal);
 }
 
 .jugador-posicion {
-    font-size: 0.9rem;
-    color: var(--texto-secundario);
-    margin-top: 0.25rem;
+  font-size: 0.9rem;
+  color: var(--texto-secundario);
+  margin-top: 0.25rem;
 }
 
 /* Sin jugadores */
 .jugadores-vacio {
-    text-align: center;
-    color: var(--texto-secundario);
-    font-style: italic;
-    margin-top: 2rem;
+  text-align: center;
+  color: var(--texto-secundario);
+  font-style: italic;
+  margin-top: 2rem;
 }
 
-/* Responsive ajustes finos */
+/* Ajuste Responsive */
 @media (max-width: 600px) {
-    .jugador-card {
-        padding: 1rem;
-    }
+  .jugador-card {
+    padding: 1rem;
+  }
 
-    .jugador-card img {
-        width: 80px;
-        height: 80px;
-    }
+  .jugador-card img {
+    width: 80px;
+    height: 80px;
+  }
 
-    .jugador-nombre {
-        font-size: 1rem;
-    }
+  .jugador-nombre {
+    font-size: 1rem;
+  }
 
-    .jugador-posicion {
-        font-size: 0.8rem;
-    }
+  .jugador-posicion {
+    font-size: 0.8rem;
+  }
 }

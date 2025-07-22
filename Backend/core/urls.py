@@ -14,6 +14,7 @@ urlpatterns = [
     path('historicos/', views.historicos, name='historicos'),
     path('rivales/', views.rivales, name='rivales'),
     path('jugadores_por_anio/', views.jugadores_por_anio, name='jugadores_por_anio'),
+    path('sobre_datos/', views.sobre_datos, name='sobre_datos'),
 
 ]
 

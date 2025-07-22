@@ -11,7 +11,7 @@
 <div class="jugadores-container">
 
     <div class="text-center mb-5">
-        <h1 class="display-4 fw-bold text-primary mb-3">
+        <h1 class="display-4 fw-bold titulo1 mb-3">
             <i class="fas fa-users me-2"></i>Plantillas anuales
         </h1>
         <p class="lead text-muted">Conoce a los protagonistas de cada año</p>
@@ -42,7 +42,7 @@
                    {% if jugador.foto %}
                         <img src="{{ jugador.foto.url }}" alt="{{ jugador }}">
                     {% else %}
-                        <img src="{% static 'img/jugador_default.jpg' %}" alt="Jugador sin foto">
+                        <img src="{% static 'img/jugador_default.png' %}" alt="Jugador sin foto">
                     {% endif %}
                     <div class="jugador-nombre">
                         {{ jugador.nombre }} {{ jugador.apellido }}
