@@ -1,0 +1,13 @@
+[phases.setup]
+nixPkgs = [
+  "pkg-config",
+  "mariadb",
+  "mariadb-connector-c",
+  "python312Packages.mysqlclient"
+]
+
+[phases.install]
+cmds = ["pip install -r requirements.txt"]
+
+[start]
+cmd = "gunicorn core.wsgi:application --bind 0.0.0.0:$PORT"
