@@ -1,14 +1,17 @@
 [phases.setup]
 nixPkgs = [
-  "python312",
-  "python312Packages.pip",
+  "python312Full",
   "pkg-config",
-  "mariadb-connector-c",
-  "python312Packages.mysqlclient"
+  "mariadb-connector-c"
 ]
 
 [phases.install]
-cmds = ["pip install -r requirements.txt"]
+cmds = [
+  "python -m venv venv",
+  "source venv/bin/activate",
+  "pip install --upgrade pip",
+  "pip install -r requirements.txt"
+]
 
 [start]
-cmd = "gunicorn core.wsgi:application --bind 0.0.0.0:$PORT"
+cmd = "venv/bin/gunicorn core.wsgi:application --bind 0.0.0.0:$PORT"
