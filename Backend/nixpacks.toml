@@ -1,5 +1,7 @@
 [phases.setup]
 nixPkgs = [
+  "python312",
+  "python312Packages.pip",
   "pkg-config",
   "mariadb-connector-c",
   "python312Packages.mysqlclient"
