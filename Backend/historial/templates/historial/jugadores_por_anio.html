@@ -25,11 +25,17 @@
             <form method="get" class="jugadores-filtros">
                 <select name="anio" id="anio" onchange="this.form.submit()">
                     <option value=""> Elegir Año </option>
-                    {% for a in anios_disponibles %}
-                        <option value="{{ a }}" {% if a|stringformat:"s" == anio_seleccionado %}selected{% endif %}>
-                            {{ a }}
-                        </option>
-                    {% endfor %}
+                        {% for a in anios_disponibles %}
+                            <option value="{{ a }}" {% if a|stringformat:"s" == anio_seleccionado %}selected{% endif %}>
+                                {% if a == 2017 %}
+                                    Jugadores históricos
+                                {% else %}
+                                    {{ a }}
+                                {% endif %}
+                            </option>
+                        {% endfor %}
+
+
                 </select>
             </form>
         </div>

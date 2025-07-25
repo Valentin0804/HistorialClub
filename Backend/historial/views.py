@@ -3,7 +3,6 @@ from .models import Partido, Jugador, Club, Gol, TarjetaAmarilla, TarjetaRoja, T
 from django.db.models import Count, F, Sum, Q
 from django.utils import timezone
 
-
 def home(request):
      # Obtener estadísticas para la portada
     partidos_count = Partido.objects.count()
@@ -56,7 +55,6 @@ def detalle_partido(request, partido_id):
         'descripcion': partido.descripcion
     })
 
-
 def temporada_actual(request):
     # Obtener el año actual
     año_actual = timezone.now().year
@@ -77,6 +75,7 @@ def historicos(request):
     equipos = Club.objects.all()
     temporadas = Torneo.objects.values_list('nombre', flat=True).distinct()
     partidos_disponibles = Partido.objects.order_by('-fecha')
+    jugadores = Jugador.objects.all()
 
     # Filtros GET
     temporada_seleccionada = request.GET.get('temporada')
@@ -86,6 +85,8 @@ def historicos(request):
     fecha_hasta = request.GET.get('fecha_hasta')
     ultimos_n = request.GET.get('ultimos')
     desde_partido_id = request.GET.get('desde_partido')
+    jugador_id = request.GET.get('jugador')
+    accion = request.GET.get('accion')  # 'gol', 'amarilla', 'roja'
 
     # Aplicar filtros
     partidos = Partido.objects.all()
@@ -109,6 +110,19 @@ def historicos(request):
         partido_ref = Partido.objects.filter(id=int(desde_partido_id)).first()
         if partido_ref:
             partidos = partidos.filter(fecha__gte=partido_ref.fecha)
+
+    if jugador_id and jugador_id.isdigit():
+        jugador_id = int(jugador_id)
+        if accion == 'gol':
+            partidos_ids_con_gol = Gol.objects.filter(jugador_id=jugador_id).values_list('partido_id', flat=True)
+            partidos = partidos.filter(id__in=partidos_ids_con_gol)
+        elif accion == 'amarilla':
+            partidos_ids_con_amarilla = TarjetaAmarilla.objects.filter(jugador_id=jugador_id).values_list('partido_id', flat=True)
+            partidos = partidos.filter(id__in=partidos_ids_con_amarilla)
+        elif accion == 'roja':
+            partidos_ids_con_roja = TarjetaRoja.objects.filter(jugador_id=jugador_id).values_list('partido_id', flat=True)
+            partidos = partidos.filter(id__in=partidos_ids_con_roja)
+
 
     # Ordenamos por fecha descendente antes del corte
     partidos_filtrados = partidos.order_by('-fecha')
@@ -182,6 +196,7 @@ def historicos(request):
         'equipos': equipos,
         'años': [año.year for año in años_disponibles],
         'partidos_disponibles': partidos_disponibles,
+        'jugadores': jugadores,
         'filtros': {
             'temporada': temporada_seleccionada,
             'equipo': equipo_seleccionado,
@@ -190,6 +205,8 @@ def historicos(request):
             'fecha_hasta': fecha_hasta,
             'ultimos': ultimos_n,
             'desde_partido': desde_partido_id,
+            'jugador': jugador_id,
+            'accion': accion,
         },
         'estadisticas': estadisticas
     })
@@ -302,7 +319,6 @@ def jugadores_por_anio(request):
     }
 
     return render(request, 'historial/jugadores_por_anio.html', context)
-
 
 def sobre_datos(request):
     return render(request, 'historial/sobre_datos.html')

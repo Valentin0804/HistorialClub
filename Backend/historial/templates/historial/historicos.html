@@ -26,6 +26,7 @@
         <div class="card-body">
             <form method="get" class="filter-form">
                 <div class="row g-3">
+
                     <!-- Temporada -->
                     <div class="col-md-4">
                         <label for="temporada" class="form-label">Temporada</label>
@@ -93,7 +94,7 @@
                                 class="form-control" placeholder="Ej: 10">
                         </div>
 
-                        <!-- Desde tal partido -->
+                        <!-- Desde tal partido 
                         <div class="col-md-6">
                             <label for="desde_partido" class="form-label">Desde el siguiente partido</label>
                             <select name="desde_partido" id="desde_partido" class="form-select">
@@ -103,6 +104,24 @@
                                     {{ p.fecha|date:"d/m/Y" }} vs {{ p.rival.nombre }}
                                 </option>
                                 {% endfor %}
+                            </select>
+                        </div>-->
+
+                        <div class="col-md-6">
+                            <label for="jugador" class="form-label">Jugador:</label>
+                            <select name="jugador" id="jugador" class="form-select">
+                                <option value=""> Todos </option>
+                                {% for j in jugadores %}
+                                    <option value="{{ j.id }}" {% if filtros.jugador == j.id|stringformat:"s" %}selected{% endif %}>{{ j.nombre }} {{ j.apellido }}</option>
+                                {% endfor %}
+                            </select>
+
+                            <label for="accion" class="form-label">Acción:</label>
+                            <select name="accion" id="accion" class="form-select">
+                                <option value="">-- Todas --</option>
+                                <option value="gol" {% if filtros.accion == "gol" %}selected{% endif %}>Gol</option>
+                                <option value="amarilla" {% if filtros.accion == "amarilla" %}selected{% endif %}>Amarilla</option>
+                                <option value="roja" {% if filtros.accion == "roja" %}selected{% endif %}>Roja</option>
                             </select>
                         </div>
 
