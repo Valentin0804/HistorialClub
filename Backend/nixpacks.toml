@@ -1,17 +1,25 @@
-# Nixpacks Configuration
+# nixpacks.toml
 
-# Setup phase
+# --- Fase 1: Configuración del Entorno del Sistema ---
 [phases.setup]
-nixPkgs = ["...", "libmysqlclient.dev", "gcc", "cairo", "python311Packages.cairocffi"]
-
-# Install phase
-[phases.install]
-aptPkgs = ["...", "libcairo2", "libcairomm-1.0-1v5", "python3-cffi-backend", "cairosvg", "libglib2.0-0"]
-nixLibs = ['...', "cairo", "gobject-introspection", "glib", "pango"]
-cmds = [
-    "python -m venv --copies /opt/venv", 
-    ". /opt/venv/bin/activate", 
-    "pip install -r requirements.txt",
-    "export LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH",
-    "echo 'Cairo library installation path:'"
+nixPkgs = [
+    "python312Full",
+    "gcc",
+    "pkg-config",
 ]
+
+# --- Fase 2: Instalación de Dependencias de Python ---
+[phases.install]
+cmds = [
+    # Crea un entorno virtual autocontenido en la carpeta /opt/venv.
+    "python -m venv /opt/venv",
+    # Usa el pip de DENTRO del venv para instalar/actualizar pip.
+    "/opt/venv/bin/python -m pip install --upgrade pip",
+    # Usa el pip del venv para instalar todas tus dependencias.
+    "/opt/venv/bin/pip install -r requirements.txt"
+]
+
+# --- Fase 3: Comando de Inicio ---
+[start]
+# Ejecuta gunicorn desde DENTRO del entorno virtual.
+cmd = "/opt/venv/bin/gunicorn core.wsgi:application --bind 0.0.0.0:$PORT"
