@@ -22,4 +22,4 @@ cmds = [
 # --- Fase 3: Comando de Inicio ---
 [start]
 # Ejecuta gunicorn desde DENTRO del entorno virtual.
-cmd = "/opt/venv/bin/gunicorn core.wsgi:application --bind 0.0.0.0:$PORT"
+cmd = "/opt/venv/bin/python manage.py collectstatic --no-input && /opt/venv/bin/python manage.py migrate && /opt/venv/bin/gunicorn core.wsgi:application --bind 0.0.0.0:$PORT"
