@@ -16,20 +16,23 @@ from pathlib import Path
 import environ
 import dj_database_url
 
+from decouple import config
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Inicializa django-environ
 env = environ.Env()
 
 # Lee el archivo .env
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+DATABASE_URL = config('DATABASE_URL')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-ml2+_a#8$17xaqasm!1^f5r)a=+#$80=&i$*il9#9*96r03=ed'
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -84,8 +87,12 @@ WSGI_APPLICATION = 'core.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+LOCAL_MYSQL_URL = 'mysql://root:root@localhost:3306/club_chabas_db'
+
 DATABASES = {
-    'default': env.db(),
+    'default': dj_database_url.config(
+        default=DATABASE_URL
+    )
 }
 
 # Password validation
