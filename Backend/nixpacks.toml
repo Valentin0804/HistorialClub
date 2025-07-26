@@ -1,36 +1,30 @@
 # nixpacks.toml
 
 # --- Fase 1: Configuración del Entorno del Sistema ---
-# Aquí se instalan las herramientas y librerías a nivel de sistema operativo
-# que son necesarias para compilar tus dependencias de Python.
 [phases.setup]
 nixPkgs = [
-    # Una versión completa de Python 3.12.
     "python312Full",
-    # El compilador de C (gcc), necesario para compilar extensiones de Python como mysqlclient.
     "gcc",
-    # Herramienta que ayuda a los paquetes a encontrar las librerías del sistema.
     "pkg-config",
-    # La librería de C para MariaDB/MySQL, esencial para que 'mysqlclient' se instale.
-    "mariadb-connector-c"
+    # --- LA CORRECCIÓN ESTÁ AQUÍ ---
+    # Reemplazamos 'mariadb-connector-c' por el paquete 'mariadb' completo.
+    # Este paquete incluye de forma garantizada los archivos de desarrollo (.h) y
+    # los archivos de pkg-config (.pc) que 'mysqlclient' necesita para compilarse.
+    "mariadb"
 ]
 
 # --- Fase 2: Instalación de Dependencias de Python ---
-# En lugar de instalar globalmente, creamos un entorno virtual (venv).
-# Esta es la mejor práctica para aislar dependencias.
 [phases.install]
 cmds = [
-    # 1. Crea un entorno virtual autocontenido en la carpeta /opt/venv.
+    # Crea un entorno virtual autocontenido en la carpeta /opt/venv.
     "python -m venv /opt/venv",
-    # 2. Usa el pip de DENTRO del venv para instalar/actualizar pip. Es más robusto.
+    # Usa el pip de DENTRO del venv para instalar/actualizar pip.
     "/opt/venv/bin/python -m pip install --upgrade pip",
-    # 3. Usa el pip del venv para instalar todas tus dependencias.
+    # Usa el pip del venv para instalar todas tus dependencias.
     "/opt/venv/bin/pip install -r requirements.txt"
 ]
 
 # --- Fase 3: Comando de Inicio ---
-# Este es el comando que inicia tu aplicación en producción.
 [start]
-# Ejecuta gunicorn desde DENTRO del entorno virtual para asegurar
-# que se usan las versiones correctas de Django y otras librerías.
+# Ejecuta gunicorn desde DENTRO del entorno virtual.
 cmd = "/opt/venv/bin/gunicorn core.wsgi:application --bind 0.0.0.0:$PORT"
