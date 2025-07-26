@@ -26,7 +26,8 @@ env = environ.Env()
 
 # Lee el archivo .env
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
-DATABASE_URL = config('DATABASE_URL')
+
+DATABASE_URL = config('DATABASE_URL', default='')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
@@ -87,13 +88,23 @@ WSGI_APPLICATION = 'core.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-LOCAL_MYSQL_URL = 'mysql://root:root@localhost:3306/club_chabas_db'
+LOCAL_MYSQL = {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'club_chabas_db',    # Nombre de tu BD
+        'USER': 'root',  # Ej: 'root'
+        'PASSWORD': 'root',
+        'HOST': 'localhost',
+        'PORT': '3306',
+    }
 
-DATABASES = {
-    'default': dj_database_url.config(
-        default=DATABASE_URL
-    )
-}
+DATABASES = {}
+
+if DATABASE_URL:
+    # Si DATABASE_URL tiene un valor (está en producción), úsala.
+    DATABASES['default'] = dj_database_url.parse(DATABASE_URL)
+else:
+    # Si no (estás en local), usa la configuración de MySQL.
+    DATABASES['default'] = LOCAL_MYSQL
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
@@ -117,7 +128,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'es-ar'
 
 TIME_ZONE = 'UTC'
 

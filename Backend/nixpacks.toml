@@ -1,14 +1,33 @@
+# nixpacks.toml
+
+# --- Fase 1: Configuración del Entorno ---
+# Aquí se instalan las dependencias a nivel del sistema operativo que
+# tu aplicación necesita antes de que se instale nada de Python.
 [phases.setup]
 nixPkgs = [
-  "python312Full",
-  "pkg-config",
-  "mariadb-connector-c"
+    # La versión de Python que usará tu aplicación.
+    "python312",
+    # Herramienta necesaria para que los paquetes encuentren las librerías del sistema.
+    "pkg-config",
+    # La librería de C para MariaDB. Es ESENCIAL para que 'mysqlclient'
+    # se pueda compilar e instalar correctamente.
+    "mariadb-connector-c"
 ]
 
+# --- Fase 2: Instalación de Dependencias ---
+# Aquí se ejecutan los comandos para instalar las librerías de Python.
 [phases.install]
 cmds = [
-  "pip install -r requirements.txt"
+    # Es una buena práctica actualizar pip a la última versión.
+    "python -m pip install --upgrade pip",
+    # Instala todas las dependencias listadas en tu requirements.txt.
+    "python -m pip install -r requirements.txt"
 ]
 
+# --- Fase 3: Comando de Inicio ---
+# Este es el comando que ejecutará tu proveedor de hosting para iniciar la aplicación.
 [start]
-cmd = "venv/bin/gunicorn core.wsgi:application --bind 0.0.0.0:$PORT"
+# Usamos Gunicorn, un servidor WSGI de producción.
+# - 'core.wsgi:application': Apunta a tu archivo wsgi. Asegúrate de que 'core' es el nombre correcto de tu carpeta de settings/wsgi.
+# - '--bind 0.0.0.0:$PORT': Hace que el servidor sea accesible desde el exterior en el puerto que asigne la plataforma.
+cmd = "gunicorn core.wsgi:application --bind 0.0.0.0:$PORT"
