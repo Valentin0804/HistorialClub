@@ -157,3 +157,27 @@ CORS_ALLOWED_ORIGINS = [
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+# settings.py
+
+# ... tus otras configuraciones como ALLOWED_HOSTS, etc. ...
+
+# ==========================================================
+# CONFIGURACIÓN DE SEGURIDAD PARA PRODUCCIÓN (RAILWAY)
+# ==========================================================
+
+# 1. Orígenes de Confianza para CSRF
+#    Le dice a Django que acepte peticiones POST (de formularios) que vengan de tu dominio de producción.
+CSRF_TRUSTED_ORIGINS = ['https://historialclub-production.up.railway.app']
+
+# 2. Configuración de Cookies Seguras
+#    Asegura que las cookies solo se envíen a través de una conexión HTTPS segura.
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+
+# 3. Configuración para Proxies (Opcional pero muy recomendado)
+#    Ayuda a Django a identificar correctamente que la conexión es segura (https)
+#    cuando está detrás del proxy de Railway.
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+# ==========================================================
