@@ -5,7 +5,7 @@ class Club(models.Model):   # Rivales
     nombre = models.CharField(max_length=100)
     localidad = models.CharField(max_length=100)
     fundacion = models.DateField()
-    escudo = models.ImageField(upload_to='escudos/', null=True, blank=True)
+    escudo = models.CharField(max_length=100, null=True, blank=True)
     campeonatos = models.PositiveIntegerField(default=0)
     activo = models.BooleanField(default=True)
     

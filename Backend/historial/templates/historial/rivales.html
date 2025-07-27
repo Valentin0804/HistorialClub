@@ -24,11 +24,10 @@
                 </div>
                 <div class="card-body text-center py-4">
                     {% if club.escudo %}
-                    <img src="{{ club.escudo }}" alt="{{ club.nombre }}" class="img-fluid rival-logo mb-4">
+                        <img src="{% static 'img/'|add:club.escudo %}" alt="Escudo de {{ club.nombre }}" class="img-fluid rival-logo mb-4">
                     {% else %}
-                    <div class="rival-placeholder mb-4">
-                        <i class="fas fa-shield-alt fa-4x text-light"></i>
-                    </div>
+                        <!-- Opcional: Muestra una imagen por defecto si no hay escudo -->
+                        <img src="{% static 'img/escudos/default.png' %}" alt="Escudo no disponible">
                     {% endif %}
                     
                     <div class="rival-info mb-4">

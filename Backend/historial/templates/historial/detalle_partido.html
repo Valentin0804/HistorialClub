@@ -48,7 +48,7 @@
 
             <div class="team away-team">
                 {% if partido.rival.escudo %}
-                <img src="{{ partido.rival.escudo.url }}"
+                <img src="{% static 'img/'|add:partido.rival.escudo %}"
                     alt="Escudo {{ partido.rival.nombre }}" class="team-logo">
                 {% else %}
                 <div class="team-logo placeholder"></div>

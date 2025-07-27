@@ -289,7 +289,7 @@ def rivales(request):
             'nombre': club.nombre,
             'fundacion': club.fundacion,
             'campeonatos': club.campeonatos,
-            'escudo': club.escudo.url if club.escudo else None,
+            'escudo': club.escudo,
             'ganados': ganados,
             'empatados': empatados,
             'perdidos': perdidos,

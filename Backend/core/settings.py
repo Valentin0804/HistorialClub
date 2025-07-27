@@ -105,6 +105,7 @@ if DATABASE_URL:
 else:
     # Si no (estás en local), usa la configuración de MySQL.
     DATABASES['default'] = LOCAL_MYSQL
+    print ('Usando DB local')
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
