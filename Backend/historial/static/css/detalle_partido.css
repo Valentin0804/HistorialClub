@@ -14,14 +14,12 @@
 }
 
 /* --- ESTILOS GENERALES Y BASE (Mobile-First) --- */
-/* Diseñamos primero para la pantalla más pequeña y luego añadimos complejidad */
 
 .match-detail-container {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  padding: 1rem; /* Espaciado general para móviles */
+  padding: 1rem;
 }
 
-/* Encabezado del partido */
 .match-header {
   text-align: center;
   margin-bottom: 2rem;
@@ -29,51 +27,51 @@
 
 .match-date {
   color: var(--texto-secundario);
-  font-size: 0.9rem; /* Ligeramente más pequeño en móviles */
+  font-size: 0.9rem;
   margin-bottom: 0.5rem;
 }
 
 .match-header h1 {
   color: var(--celeste-oscuro);
-  font-size: 1.5rem; /* Tamaño de título para móviles */
+  font-size: 1.5rem;
   margin-bottom: 1rem;
 }
 
 .match-divider {
   height: 2px;
   background: linear-gradient(90deg, transparent, var(--celeste-primario), transparent);
-  width: 80%; /* Más ancho en móviles */
+  width: 80%;
   margin: 0 auto;
 }
 
-/* Tarjetas de contenido */
 .match-result-card,
 .match-details {
   background: var(--blanco);
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  padding: 1rem; /* Padding para móviles */
+  padding: 1rem;
   margin-bottom: 2rem;
 }
 
-/* --- TARJETA DE RESULTADO (La parte más importante del cambio) --- */
+/* --- TARJETA DE RESULTADO (Siempre Horizontal) --- */
 .team-display {
   display: flex;
-  flex-direction: column; /* CAMBIO CLAVE: En móvil, todo es una columna */
+  justify-content: space-between; /* Mantiene los elementos distribuidos */
   align-items: center;
-  gap: 1.5rem; /* Espacio entre los bloques de equipo y el marcador */
+  gap: 0.5rem; /* Espacio reducido entre elementos para móviles */
 }
 
 .team {
+  flex: 1; /* Ocupan el espacio disponible */
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%; /* Ocupa todo el ancho disponible */
+  min-width: 0; /* Permite que los elementos se encojan más allá de su contenido */
 }
 
 .team-logo {
-  width: 60px; /* Tamaño de logo para móviles */
-  height: 60px;
+  width: 50px; /* Tamaño de logo reducido para móviles */
+  height: 50px;
   object-fit: contain;
   margin-bottom: 0.5rem;
 }
@@ -87,7 +85,8 @@
   font-weight: 500;
   text-align: center;
   color: var(--texto-principal);
-  font-size: 1rem;
+  font-size: 0.8rem; /* Tamaño de fuente reducido para móviles */
+  line-height: 1.2; /* Mejora el espaciado si el nombre ocupa dos líneas */
 }
 
 .home-team .team-name {
@@ -96,24 +95,20 @@
 }
 
 .match-score {
+  flex: 1.2; /* Damos un poco más de espacio al marcador */
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
+  padding: 0 0.25rem; /* Padding horizontal reducido */
 }
 
-/* CAMBIO CLAVE: Reordenar los elementos para la vista de columna */
-/* En móvil, el rival aparece primero, luego el marcador, luego el equipo local */
-.away-team { order: 1; }
-.match-score { order: 2; }
-.home-team { order: 3; }
-
 .match-condition {
-  padding: 0.25rem 0.75rem;
+  padding: 0.2rem 0.6rem;
   border-radius: 50px;
-  font-size: 0.8rem;
+  font-size: 0.7rem; /* Texto de condición más pequeño */
   font-weight: 500;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.4rem;
+  text-align: center; /* Asegura el centrado si el texto es largo */
 }
 
 .match-condition.local { background: var(--celeste-claro); color: var(--negro); }
@@ -122,31 +117,25 @@
 .score {
   display: flex;
   align-items: center;
-  font-size: 2.5rem; /* Tamaño grande para el marcador, incluso en móvil */
+  justify-content: center;
+  font-size: 2rem; /* Marcador más pequeño pero aún legible */
   font-weight: 700;
-  margin: 0.5rem 0;
-  width: 100%;
-  justify-content: center; /* Centra el resultado */
+  margin: 0.2rem 0;
 }
 
-.goals { flex: 1; text-align: center; }
-.separator { flex-basis: 20px; text-align: center; }
-.vs-text { display: none; } /* Ocultamos el 'vs Rival' en móvil porque ya se ve el nombre del equipo */
+.goals { text-align: center; }
+.separator { margin: 0 0.4rem; }
+.vs-text { display: none; } /* Oculto en móviles para ganar espacio */
 
-/* --- SECCIONES DE DETALLES (Goles, Tarjetas, etc.) --- */
-.detail-section {
-  margin-bottom: 1.5rem;
-}
-
-.detail-section:last-child {
-  margin-bottom: 0;
-}
+/* --- SECCIONES DE DETALLES (Sin cambios mayores aquí) --- */
+.detail-section { margin-bottom: 1.5rem; }
+.detail-section:last-child { margin-bottom: 0; }
 
 .section-title {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  font-size: 1.1rem; /* Título de sección para móviles */
+  font-size: 1.1rem;
   color: var(--negro);
   margin-bottom: 1rem;
   padding-bottom: 0.5rem;
@@ -156,12 +145,7 @@
 .section-title.yellow-card { color: var(--naranja-neutral); }
 .section-title.red-card { color: var(--rojo-negativo); }
 
-.detail-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
+.detail-list { list-style: none; padding: 0; margin: 0; }
 .detail-item {
   display: flex;
   justify-content: space-between;
@@ -169,16 +153,8 @@
   padding: 0.75rem 0;
   border-bottom: 1px solid var(--fondo-secundario);
 }
-
-.detail-item:last-child {
-  border-bottom: none;
-}
-
-.player-name {
-  font-weight: 500;
-  font-size: 0.9rem;
-}
-
+.detail-item:last-child { border-bottom: none; }
+.player-name { font-weight: 500; font-size: 0.9rem; }
 .minute-badge {
   background: var(--fondo-secundario);
   color: var(--texto-principal);
@@ -188,7 +164,6 @@
   font-weight: 500;
 }
 
-/* Mensajes y footer */
 .empty-message {
   color: var(--texto-secundario);
   font-style: italic;
@@ -203,53 +178,15 @@
   font-size: 0.8rem;
 }
 
-/* --- MEDIA QUERY PARA TABLETAS (A partir de 600px) --- */
-@media (min-width: 600px) {
+/* --- MEDIA QUERY PARA TABLETAS (A partir de 768px) --- */
+/* Aquí empezamos a agrandar todo de nuevo */
+@media (min-width: 768px) {
+  .match-result-card, .match-details {
+    padding: 1.5rem;
+  }
+
   .team-display {
-    flex-direction: row; /* Volvemos a una fila */
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  /* Devolvemos el orden original */
-  .home-team { order: 1; }
-  .match-score { order: 2; }
-  .away-team { order: 3; }
-
-  .team {
-    flex: 1; /* Ocupan espacio proporcionalmente */
-    min-width: 120px;
-  }
-
-  .match-score {
-    flex: 1.5; /* Damos más espacio al marcador */
-    min-width: 180px;
-    padding: 0 1rem;
-  }
-
-  /* Restauramos el "vs Rival" que ocultamos en móvil */
-  .vs-text {
-    display: block;
-    text-align: center;
-    color: var(--texto-secundario);
-    font-weight: 500;
-    margin-top: 0.5rem;
-  }
-}
-
-/* --- MEDIA QUERY PARA ESCRITORIOS (A partir de 992px) --- */
-@media (min-width: 992px) {
-  .match-detail-container {
-    padding: 2rem; /* Más espaciado en pantallas grandes */
-  }
-
-  .match-header h1 {
-    font-size: 1.8rem; /* Título más grande */
-  }
-
-  .match-result-card,
-  .match-details {
-    padding: 2rem; /* Más padding interno */
+    gap: 1rem; /* Aumentamos el espacio */
   }
 
   .team-logo {
@@ -257,15 +194,47 @@
     height: 80px;
   }
 
+  .team-name {
+    font-size: 1rem; /* Nombre de equipo más grande */
+  }
+
+  .match-score {
+    padding: 0 1rem; /* Más padding para el marcador */
+  }
+
+  .match-condition {
+    font-size: 0.8rem;
+  }
+
   .score {
-    font-size: 3rem; /* Marcador aún más grande */
+    font-size: 2.8rem; /* Marcador más grande */
+  }
+
+  .separator {
+    margin: 0 0.5rem;
+  }
+
+  /* Restauramos el 'vs Rival' que ocultamos en móvil */
+  .vs-text {
+    display: block;
+    text-align: center;
+    color: var(--texto-secundario);
+    font-weight: 500;
+    margin-top: 0.5rem;
   }
 
   .section-title {
-    font-size: 1.2rem; /* Títulos de sección más grandes */
+    font-size: 1.2rem;
   }
 
-  /* Agrupamos goles y tarjetas en dos columnas para aprovechar el espacio */
+  .match-header h1 {
+    font-size: 1.8rem;
+  }
+}
+
+/* --- MEDIA QUERY PARA ESCRITORIOS (A partir de 992px) --- */
+/* Aprovechamos el espacio para mostrar los detalles en dos columnas */
+@media (min-width: 992px) {
   .match-details {
     display: grid;
     grid-template-columns: 1fr 1fr;
