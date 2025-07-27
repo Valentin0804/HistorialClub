@@ -1,4 +1,4 @@
-# nixpacks.toml (Versión Corregida y Optimizada)
+# nixpacks.toml
 
 # --- Fase 1: Configuración del Entorno del Sistema ---
 [phases.setup]
@@ -11,24 +11,15 @@ nixPkgs = [
 # --- Fase 2: Instalación de Dependencias de Python ---
 [phases.install]
 cmds = [
-    # Crea un entorno virtual autocontenido.
+    # Crea un entorno virtual autocontenido en la carpeta /opt/venv.
     "python -m venv /opt/venv",
-    # Actualiza pip dentro del venv.
+    # Usa el pip de DENTRO del venv para instalar/actualizar pip.
     "/opt/venv/bin/python -m pip install --upgrade pip",
-    # Instala las dependencias del proyecto.
+    # Usa el pip del venv para instalar todas tus dependencias.
     "/opt/venv/bin/pip install -r requirements.txt"
 ]
 
-# --- Fase 3: Construcción de la Aplicación ---
-# Esta fase se ejecuta una vez por despliegue, después de la instalación.
-# Es el lugar correcto para migraciones y collectstatic.
-[phases.build]
-cmds = [
-    "/opt/venv/bin/python manage.py collectstatic --no-input --clear",
-    "/opt/venv/bin/python manage.py migrate --no-input"
-]
-
-# --- Fase 4: Comando de Inicio ---
-# Este comando solo inicia el servidor web.
+# --- Fase 3: Comando de Inicio ---
 [start]
-cmd = "/opt/venv/bin/gunicorn core.wsgi:application --bind 0.0.0.0:$PORT"
+# Ejecuta gunicorn desde DENTRO del entorno virtual.
+cmd = "/opt/venv/bin/python manage.py collectstatic --no-input && /opt/venv/bin/python manage.py migrate && /opt/venv/bin/gunicorn core.wsgi:application --bind 0.0.0.0:$PORT"
