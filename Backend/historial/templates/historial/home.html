@@ -90,7 +90,7 @@
 
                         <div class="text-center mx-4">
                             {% if ultimo_partido.rival.escudo %}
-                            <img src="{% static 'img/'|add:ultimo_partido.rival.escudo %}"
+                            <img src="{% static 'img/escudos/'|add:ultimo_partido.rival.escudo %}"
                                 alt="Escudo {{ ultimo_partido.rival.nombre }}"
                                 class="img-fluid" style="max-height: 80px;">
                             {% endif %}
@@ -151,7 +151,7 @@
 
     
                             {% if  proximo_partido.rival.escudo %}
-                            <img src="{% static 'img/'|add:proximo_partido.rival.escudo %}" alt="Escudo de {{ .nombre }}"
+                            <img src="{% static 'img/escudos/'|add:proximo_partido.rival.escudo %}" alt="Escudo de {{ .nombre }}"
                                 class="img-fluid" style="max-height: 80px;">
                             {% endif %}
                         </div>
