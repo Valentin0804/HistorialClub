@@ -25,9 +25,6 @@
                 <div class="card-body text-center py-4">
                     {% if club.escudo %}
                         <img src="{% static 'img/'|add:club.escudo %}" alt="Escudo de {{ club.nombre }}" class="img-fluid rival-logo mb-4">
-                    {% else %}
-                        <!-- Opcional: Muestra una imagen por defecto si no hay escudo -->
-                        <img src="{% static 'img/escudos/default.png' %}" alt="Escudo no disponible">
                     {% endif %}
                     
                     <div class="rival-info mb-4">
