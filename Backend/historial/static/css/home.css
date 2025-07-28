@@ -85,3 +85,39 @@
     transform: translateY(0);
   }
 }
+
+.sponsors {
+ text-align: center;
+ padding: 40px 20px;
+ background-color: #f7f7f7;
+} 
+
+.sponsors-title {
+ margin-bottom: 40px;
+ font-size: 2em;
+ color: #333;
+} 
+
+.sponsors-container {
+ display: flex;
+ flex-wrap: wrap;
+ justify-content: center;
+ align-items: center;
+ gap: 40px;
+} 
+
+.sponsor-logo {
+ flex: 1 1 150px; /* Permite que los logos se ajusten */
+ max-width: 150px;
+} 
+
+.sponsor-logo img {
+ width: 100%;
+ height: auto;
+ filter: grayscale(100%); /* Efecto de escala de grises */
+ transition: filter 0.3s ease;
+} 
+
+.sponsor-logo img:hover {
+ filter: grayscale(0%); /* El color aparece al pasar el ratón */
+}

@@ -221,6 +221,13 @@
 
 /* Ajuste Responsive */
 @media (max-width: 768px) {
+
+  .botones-acciones {
+    display: flex;            
+    justify-content: flex-end; 
+    gap: 0.75rem;             
+  }
+
   .historicos-container {
     padding: 1rem;
   }
@@ -258,3 +265,4 @@
     display: none;
   }
 }
+
