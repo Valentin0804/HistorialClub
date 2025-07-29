@@ -37,3 +37,14 @@ logs/
 # Reportes de pruebas
 /htmlcov/
 .coverage
+
+### Django ###
+*.log
+*.pot
+*.pyc
+_pycache_/
+/migrations/
+*/migrations/
+/logs/
+db.sqlite3
+staticfiles
