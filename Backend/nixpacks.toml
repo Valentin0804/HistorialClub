@@ -6,13 +6,7 @@ nixPkgs = [
     "python312Full",
     "gcc",
     "pkg-config",
-    "openssl",      # Para criptografía, requerida por muchos paquetes
-    "postgresql",   # Para compilar psycopg2 (si usas PostgreSQL)
-    "libxml2",      # Para lxml
-    "libxslt",      # Para lxml
-    "zlib",         # Para Pillow (imágenes)
-    "libjpeg",
-    "mariadb" ,
+    "mariadb",
 ]
 
 # --- Fase 2: Instalación de Dependencias de Python ---
