@@ -11,7 +11,7 @@ nixPkgs = [
     "libxml2",      # Para lxml
     "libxslt",      # Para lxml
     "zlib",         # Para Pillow (imágenes)
-    "jpeg",
+    "libjpeg",
     "mariadb" ,
 ]
 
