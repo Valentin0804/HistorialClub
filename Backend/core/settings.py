@@ -32,14 +32,17 @@ DATABASE_URL = config('DATABASE_URL', default='')
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
+# Lee ALLOWED_HOSTS desde una variable de entorno, limpia los espacios y la convierte en una lista.
+ALLOWED_HOSTS = [host.strip() for host in config('ALLOWED_HOSTS', default='127.0.0.1,localhost').split(',')]
+
+# Lee CSRF_TRUSTED_ORIGINS desde una variable de entorno, también como una lista.
+CSRF_TRUSTED_ORIGINS = [origin.strip() for origin in config('CSRF_TRUSTED_ORIGINS', default='').split(',') if origin.strip()]
+
+# Asegúrate de que DEBUG esté configurado para producción
+DEBUG = config('DEBUG', default=False, cast=bool)
+
+# Asegúrate de que SECRET_KEY también se lee desde las variables de entorno
 SECRET_KEY = config('SECRET_KEY')
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('DEBUG', default=True, cast=bool)
-
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='').split(',')
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -165,10 +168,6 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # ==========================================================
 # CONFIGURACIÓN DE SEGURIDAD PARA PRODUCCIÓN (RAILWAY)
 # ==========================================================
-
-# 1. Orígenes de Confianza para CSRF
-#    Le dice a Django que acepte peticiones POST (de formularios) que vengan de tu dominio de producción.
-CSRF_TRUSTED_ORIGINS = ['https://historialclub-production.up.railway.app']
 
 # 2. Configuración de Cookies Seguras
 #    Asegura que las cookies solo se envíen a través de una conexión HTTPS segura.
