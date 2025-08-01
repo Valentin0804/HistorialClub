@@ -4,7 +4,7 @@ from django.db.models import Count, F, Sum, Q
 from django.utils import timezone
 
 def home(request):
-     # Obtener estadísticas para la portada
+    # Obtener estadísticas para la portada
     partidos_count = Partido.objects.count()
     titulos_count = 12  # Reemplaza con tu modelo real si lo tienes
     jugadores_count = Jugador.objects.count()
@@ -21,12 +21,19 @@ def home(request):
         .order_by('fecha')\
         .first()
 
+    # Máxima goleada
+    maxima_goleada = Partido.objects.annotate(
+        diferencia_goles=F('goles_chabas') - F('goles_rival')
+    ).order_by('-diferencia_goles').first()
+
+
     return render(request, 'historial/home.html', {
         'partidos_count': partidos_count,
         'titulos_count': titulos_count,
         'jugadores_count': jugadores_count,
         'ultimo_partido': ultimo_partido,
         'proximo_partido': proximo_partido,
+        'maxima_goleada': maxima_goleada,
     })
 
 def lista_partidos(request):
