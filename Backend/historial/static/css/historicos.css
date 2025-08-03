@@ -219,15 +219,13 @@
   color: var(--texto-secundario);
 }
 
-/* Ajuste Responsive */
+/* =================================================================== */
+/*             CÓDIGO CSS MEJORADO Y LIMPIO PARA MÓVILES               */
+/* =================================================================== */
+
 @media (max-width: 768px) {
 
-  .botones-acciones {
-    display: flex;            
-    justify-content: flex-end; 
-    gap: 0.75rem;             
-  }
-
+  /* --- Estilos Generales y para Formularios (Mantenidos y Ordenados) --- */
   .historicos-container {
     padding: 1rem;
   }
@@ -237,32 +235,100 @@
     gap: 1rem;
   }
 
-  .form-group {
+  .form-group,
+  .form-submit button {
     width: 100%;
   }
 
   .form-submit button {
-    width: 100%;
     justify-content: center;
   }
+  
+  .botones-acciones {
+    display: flex;            
+    justify-content: flex-end; 
+    gap: 0.75rem;             
+  }
 
+  /* --- Estilos para la Cuadrícula de Estadísticas --- */
   .stats-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr; /* Asegura que las tarjetas se apilen */
   }
 
-  .matches-table th,
-  .matches-table td {
-    padding: 0.75rem 0.5rem;
-  }
+  /* =================================================================== */
+  /*             TRANSFORMACIÓN DE LA TABLA DE PARTIDOS A TARJETAS         */
+  /* =================================================================== */
 
-  /* Ocultar columnas en móvil */
-  .matches-table th:nth-child(1),
-  .matches-table td:nth-child(1),
-  .matches-table th:nth-child(5),
-  .matches-table td:nth-child(5),
-  .matches-table th:nth-child(6),
-  .matches-table td:nth-child(6) {
+  /* 1. Ocultamos la cabecera original, ya que no la usaremos en móviles. */
+  .matches-table thead {
     display: none;
   }
-}
 
+  /* 2. Convertimos cada fila (partido) en una tarjeta de resumen. */
+  .matches-table tr {
+    display: block;
+    background: var(--blanco);
+    text-align: center;
+    padding: 1.25rem 1rem;
+    margin-bottom: 1rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+    /* El borde izquierdo se coloreará dinámicamente según el resultado */
+    border-left-width: 5px;
+    border-left-style: solid;
+  }
+
+  /* 3. Ocultamos las columnas que no son esenciales para la vista móvil. */
+  .matches-table td:nth-child(4), /* Oculta "Instancia" */
+  .matches-table td:nth-child(6)  /* Oculta "Condición" */ {
+    display: none;
+  }
+
+  /* 4. Cada celda se convierte en un bloque dentro de la tarjeta. */
+  .matches-table td {
+    display: block;
+    border: none;
+    padding: 0; /* Reseteamos el padding para controlarlo con márgenes. */
+  }
+
+  /* 5. Aplicamos estilos para crear una jerarquía visual clara. */
+
+  /* Rival: grande y destacado */
+  .matches-table td:nth-child(3) {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--texto-principal);
+    margin-bottom: 0.5rem;
+  }
+
+  /* Resultado: el más grande y notorio */
+  .matches-table td:nth-child(5) {
+    font-size: 1.75rem;
+    font-weight: bold;
+    margin-bottom: 0.75rem;
+  }
+  
+  /* Goles del equipo con un color distintivo */
+  .team-goal {
+    font-size: 1.1em; /* Un poco más grande que el texto del resultado */
+    color: var(--celeste-primario);
+  }
+
+  /* Fecha y Torneo: información secundaria */
+  .matches-table td:nth-child(1),
+  .matches-table td:nth-child(2) {
+    font-size: 0.9rem;
+    color: var(--texto-secundario);
+    line-height: 1.4;
+  }
+  
+  /* Botón de Detalles: separado y fácil de tocar */
+  .matches-table td:nth-child(7) {
+    margin-top: 1rem;
+  }
+
+  .info-btn {
+    font-size: 1.5rem;
+    color: var(--celeste-primario);
+  }
+}

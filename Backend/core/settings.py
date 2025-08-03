@@ -40,7 +40,7 @@ CSRF_TRUSTED_ORIGINS = [origin.strip() for origin in config('CSRF_TRUSTED_ORIGIN
 
 # Asegúrate de que DEBUG esté configurado para producción
 DEBUG = config('DEBUG', default=False, cast=bool)
-
+#DEBUG = True
 # Asegúrate de que SECRET_KEY también se lee desde las variables de entorno
 SECRET_KEY = config('SECRET_KEY')
 # Application definition

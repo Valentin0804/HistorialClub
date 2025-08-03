@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Partido, Jugador, Club, Gol, TarjetaAmarilla, TarjetaRoja, Torneo
-from django.db.models import Count, F, Sum, Q
+from django.db.models import Count, F, Func, Q
 from django.utils import timezone
 
 def home(request):
@@ -22,11 +22,12 @@ def home(request):
         .first()
 
     # Máxima goleada
-    maxima_goleada = Partido.objects.annotate(
+    maxima_goleada = Partido.objects.filter(
+        goles_chabas__gt=F('goles_rival')
+    ).annotate(
         diferencia_goles=F('goles_chabas') - F('goles_rival')
     ).order_by('-diferencia_goles').first()
-
-
+    
     return render(request, 'historial/home.html', {
         'partidos_count': partidos_count,
         'titulos_count': titulos_count,
