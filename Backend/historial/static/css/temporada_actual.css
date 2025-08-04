@@ -58,7 +58,7 @@
 .matches-table {
   width: 100%;
   border-collapse: collapse;
-  min-width: 600px;
+  min-width: 600px; /* Esto causa el scroll en escritorio, pero lo arreglaremos en móvil */
 }
 
 .matches-table th {
@@ -129,42 +129,83 @@
   transform: scale(1.1);
 }
 
-/* Ajuste Responsive */
+/* =================================================================== */
+/*             CÓDIGO CSS AÑADIDO PARA LA VISTA MÓVIL                  */
+/* =================================================================== */
+
 @media (max-width: 768px) {
+  
   .season-container {
-    padding: 1rem;
+    padding: 1rem; /* Reducimos el padding general en pantallas pequeñas */
   }
 
-  .season-header h1 {
-    font-size: 1.8rem;
+  /* Anulamos el ancho mínimo para que la tabla no se desborde */
+  .matches-table {
+    min-width: 0;
   }
 
-  .matches-card {
-    padding: 1rem;
+  /* Ocultamos la cabecera original de la tabla */
+  .matches-table thead {
+    display: none;
   }
 
-  .matches-table th,
+  /* Convertimos cada fila en una tarjeta de resumen */
+  .matches-table tr {
+    display: block;
+    background: var(--blanco);
+    text-align: center;
+    padding: 1.25rem 1rem;
+    margin-bottom: 1rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+    /* El borde izquierdo se sigue usando para indicar el resultado */
+    border-left-width: 5px;
+    border-left-style: solid;
+  }
+
+  /* Ocultamos la columna "Condición" que no es esencial en móvil */
+  .matches-table td:nth-child(5) {
+    display: none;
+  }
+
+  /* Cada celda se convierte en un bloque dentro de la tarjeta */
   .matches-table td {
-    padding: 0.75rem 0.5rem;
+    display: block;
+    border: none;
+    padding: 0;
+  }
+
+  /* --- Damos estilo a cada dato para crear una jerarquía visual --- */
+
+  /* Rival */
+  .matches-table td:nth-child(3) {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--texto-principal);
+    margin-bottom: 0.5rem;
+  }
+
+  /* Resultado */
+  .matches-table td:nth-child(4) {
+    font-size: 1.75rem;
+    font-weight: bold;
+    margin-bottom: 0.75rem;
+  }
+  
+  /* Fecha y Torneo */
+  .matches-table td:nth-child(1),
+  .matches-table td:nth-child(2) {
+    font-size: 0.9rem;
+    color: var(--texto-secundario);
+    line-height: 1.4;
+  }
+  
+  /* Botón de Detalles */
+  .matches-table td:nth-child(6) {
+    margin-top: 1rem;
   }
 
   .info-btn {
-    width: 28px;
-    height: 28px;
-    font-size: 0.9rem;
-  }
-
-  .matches-table {
-    min-width: auto; /* para que no requiera mínimo de columnas */
-  }
-
-  /* Solo aplicar cuando el ancho sea menor a 768px */
-
-  /* Ocultar las columnas Fecha (1ª) y Condición (5ª) */
-  .matches-table th:nth-child(1),
-  .matches-table td:nth-child(1),
-  .matches-table th:nth-child(5),
-  .matches-table td:nth-child(5) {
-    display: none;
+    font-size: 1.5rem; /* Más grande para facilitar el toque */
   }
 }

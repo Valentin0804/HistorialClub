@@ -107,24 +107,25 @@
                             </select>
                         </div>-->
 
-                        <div class="col-md-6">
-                            <label for="jugador" class="form-label">Jugador:</label>
-                            <select name="jugador" id="jugador" class="form-select">
-                                <option value=""> Todos </option>
-                                {% for j in jugadores %}
-                                    <option value="{{ j.id }}" {% if filtros.jugador == j.id|stringformat:"s" %}selected{% endif %}>{{ j.nombre }} {{ j.apellido }}</option>
-                                {% endfor %}
-                            </select>
-
-                            <label for="accion" class="form-label">Acción:</label>
-                            <select name="accion" id="accion" class="form-select">
-                                <option value="">-- Todas --</option>
-                                <option value="gol" {% if filtros.accion == "gol" %}selected{% endif %}>Gol</option>
-                                <option value="amarilla" {% if filtros.accion == "amarilla" %}selected{% endif %}>Amarilla</option>
-                                <option value="roja" {% if filtros.accion == "roja" %}selected{% endif %}>Roja</option>
-                            </select>
-                        </div>
-
+                    
+                            <div class="col-md-4">
+                                <label for="jugador" class="form-label">Jugador</label>
+                                <select name="jugador" id="jugador" class="form-select">
+                                    <option value=""> Todos </option>
+                                    {% for j in jugadores %}
+                                        <option value="{{ j.id }}" {% if filtros.jugador == j.id|stringformat:"s" %}selected{% endif %}>{{ j.nombre }} {{ j.apellido }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="accion" class="form-label">Acción</label>
+                                <select name="accion" id="accion" class="form-select">
+                                    <option value=""> Todas </option>
+                                    <option value="gol" {% if filtros.accion == "gol" %}selected{% endif %}>Gol</option>
+                                    <option value="amarilla" {% if filtros.accion == "amarilla" %}selected{% endif %}>Amarilla</option>
+                                    <option value="roja" {% if filtros.accion == "roja" %}selected{% endif %}>Roja</option>
+                                </select>
+                            </div>
                     </div>
                 </div>
 
@@ -267,5 +268,19 @@
         </div>
     </div>
 </div>
+{% block scripts %}
+<script>
+    $(document).ready(function() {
+        // Convierte el desplegable de jugadores en un buscador
+        $('#jugador').select2({
+            placeholder: "Escribe para buscar un jugador"
+        });
 
+        // Convierte el desplegable de equipos en un buscador
+        $('#equipo').select2({
+            placeholder: "Escribe para buscar un equipo"
+        });
+    });
+</script>
+{% endblock %}
 {% endblock %}
