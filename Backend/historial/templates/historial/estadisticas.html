@@ -39,13 +39,11 @@
                 <div class="col-md-4">
                     <label for="jugador" class="form-label">Jugador</label>
                     <select name="jugador" id="jugador" class="form-select">
-                        <option value>Todos los jugadores</option>
-                        {% for jugador in jugadores %}
-                        <option value="{{ jugador.id }}" {% if filtros.jugador == jugador.id|stringformat:"s" %}selected{% endif %}>
-                            {{ jugador.nombre }} {{ jugador.apellido }}
-                        </option>
-                        {% endfor %}
-                    </select>
+                                <option value=""> Todos los jugadores </option>
+                                {% for j in jugadores %}
+                                    <option value="{{ j.id }}" {% if filtros.jugador == j.id|stringformat:"s" %}selected{% endif %}>{{ j.nombre }} {{ j.apellido }}</option>
+                                {% endfor %}
+                            </select>
                 </div>
                 
                 <!-- Rival -->
@@ -195,4 +193,19 @@
         </div>
     </div>
 </div>
+{% block scripts %}
+<script>
+    $(document).ready(function() {
+        // Convierte el desplegable de jugadores en un buscador
+        $('#jugador').select2({
+            placeholder: "Escribe para buscar un jugador"
+        });
+
+        // Convierte el desplegable de equipos en un buscador
+        $('#equipo').select2({
+            placeholder: "Escribe para buscar un equipo"
+        });
+    });
+</script>
+{% endblock %}
 {% endblock %}
