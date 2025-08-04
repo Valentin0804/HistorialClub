@@ -68,8 +68,9 @@ def temporada_actual(request):
     año_actual = timezone.now().year
 
     # Filtrar partidos cuya fecha sea en el año actual
+
     partidos = Partido.objects.filter(
-        fecha__year=año_actual
+        fecha__year=año_actual, jugado=True
     ).order_by('fecha')
 
     return render(request, 'historial/temporada_actual.html', {
@@ -97,7 +98,7 @@ def historicos(request):
     accion = request.GET.get('accion')  # 'gol', 'amarilla', 'roja'
 
     # Aplicar filtros
-    partidos = Partido.objects.all()
+    partidos = Partido.objects.filter(jugado=True)
 
     if temporada_seleccionada:
         partidos = partidos.filter(torneo__nombre=temporada_seleccionada)
@@ -287,7 +288,7 @@ def rivales(request):
     data = []
 
     for club in clubes:
-        partidos = Partido.objects.filter(rival=club)
+        partidos = Partido.objects.filter(rival=club, jugado=True)
 
         ganados = partidos.filter(goles_chabas__gt=F('goles_rival')).count()
         empatados = partidos.filter(goles_chabas=F('goles_rival')).count()
