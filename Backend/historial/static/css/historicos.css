@@ -96,6 +96,7 @@
 .stats-table {
   width: 100%;
   border-collapse: collapse;
+  background-color: var(--celeste-primario);
 }
 
 .stats-table th {
@@ -308,5 +309,30 @@
   .info-btn {
     font-size: 1.5rem;
     color: var(--celeste-primario);
+  }
+
+  .stats-table thead {
+        display: none;
+  }
+
+  .stats-table tr {
+      display: block;
+      margin-bottom: 1rem;
+      border: 1px solid #ddd;
+  }
+
+  .stats-table td {
+      display: block;
+      text-align: right;
+      padding-right: 15px;
+      position: relative;
+  }
+
+  .stats-table td::before { 
+      content: attr(data-label);
+      position: absolute;
+      left: 15px;
+      font-weight: bold;
+      text-align: left;
   }
 }

@@ -126,22 +126,23 @@
                     </div>
                 </div>
 
-                <!-- Botones -->
-                <div class="col-12 text-end mt-4">            
-                    <a class="btn btn-outline-primary" data-bs-toggle="collapse" href="#filtrosAvanzados" role="button"
-                        aria-expanded="false" aria-controls="filtrosAvanzados">
+                <!-- Botones -->       
+                <div class="d-flex justify-content-end flex-wrap mt-4" style="gap: 0.5rem;">
+                    <a class="btn btn-outline-primary" data-bs-toggle="collapse" href="#filtrosAvanzados" role="button" aria-expanded="false" aria-controls="filtrosAvanzados">
                         <i class="fas fa-cogs me-2"></i>Filtros Avanzados
+                    </a>
+                    
+                    <a href="{% url 'historicos' %}" class="btn btn-outline-secondary px-4">
+                        <i class="fas fa-broom me-2"></i>Limpiar
                     </a>
 
                     <button type="submit" class="btn btn-primary px-4">
                         <i class="fas fa-search me-2"></i>Filtrar
                     </button>
 
-                    <a href="{% url 'historicos' %}" class="btn btn-outline-secondary px-4">
-                        <i class="fas fa-broom me-2"></i>Limpiar
-                    </a>
+                    
                 </div>
-
+                
             </form>
         </div>
     </div>
@@ -162,10 +163,10 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td>{{ estadisticas.partidos }}</td>
-                        <td class="win">{{ estadisticas.victorias }}</td>
-                        <td class="loss">{{ estadisticas.derrotas }}</td>
-                        <td class="draw">{{ estadisticas.empates }}</td>
+                        <td data-label="Partidos">{{ estadisticas.partidos }}</td>
+                        <td data-label="Victorias" class="win">{{ estadisticas.victorias }}</td>
+                        <td data-label="Derrotas" class="loss">{{ estadisticas.derrotas }}</td>
+                        <td data-label="Empates" class="draw">{{ estadisticas.empates }}</td>
                     </tr>
                 </tbody>
             </table>
@@ -184,10 +185,10 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td class="goals-for">{{ estadisticas.goles_a_favor }}</td>
-                        <td class="goals-against">{{ estadisticas.goles_en_contra }}</td>
-                        <td>{{ estadisticas.amarillas }}</td>
-                        <td>{{ estadisticas.rojas }}</td>
+                        <td data-label="Goles a Favor" class="goals-for">{{ estadisticas.goles_a_favor }}</td>
+                        <td data-label="Goles en Contra" class="goals-against">{{ estadisticas.goles_en_contra }}</td>
+                        <td data-label="Amarrilas">{{ estadisticas.amarillas }}</td>
+                        <td data-label="Rojas">{{ estadisticas.rojas }}</td>
                     </tr>
                 </tbody>
             </table>
@@ -208,11 +209,11 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>{{ estadisticas.vallas_invictas }}</td>
-                    <td class="win-percentage">{{ estadisticas.porcentaje_victorias }}</td>
-                    <td>{{ estadisticas.max_racha_no_perdidos }}</td>
-                    <td>{{ estadisticas.promedio_goles_favor }}</td>
-                    <td>{{ estadisticas.promedio_goles_contra }}</td>
+                    <td data-label="Vallas invictas">{{ estadisticas.vallas_invictas }}</td>
+                    <td data-label="% Victorias" class="win-percentage">{{ estadisticas.porcentaje_victorias }}</td>
+                    <td data-label="Racha invicto">{{ estadisticas.max_racha_no_perdidos }}</td>
+                    <td data-label="Prom. GF">{{ estadisticas.promedio_goles_favor }}</td>
+                    <td data-label="Prom. GC">{{ estadisticas.promedio_goles_contra }}</td>
                 </tr>
             </tbody>
         </table>
