@@ -1,20 +1,16 @@
 {% extends "historial/base.html" %}
 {% load static %}
-
 {% block title %}Partidos Históricos{% endblock %}
-
 {% block extra_css %}
+
 <link rel="stylesheet" href="{% static 'css/historicos.css' %}">
 {% endblock %}
 
 {% block content %}
 
 <div class="container py-5">
-
     <div class="text-center mb-5">
-        <h1 class="display-4 fw-bold titulo1 mb-3">
-            <i class="fas fa-history me-2"></i>Partidos Históricos
-        </h1>
+        <h1 class="display-4 fw-bold titulo1 mb-3"><i class="fas fa-history me-2"></i>Partidos Históricos</h1>
         <p class="lead text-muted"> Resultados y estadisticas de todas las temporadas </p>
     </div>
 
@@ -67,8 +63,6 @@
                     </div>
                 </div>
 
-                
-
                 <!-- Filtros Avanzados -->
                 <div class="collapse mt-3" id="filtrosAvanzados">
                     <div class="row g-3">
@@ -93,6 +87,28 @@
                             <input type="number" min="1" name="ultimos" id="ultimos" value="{{ filtros.ultimos }}"
                                 class="form-control" placeholder="Ej: 10">
                         </div>
+                    
+                        <!-- Jugador -->
+                        <div class="col-md-4">
+                            <label for="jugador" class="form-label">Jugador</label>
+                            <select name="jugador" id="jugador" class="form-select">
+                                <option value=""> Todos </option>
+                                {% for j in jugadores %}
+                                    <option value="{{ j.id }}" {% if filtros.jugador == j.id|stringformat:"s" %}selected{% endif %}>{{ j.nombre }} {{ j.apellido }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <!-- Accion -->
+                        <div class="col-md-4">
+                            <label for="accion" class="form-label">Acción</label>
+                            <select name="accion" id="accion" class="form-select">
+                                <option value=""> Todas </option>
+                                <option value="gol" {% if filtros.accion == "gol" %}selected{% endif %}>Gol</option>
+                                <option value="amarilla" {% if filtros.accion == "amarilla" %}selected{% endif %}>Amarilla</option>
+                                <option value="roja" {% if filtros.accion == "roja" %}selected{% endif %}>Roja</option>
+                            </select>
+                        </div>
 
                         <!-- Desde tal partido 
                         <div class="col-md-6">
@@ -107,25 +123,6 @@
                             </select>
                         </div>-->
 
-                    
-                            <div class="col-md-4">
-                                <label for="jugador" class="form-label">Jugador</label>
-                                <select name="jugador" id="jugador" class="form-select">
-                                    <option value=""> Todos </option>
-                                    {% for j in jugadores %}
-                                        <option value="{{ j.id }}" {% if filtros.jugador == j.id|stringformat:"s" %}selected{% endif %}>{{ j.nombre }} {{ j.apellido }}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-                            <div class="col-md-4">
-                                <label for="accion" class="form-label">Acción</label>
-                                <select name="accion" id="accion" class="form-select">
-                                    <option value=""> Todas </option>
-                                    <option value="gol" {% if filtros.accion == "gol" %}selected{% endif %}>Gol</option>
-                                    <option value="amarilla" {% if filtros.accion == "amarilla" %}selected{% endif %}>Amarilla</option>
-                                    <option value="roja" {% if filtros.accion == "roja" %}selected{% endif %}>Roja</option>
-                                </select>
-                            </div>
                     </div>
                 </div>
 
@@ -139,15 +136,20 @@
                     <button type="submit" class="btn btn-primary px-4">
                         <i class="fas fa-search me-2"></i>Filtrar
                     </button>
+
                     <a href="{% url 'historicos' %}" class="btn btn-outline-secondary px-4">
                         <i class="fas fa-broom me-2"></i>Limpiar
                     </a>
                 </div>
+
             </form>
         </div>
     </div>
 
+    <!-- Estadisticas -->
     <div class="stats-grid">
+
+        <!-- Primera tabla -->
         <div class="card stats-card">
             <table class="stats-table">
                 <thead>
@@ -169,6 +171,7 @@
             </table>
         </div>
 
+        <!-- Segunda tabla -->
         <div class="card stats-card">
             <table class="stats-table">
                 <thead>
@@ -191,6 +194,7 @@
         </div>
     </div>
 
+    <!-- Tercer tabla -->
     <div class="card stats-card">
         <table class="stats-table">
             <thead>
@@ -214,6 +218,7 @@
         </table>
     </div>
 
+    <!-- Lista de Partidos -->
     <div class="matches-card">
         <h2>Listado de Partidos</h2>
         <div class="table-container">
@@ -229,6 +234,7 @@
                         <th>Detalles</th>
                     </tr>
                 </thead>
+
                 <tbody>
                     {% for partido in partidos %}
                     <tr class="{% if partido.goles_chabas > partido.goles_rival %}win-row
@@ -268,6 +274,7 @@
         </div>
     </div>
 </div>
+
 {% block scripts %}
 <script>
     $(document).ready(function() {

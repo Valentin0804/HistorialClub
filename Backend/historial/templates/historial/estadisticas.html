@@ -1,29 +1,28 @@
 {% extends "historial/base.html" %}
 {% load static %}
-
 {% block title %}Estadísticas - Club Atlético Chabás{% endblock %}
 {% block extra_css %}
+
 <link rel="stylesheet" href="{% static 'css/estadisticas.css' %}">
 {% endblock %}
 
 {% block content %}
+
 <div class="container py-5">
     <div class="text-center mb-5">
-        <h1 class="display-4 fw-bold titulo1 mb-3">
-            <i class="fas fa-chart-bar me-2"></i>Estadísticas del Club
-        </h1>
-        <p class="lead text-muted">Analiza el rendimiento de los jugadores a
-            través de los datos históricos</p>
+        <h1 class="display-4 fw-bold titulo1 mb-3"> <i class="fas fa-chart-bar me-2"></i>Estadísticas del Club </h1>
+        <p class="lead text-muted">Analiza el rendimiento de los jugadores a través de los datos históricos</p>
     </div>
 
     <!-- Filtros -->
     <div class="card border-0 shadow-sm mb-5">
         <div class="card-header bg-primary text-white py-3">
-            <h3 class="h5 mb-0"><i class="fas fa-filter me-2"></i>Filtrar
-                Estadísticas</h3>
+            <h3 class="h5 mb-0"><i class="fas fa-filter me-2"></i>Filtrar Estadísticas</h3>
         </div>
         <div class="card-body">
             <form method="get" class="row g-3">
+
+                <!-- Temporadas -->
                 <div class="col-md-4">
                     <label for="temporada" class="form-label">Temporada</label>
                     <select name="temporada" id="temporada" class="form-select">
@@ -35,6 +34,8 @@
                         {% endfor %}
                     </select>
                 </div>
+
+                <!-- Jugador -->
                 <div class="col-md-4">
                     <label for="jugador" class="form-label">Jugador</label>
                     <select name="jugador" id="jugador" class="form-select">
@@ -46,6 +47,8 @@
                         {% endfor %}
                     </select>
                 </div>
+                
+                <!-- Rival -->
                 <div class="col-md-4">
                     <label for="equipo" class="form-label">Equipo Rival</label>
                     <select name="equipo" id="equipo" class="form-select">
@@ -57,6 +60,8 @@
                         {% endfor %}
                     </select>
                 </div>
+
+                <!-- Botones -->
                 <div class="col-12 text-end">
                     <button type="submit" class="btn btn-primary px-4">
                         <i class="fas fa-search me-2"></i>Filtrar
@@ -66,19 +71,19 @@
                         <i class="fas fa-broom me-2"></i>Limpiar
                     </a>
                 </div>
+
             </form>
         </div>
     </div>
 
     <!-- Estadísticas -->
     <div class="row g-4">
+
         <!-- Goleadores -->
         <div class="col-lg-4">
             <div class="card border-0 shadow-sm h-100 stats-card">
                 <div class="card-header bg-primary text-white py-3">
-                    <h3 class="h5 mb-0">
-                        <i class="fas fa-futbol me-2"></i>Top Goleadores
-                    </h3>
+                    <h3 class="h5 mb-0"><i class="fas fa-futbol me-2"></i>Top Goleadores</h3>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -96,8 +101,7 @@
                                     <th scope="row">{{ forloop.counter }}</th>
                                     <td>{{ jugador.nombre }} {{ jugador.apellido }}</td>
                                     <td class="text-end">
-                                        <span
-                                            class="badge bg-primary rounded-pill">{{jugador.total_goles }}</span>
+                                        <span class="badge bg-primary rounded-pill">{{jugador.total_goles }}</span>
                                     </td>
                                 </tr>
                                 {% empty %}
@@ -117,8 +121,7 @@
             <div class="card border-0 shadow-sm h-100 stats-card">
                 <div class="card-header bg-warning text-dark py-3">
                     <h3 class="h5 mb-0">
-                        <i class="fas fa-exclamation-triangle me-2"></i>Top
-                        Amonestados
+                        <i class="fas fa-exclamation-triangle me-2"></i>Top Amonestados
                     </h3>
                 </div>
                 <div class="card-body">
@@ -128,8 +131,7 @@
                                 <tr>
                                     <th scope="col">#</th>
                                     <th scope="col">Jugador</th>
-                                    <th scope="col"
-                                        class="text-end">Amarillas</th>
+                                    <th scope="col" class="text-end">Amarillas</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -138,8 +140,7 @@
                                     <th scope="row">{{ forloop.counter }}</th>
                                     <td>{{ jugador.nombre }} {{ jugador.apellido }}</td>
                                     <td class="text-end">
-                                        <span
-                                            class="badge bg-warning rounded-pill">{{ jugador.total_amarillas }}</span>
+                                        <span class="badge bg-warning rounded-pill">{{ jugador.total_amarillas }}</span>
                                     </td>
                                 </tr>
                                 {% empty %}
@@ -178,8 +179,7 @@
                                     <th scope="row">{{ forloop.counter }}</th>
                                     <td>{{ jugador.nombre }} {{ jugador.apellido }}</td>
                                     <td class="text-end">
-                                        <span
-                                            class="badge bg-danger rounded-pill">{{jugador.total_rojas }}</span>
+                                        <span class="badge bg-danger rounded-pill">{{jugador.total_rojas }}</span>
                                     </td>
                                 </tr>
                                 {% empty %}

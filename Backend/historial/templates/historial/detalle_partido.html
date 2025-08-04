@@ -1,9 +1,8 @@
 {% extends "historial/base.html" %}
 {% load static %}
-
 {% block title %}Detalle del Partido{% endblock %}
-
 {% block extra_css %}
+
 <link rel="stylesheet" href="{% static 'css/detalle_partido.css' %}">
 {% endblock %}
 
@@ -13,20 +12,17 @@
     <div class="match-header">
         <div class="match-date">{{ partido.fecha|date:"d/m/Y" }}</div>
         <h1>{{ partido.torneo.nombre }}</h1>
-        <div class="match-divider"></div>
     </div>
 
     <div class="match-result-card">
         <div class="team-display">
             <div class="team home-team">
-                <img src="{% static 'img/logo_chabas.png' %}"
-                    alt="Logo CA Chabás" class="team-logo">
+                <img src="{% static 'img/logo_chabas.png' %}" alt="Logo CA Chabás" class="team-logo">
                 <div class="team-name">CA Chabás</div>
             </div>
 
             <div class="match-score">
-                <div
-                    class="match-condition {% if partido.tipo == 'L' %}local{% else %}visitor{% endif %}">
+                <div class="match-condition {% if partido.tipo == 'L' %}local{% else %}visitor{% endif %}">
                     {% if partido.tipo == 'L' %}Local{% else %}Visitante{% endif %}
                 </div>
                 <div class="match-condition">
@@ -43,6 +39,7 @@
                     <span class="separator">-</span>
                     <span class="goals">{{ partido.goles_rival }}</span>
                 </div>
+
                 <div class="vs-text">vs {{ partido.rival.nombre }}</div>
             </div>
 
@@ -58,12 +55,11 @@
         </div>
     </div>
 
-    <!-- Goles -->
+    
     <div class="match-details">
+        <!-- Goles -->
         <div class="detail-section">
-            <h2 class="section-title">
-                <i class="fas fa-futbol"></i> Goles
-            </h2>
+            <h2 class="section-title"><i class="fas fa-futbol"></i> Goles </h2>
             {% if goles %}
             <ul class="detail-list">
                 {% for gol in goles %}
@@ -99,9 +95,7 @@
 
         <!-- Tarjetas Rojas -->
         <div class="detail-section">
-            <h2 class="section-title red-card">
-                <i class="fas fa-square red"></i> Expulsiones
-            </h2>
+            <h2 class="section-title red-card"> <i class="fas fa-square red"></i> Expulsiones </h2>
             {% if rojas %}
             <ul class="detail-list">
                 {% for roja in rojas %}
@@ -116,15 +110,13 @@
             {% endif %}
         </div>
 
+        <!-- Observaciones -->
         <div class="detail-section">
-            <h2 class="section-title">
-                <i class="fas fa-square"></i> Observaciones
-            </h2>
+            <h2 class="section-title"> <i class="fas fa-square"></i> Observaciones </h2>
             {% if descripcion %}
-            <p><strong>Observaciones:</strong> {{ descripcion }}</p>
+            <p>{{ descripcion }}</p>
             {% else %}
-            <div class="empty-message">No hubo observaciones en este
-                partido</div>
+            <div class="empty-message">No hubo observaciones en este partido</div>
             {% endif %}
         </div>
 
@@ -133,6 +125,7 @@
     <div class="match-footer">
         <p>(0') = No hay datos del minuto del partido</p>
     </div>
+
 </div>
 
 {% endblock %}
