@@ -1,0 +1,55 @@
+# Usar una imagen oficial de Python como imagen base
+FROM python:3.11-slim AS builder
+
+# Crear directorio de la aplicación
+RUN mkdir /app
+
+# Crear y establecer el directorio de trabajo
+WORKDIR /app 
+
+# set variables de entorno 
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
+# Actualizar pip
+RUN pip install --upgrade pip
+
+# Copiar el archivo de requisitos e instalar las dependencias
+COPY requirements.txt /app/requirements.txt
+RUN pip install -r requirements.txt 
+
+# Correr comando de instalacion de todas las dependencias
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Escenario 2: producción
+FROM python:3.11-slim
+
+RUN useradd -m -r appuser && \
+    mkdir -p /app && \
+    chown appuser:appuser /app
+
+# Copia dependencias de python desde el builder
+COPY --from=builder /usr/local/lib/python3.11/site-packages /usr/local/lib/python3.11/site-packages/
+COPY --from=builder /usr/local/bin /usr/local/bin/
+
+# Setear el directorio de trabajo
+WORKDIR /app
+
+# Copiar el resto del código de la aplicación
+COPY --chown=appuser:appuser . .
+
+# Recolectar archivos estáticos
+RUN python manage.py collectstatic --noinput
+
+# set variables de entorno 
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
+# Switch to non-root user
+USER appuser
+
+# Puerto expuesto
+EXPOSE 8000
+
+# Correr django en modo desarrollo
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "--workers", "3", "core.wsgi:application"]

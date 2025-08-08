@@ -1,0 +1,73 @@
+# Entorno Virtual
+# Ignora la carpeta del entorno virtual, que contiene miles de archivos
+# y es específica de tu sistema operativo.
+venv/
+/venv/
+.venv/
+
+# Variables de Entorno
+# El archivo .env contiene secretos y configuración local. ¡Nunca debe ir a Git!
+.env
+*.env
+
+# Bases de datos locales
+# La base de datos de desarrollo no debe estar en el repositorio.
+db.sqlite3
+/db.sqlite3
+
+# Archivos de caché y compilados de Python
+# Estos archivos se generan automáticamente.
+__pycache__/
+*.pyc
+
+# Archivos de configuración de IDEs
+# Ignora la configuración específica de tu editor de código.
+.vscode/
+.idea/
+
+# Archivos de medios y estáticos generados por el usuario
+# Típicamente, los archivos subidos por los usuarios no van en el repo.
+# Si tienes una carpeta de medios, añádela aquí.
+# /mediafiles/
+
+# Archivos de registro
+*.log
+logs/
+
+# Reportes de pruebas
+/htmlcov/
+.coverage
+
+### Django ###
+*.log
+*.pot
+*.pyc
+_pycache_/
+/migrations/
+*/migrations/
+/logs/
+db.sqlite3
+staticfiles
+Backend/historial/__pycache__/models.cpython-312.pyc
+Backend/core/__pycache__/__init__.cpython-312.pyc
+Backend/core/__pycache__/settings.cpython-310.pyc
+Backend/core/__pycache__/settings.cpython-312.pyc
+Backend/core/__pycache__/urls.cpython-312.pyc
+Backend/core/__pycache__/__init__.cpython-312.pyc
+Backend/core/__pycache__/settings.cpython-310.pyc
+Backend/core/__pycache__/settings.cpython-312.pyc
+Backend/core/__pycache__/urls.cpython-312.pyc
+Backend/core/__pycache__/wsgi.cpython-312.pyc
+Backend/historial/__pycache__/__init__.cpython-312.pyc
+Backend/historial/__pycache__/admin.cpython-312.pyc
+Backend/historial/__pycache__/apps.cpython-312.pyc
+Backend/historial/__pycache__/models.cpython-310.pyc
+Backend/historial/__pycache__/models.cpython-312.pyc
+Backend/historial/__pycache__/views.cpython-312.pyc
+Backend/historial/migrations/__pycache__/__init__.cpython-312.pyc
+Backend/historial/migrations/__pycache__/0001_initial.cpython-312.pyc
+Backend/historial/migrations/__pycache__/0002_partido_arbitro_partido_instancia.cpython-312.pyc
+Backend/historial/migrations/__pycache__/0003_remove_jugador_fecha_ingreso_and_more.cpython-312.pyc
+Backend/historial/migrations/__pycache__/0004_partido_descripcion.cpython-312.pyc
+Backend/historial/migrations/__pycache__/0005_partido_jugado_alter_partido_fecha.cpython-312.pyc
+Backend/historial/migrations/__pycache__/0006_alter_partido_jugado.cpython-312.pyc

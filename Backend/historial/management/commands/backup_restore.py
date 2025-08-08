@@ -20,10 +20,10 @@ from historial.models import (
 # --- Instrucciones de Uso ---
 #
 # Para crear una copia de seguridad:
-# python manage.py backup_futbol --backup
+# python manage.py backup_restore --backup
 #
 # Para restaurar una copia de seguridad (asegúrate de que la base de datos esté vacía o preparada):
-# python manage.py backup_futbol --restore --filepath backups/backup_futbol_20250727_180000.json
+# python manage.py backup_restore --restore --filepath backups/backup_futbol_20250805_232559.json
 #
 # Para crear un archivo CSV con las estadísticas de los jugadores:
 # python manage.py backup_futbol --export-csv

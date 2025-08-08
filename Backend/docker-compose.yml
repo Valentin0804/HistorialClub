@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  # Servicio de la aplicación Django
+  django-web:
+    build: .
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    environment:
+      - DEBUG=True
+      - SECRET_KEY=d%h(@su5d^ra4j=9tcstm^9@@ifk*ej&iyy=%-k-uzj#5mj!wj
+      - DATABASE_URL=postgresql://factora_user:factora_password@db:5432/factora_db
+      - USE_DOCKER=True
+      - ALLOWED_HOSTS=127.0.0.1, localhost, atleticochabas.info, historialclub-production.up.railway.app, 0.0.0.0
+    depends_on:
+      - db
+
+  # Servicio de la base de datos PostgreSQL
+  db:
+    image: postgres:16-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_DB=factora_db
+      - POSTGRES_USER=factora_user
+      - POSTGRES_PASSWORD=factora_password
+    ports:
+      - "5432:5432"
+
+volumes:
+  postgres_data:

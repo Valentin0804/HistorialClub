@@ -56,29 +56,11 @@
         },
         {
             "model": "historial.torneo",
-            "pk": 7,
-            "fields": {
-                "nombre": "TORNEO APERTURA 2022",
-                "fecha_inicio": "2022-07-01",
-                "fecha_fin": "2022-02-20"
-            }
-        },
-        {
-            "model": "historial.torneo",
             "pk": 8,
             "fields": {
                 "nombre": "TORNEO CLAUSURA 2025",
                 "fecha_inicio": "2025-06-20",
                 "fecha_fin": "2025-12-22"
-            }
-        },
-        {
-            "model": "historial.torneo",
-            "pk": 9,
-            "fields": {
-                "nombre": "TORNEO 2021",
-                "fecha_inicio": "2021-12-10",
-                "fecha_fin": "2021-04-01"
             }
         },
         {
@@ -113,8 +95,26 @@
             "pk": 17,
             "fields": {
                 "nombre": "PARTIDOS HISTORICOS",
-                "fecha_inicio": "2017-01-01",
-                "fecha_fin": "1995-12-31"
+                "fecha_inicio": "1995-12-31",
+                "fecha_fin": "2017-01-01"
+            }
+        },
+        {
+            "model": "historial.torneo",
+            "pk": 9,
+            "fields": {
+                "nombre": "TORNEO 2021",
+                "fecha_inicio": "2021-04-01",
+                "fecha_fin": "2021-12-10"
+            }
+        },
+        {
+            "model": "historial.torneo",
+            "pk": 7,
+            "fields": {
+                "nombre": "TORNEO APERTURA 2022",
+                "fecha_inicio": "2022-02-20",
+                "fecha_fin": "2022-07-01"
             }
         }
     ],
@@ -125,7 +125,7 @@
             "fields": {
                 "nombre": "Atlético Sportivo Matienzo",
                 "localidad": "Pujato",
-                "fundacion": "1994-09-29",
+                "fundacion": "1994-09-28",
                 "escudo": "",
                 "campeonatos": 0,
                 "activo": true
@@ -137,7 +137,7 @@
             "fields": {
                 "nombre": "Atlético Sanford",
                 "localidad": "Sanford",
-                "fundacion": "1926-05-15",
+                "fundacion": "1926-05-14",
                 "escudo": "",
                 "campeonatos": 3,
                 "activo": true
@@ -149,7 +149,7 @@
             "fields": {
                 "nombre": "Casilda Club",
                 "localidad": "Casilda",
-                "fundacion": "1994-09-29",
+                "fundacion": "1994-09-28",
                 "escudo": "",
                 "campeonatos": 0,
                 "activo": true
@@ -161,7 +161,7 @@
             "fields": {
                 "nombre": "Unión Casildense",
                 "localidad": "Casilda",
-                "fundacion": "1986-06-29",
+                "fundacion": "1986-06-28",
                 "escudo": "",
                 "campeonatos": 2,
                 "activo": true
@@ -173,7 +173,7 @@
             "fields": {
                 "nombre": "Racing de Villada",
                 "localidad": "Villada",
-                "fundacion": "1950-02-19",
+                "fundacion": "1950-02-18",
                 "escudo": "",
                 "campeonatos": 0,
                 "activo": true
@@ -185,7 +185,7 @@
             "fields": {
                 "nombre": "Belgrano",
                 "localidad": "Arequito",
-                "fundacion": "1923-03-23",
+                "fundacion": "1923-03-22",
                 "escudo": "",
                 "campeonatos": 12,
                 "activo": true
@@ -197,7 +197,7 @@
             "fields": {
                 "nombre": "Huracán",
                 "localidad": "Chabás",
-                "fundacion": "1930-07-05",
+                "fundacion": "1930-07-04",
                 "escudo": "",
                 "campeonatos": 7,
                 "activo": true
@@ -209,7 +209,7 @@
             "fields": {
                 "nombre": "9 de Julio",
                 "localidad": "Arequito",
-                "fundacion": "1918-06-18",
+                "fundacion": "1918-06-17",
                 "escudo": "",
                 "campeonatos": 10,
                 "activo": true
@@ -221,7 +221,7 @@
             "fields": {
                 "nombre": "Atlético Pujato",
                 "localidad": "Pujato",
-                "fundacion": "1934-01-31",
+                "fundacion": "1934-01-30",
                 "escudo": "",
                 "campeonatos": 8,
                 "activo": true
@@ -233,7 +233,7 @@
             "fields": {
                 "nombre": "Aprendices Casildenses",
                 "localidad": "Casilda",
-                "fundacion": "1917-07-17",
+                "fundacion": "1917-07-16",
                 "escudo": "",
                 "campeonatos": 15,
                 "activo": true
@@ -245,7 +245,7 @@
             "fields": {
                 "nombre": "Unión Deportiva",
                 "localidad": "Los Molinos",
-                "fundacion": "1938-07-09",
+                "fundacion": "1938-07-08",
                 "escudo": "",
                 "campeonatos": 6,
                 "activo": true
@@ -257,7 +257,7 @@
             "fields": {
                 "nombre": "Alumni",
                 "localidad": "Casilda",
-                "fundacion": "1907-08-04",
+                "fundacion": "1907-08-03",
                 "escudo": "",
                 "campeonatos": 18,
                 "activo": true
@@ -269,7 +269,7 @@
             "fields": {
                 "nombre": "Unidos Atlético Club",
                 "localidad": "Zavalla",
-                "fundacion": "1981-06-16",
+                "fundacion": "1981-06-15",
                 "escudo": "",
                 "campeonatos": 0,
                 "activo": true
@@ -281,7 +281,7 @@
             "fields": {
                 "nombre": "Arnold Futbol Club",
                 "localidad": "Coronel Arnold",
-                "fundacion": "1940-06-02",
+                "fundacion": "1940-06-01",
                 "escudo": "",
                 "campeonatos": 0,
                 "activo": false
@@ -293,7 +293,7 @@
             "fields": {
                 "nombre": "Alianza Deportiva",
                 "localidad": "Fuentes",
-                "fundacion": "2018-01-08",
+                "fundacion": "2018-01-07",
                 "escudo": "",
                 "campeonatos": 0,
                 "activo": false
@@ -1451,20 +1451,6 @@
         },
         {
             "model": "historial.jugador",
-            "pk": 88,
-            "fields": {
-                "posicion": "SD",
-                "nombre": "Nicolas",
-                "apellido": "Castillo",
-                "foto": "",
-                "estado": "A",
-                "goles_totales": 0,
-                "amarillas_totales": 0,
-                "rojas_totales": 0
-            }
-        },
-        {
-            "model": "historial.jugador",
             "pk": 89,
             "fields": {
                 "posicion": "DEF",
@@ -2030,6 +2016,20 @@
                 "posicion": "SD",
                 "nombre": "Ariel",
                 "apellido": "Bullo",
+                "foto": "",
+                "estado": "A",
+                "goles_totales": 0,
+                "amarillas_totales": 0,
+                "rojas_totales": 0
+            }
+        },
+        {
+            "model": "historial.jugador",
+            "pk": 88,
+            "fields": {
+                "posicion": "SD",
+                "nombre": "Nicolas",
+                "apellido": "Castillo",
                 "foto": "",
                 "estado": "A",
                 "goles_totales": 0,
@@ -4670,23 +4670,6 @@
         },
         {
             "model": "historial.partido",
-            "pk": 40,
-            "fields": {
-                "fecha": "2024-04-10",
-                "torneo": 3,
-                "rival": 6,
-                "arbitro": "",
-                "instancia": "Fecha",
-                "altura": "No definido",
-                "tipo": "L",
-                "goles_chabas": 1,
-                "goles_rival": 0,
-                "descripcion": null,
-                "jugado": true
-            }
-        },
-        {
-            "model": "historial.partido",
             "pk": 41,
             "fields": {
                 "fecha": "2024-04-07",
@@ -4852,23 +4835,6 @@
                 "goles_chabas": 3,
                 "goles_rival": 1,
                 "descripcion": null,
-                "jugado": true
-            }
-        },
-        {
-            "model": "historial.partido",
-            "pk": 51,
-            "fields": {
-                "fecha": "2023-09-17",
-                "torneo": 4,
-                "rival": 2,
-                "arbitro": "",
-                "instancia": "CuaVue",
-                "altura": "No definido",
-                "tipo": "V",
-                "goles_chabas": 1,
-                "goles_rival": 1,
-                "descripcion": "",
                 "jugado": true
             }
         },
@@ -5163,23 +5129,6 @@
         },
         {
             "model": "historial.partido",
-            "pk": 69,
-            "fields": {
-                "fecha": "2025-05-25",
-                "torneo": 1,
-                "rival": 11,
-                "arbitro": "Juan Criz Espip",
-                "instancia": "Fecha",
-                "altura": "No definido",
-                "tipo": "L",
-                "goles_chabas": 1,
-                "goles_rival": 1,
-                "descripcion": "",
-                "jugado": true
-            }
-        },
-        {
-            "model": "historial.partido",
             "pk": 70,
             "fields": {
                 "fecha": "2025-06-01",
@@ -5429,6 +5378,40 @@
                 "tipo": "L",
                 "goles_chabas": 6,
                 "goles_rival": 0,
+                "descripcion": "",
+                "jugado": true
+            }
+        },
+        {
+            "model": "historial.partido",
+            "pk": 40,
+            "fields": {
+                "fecha": "2024-04-10",
+                "torneo": 3,
+                "rival": 6,
+                "arbitro": "",
+                "instancia": "Fecha",
+                "altura": "No definido",
+                "tipo": "L",
+                "goles_chabas": 1,
+                "goles_rival": 2,
+                "descripcion": "",
+                "jugado": true
+            }
+        },
+        {
+            "model": "historial.partido",
+            "pk": 51,
+            "fields": {
+                "fecha": "2023-09-17",
+                "torneo": 4,
+                "rival": 2,
+                "arbitro": "Nahuel Franco",
+                "instancia": "CuaVue",
+                "altura": "No definido",
+                "tipo": "V",
+                "goles_chabas": 1,
+                "goles_rival": 1,
                 "descripcion": "",
                 "jugado": true
             }
@@ -5860,23 +5843,6 @@
         },
         {
             "model": "historial.partido",
-            "pk": 110,
-            "fields": {
-                "fecha": "2022-02-25",
-                "torneo": 7,
-                "rival": 6,
-                "arbitro": "",
-                "instancia": "Fecha",
-                "altura": "No definido",
-                "tipo": "V",
-                "goles_chabas": 2,
-                "goles_rival": 2,
-                "descripcion": "",
-                "jugado": true
-            }
-        },
-        {
-            "model": "historial.partido",
             "pk": 111,
             "fields": {
                 "fecha": "2025-06-22",
@@ -6077,23 +6043,6 @@
                 "goles_rival": 0,
                 "descripcion": "",
                 "jugado": true
-            }
-        },
-        {
-            "model": "historial.partido",
-            "pk": 123,
-            "fields": {
-                "fecha": "2025-07-27",
-                "torneo": 8,
-                "rival": 6,
-                "arbitro": "",
-                "instancia": "Fecha",
-                "altura": "No definido",
-                "tipo": "L",
-                "goles_chabas": 0,
-                "goles_rival": 0,
-                "descripcion": "",
-                "jugado": false
             }
         },
         {
@@ -6914,6 +6863,23 @@
         },
         {
             "model": "historial.partido",
+            "pk": 110,
+            "fields": {
+                "fecha": "2022-02-25",
+                "torneo": 7,
+                "rival": 6,
+                "arbitro": "",
+                "instancia": "Fecha",
+                "altura": "No definido",
+                "tipo": "V",
+                "goles_chabas": 2,
+                "goles_rival": 1,
+                "descripcion": "",
+                "jugado": true
+            }
+        },
+        {
+            "model": "historial.partido",
             "pk": 172,
             "fields": {
                 "fecha": "2018-06-03",
@@ -7101,23 +7067,6 @@
         },
         {
             "model": "historial.partido",
-            "pk": 183,
-            "fields": {
-                "fecha": "2018-03-04",
-                "torneo": 15,
-                "rival": 3,
-                "arbitro": "",
-                "instancia": "Fecha",
-                "altura": "Ronda 1",
-                "tipo": "V",
-                "goles_chabas": 2,
-                "goles_rival": 2,
-                "descripcion": "",
-                "jugado": true
-            }
-        },
-        {
-            "model": "historial.partido",
             "pk": 184,
             "fields": {
                 "fecha": "2017-08-27",
@@ -7213,40 +7162,6 @@
                 "altura": "Ronda 1",
                 "tipo": "L",
                 "goles_chabas": 3,
-                "goles_rival": 0,
-                "descripcion": "",
-                "jugado": true
-            }
-        },
-        {
-            "model": "historial.partido",
-            "pk": 190,
-            "fields": {
-                "fecha": "2014-10-13",
-                "torneo": 17,
-                "rival": 7,
-                "arbitro": "",
-                "instancia": "Fecha",
-                "altura": "Ronda 2",
-                "tipo": "V",
-                "goles_chabas": 2,
-                "goles_rival": 0,
-                "descripcion": "No se encontraron datos de los autores de los goles.",
-                "jugado": true
-            }
-        },
-        {
-            "model": "historial.partido",
-            "pk": 191,
-            "fields": {
-                "fecha": "2014-06-15",
-                "torneo": 17,
-                "rival": 7,
-                "arbitro": "",
-                "instancia": "Fecha",
-                "altura": "Ronda 1",
-                "tipo": "L",
-                "goles_chabas": 2,
                 "goles_rival": 0,
                 "descripcion": "",
                 "jugado": true
@@ -7628,23 +7543,6 @@
         },
         {
             "model": "historial.partido",
-            "pk": 214,
-            "fields": {
-                "fecha": "2004-10-13",
-                "torneo": 17,
-                "rival": 7,
-                "arbitro": "",
-                "instancia": "Fecha",
-                "altura": "Ronda 2",
-                "tipo": "V",
-                "goles_chabas": 0,
-                "goles_rival": 0,
-                "descripcion": "2900 personas. Atlético detonó más de 1400 tres tiros. 4500 explosiones.",
-                "jugado": true
-            }
-        },
-        {
-            "model": "historial.partido",
             "pk": 215,
             "fields": {
                 "fecha": "2004-07-12",
@@ -7832,23 +7730,6 @@
         },
         {
             "model": "historial.partido",
-            "pk": 226,
-            "fields": {
-                "fecha": "1997-09-14",
-                "torneo": 17,
-                "rival": 7,
-                "arbitro": "Nuñez",
-                "instancia": "Fecha",
-                "altura": "Playoff",
-                "tipo": "L",
-                "goles_chabas": 4,
-                "goles_rival": 3,
-                "descripcion": "",
-                "jugado": true
-            }
-        },
-        {
-            "model": "historial.partido",
             "pk": 227,
             "fields": {
                 "fecha": "1997-06-26",
@@ -7877,6 +7758,142 @@
                 "tipo": "V",
                 "goles_chabas": 0,
                 "goles_rival": 1,
+                "descripcion": "",
+                "jugado": true
+            }
+        },
+        {
+            "model": "historial.partido",
+            "pk": 214,
+            "fields": {
+                "fecha": "2004-10-13",
+                "torneo": 17,
+                "rival": 7,
+                "arbitro": "",
+                "instancia": "Fecha",
+                "altura": "Ronda 2",
+                "tipo": "V",
+                "goles_chabas": 1,
+                "goles_rival": 0,
+                "descripcion": "2900 personas. Atlético detonó más de 1400 tres tiros. 4500 explosiones.",
+                "jugado": true
+            }
+        },
+        {
+            "model": "historial.partido",
+            "pk": 69,
+            "fields": {
+                "fecha": "2025-05-25",
+                "torneo": 1,
+                "rival": 11,
+                "arbitro": "Juan Cruz Espip",
+                "instancia": "Fecha",
+                "altura": "No definido",
+                "tipo": "L",
+                "goles_chabas": 1,
+                "goles_rival": 1,
+                "descripcion": "",
+                "jugado": true
+            }
+        },
+        {
+            "model": "historial.partido",
+            "pk": 226,
+            "fields": {
+                "fecha": "1997-09-14",
+                "torneo": 17,
+                "rival": 7,
+                "arbitro": "Nuñez",
+                "instancia": "Rep",
+                "altura": "Playoff",
+                "tipo": "L",
+                "goles_chabas": 4,
+                "goles_rival": 3,
+                "descripcion": "",
+                "jugado": true
+            }
+        },
+        {
+            "model": "historial.partido",
+            "pk": 191,
+            "fields": {
+                "fecha": "2014-06-15",
+                "torneo": 17,
+                "rival": 7,
+                "arbitro": "",
+                "instancia": "Fecha",
+                "altura": "Ronda 1",
+                "tipo": "L",
+                "goles_chabas": 2,
+                "goles_rival": 0,
+                "descripcion": "",
+                "jugado": true
+            }
+        },
+        {
+            "model": "historial.partido",
+            "pk": 229,
+            "fields": {
+                "fecha": "2014-10-13",
+                "torneo": 17,
+                "rival": 7,
+                "arbitro": "",
+                "instancia": "Fecha",
+                "altura": "Ronda 2",
+                "tipo": "V",
+                "goles_chabas": 2,
+                "goles_rival": 0,
+                "descripcion": "",
+                "jugado": true
+            }
+        },
+        {
+            "model": "historial.partido",
+            "pk": 230,
+            "fields": {
+                "fecha": "2025-08-10",
+                "torneo": 8,
+                "rival": 7,
+                "arbitro": "",
+                "instancia": "Fecha",
+                "altura": "No definido",
+                "tipo": "V",
+                "goles_chabas": 0,
+                "goles_rival": 0,
+                "descripcion": "",
+                "jugado": false
+            }
+        },
+        {
+            "model": "historial.partido",
+            "pk": 183,
+            "fields": {
+                "fecha": "2018-03-04",
+                "torneo": 15,
+                "rival": 3,
+                "arbitro": "",
+                "instancia": "Fecha",
+                "altura": "Ronda 1",
+                "tipo": "V",
+                "goles_chabas": 2,
+                "goles_rival": 2,
+                "descripcion": "",
+                "jugado": true
+            }
+        },
+        {
+            "model": "historial.partido",
+            "pk": 123,
+            "fields": {
+                "fecha": "2025-08-03",
+                "torneo": 8,
+                "rival": 6,
+                "arbitro": "Julian Espíndola",
+                "instancia": "Fecha",
+                "altura": "No definido",
+                "tipo": "L",
+                "goles_chabas": 1,
+                "goles_rival": 0,
                 "descripcion": "",
                 "jugado": true
             }
@@ -10324,15 +10341,6 @@
         },
         {
             "model": "historial.gol",
-            "pk": 276,
-            "fields": {
-                "partido": 191,
-                "jugador": 6,
-                "minuto": 7
-            }
-        },
-        {
-            "model": "historial.gol",
             "pk": 277,
             "fields": {
                 "partido": 191,
@@ -10779,6 +10787,42 @@
                 "partido": 227,
                 "jugador": 125,
                 "minuto": 91
+            }
+        },
+        {
+            "model": "historial.gol",
+            "pk": 276,
+            "fields": {
+                "partido": 191,
+                "jugador": 6,
+                "minuto": 7
+            }
+        },
+        {
+            "model": "historial.gol",
+            "pk": 327,
+            "fields": {
+                "partido": 229,
+                "jugador": 32,
+                "minuto": 0
+            }
+        },
+        {
+            "model": "historial.gol",
+            "pk": 328,
+            "fields": {
+                "partido": 229,
+                "jugador": 88,
+                "minuto": 0
+            }
+        },
+        {
+            "model": "historial.gol",
+            "pk": 329,
+            "fields": {
+                "partido": 123,
+                "jugador": 4,
+                "minuto": 60
             }
         }
     ],
@@ -13374,6 +13418,42 @@
                 "jugador": 110,
                 "minuto": 0
             }
+        },
+        {
+            "model": "historial.tarjetaamarilla",
+            "pk": 294,
+            "fields": {
+                "partido": 183,
+                "jugador": 83,
+                "minuto": 0
+            }
+        },
+        {
+            "model": "historial.tarjetaamarilla",
+            "pk": 295,
+            "fields": {
+                "partido": 123,
+                "jugador": 1,
+                "minuto": 0
+            }
+        },
+        {
+            "model": "historial.tarjetaamarilla",
+            "pk": 296,
+            "fields": {
+                "partido": 123,
+                "jugador": 2,
+                "minuto": 0
+            }
+        },
+        {
+            "model": "historial.tarjetaamarilla",
+            "pk": 297,
+            "fields": {
+                "partido": 123,
+                "jugador": 67,
+                "minuto": 0
+            }
         }
     ],
     "TarjetaRoja": [
@@ -13715,15 +13795,6 @@
             "pk": 38,
             "fields": {
                 "partido": 169,
-                "jugador": 83,
-                "minuto": 0
-            }
-        },
-        {
-            "model": "historial.tarjetaroja",
-            "pk": 39,
-            "fields": {
-                "partido": 183,
                 "jugador": 83,
                 "minuto": 0
             }
