@@ -60,6 +60,7 @@ def detalle_partido(request, partido_id):
         'rojas': partido.tarjetaroja_set.all().order_by('minuto'),
         'arbitro': partido.arbitro if partido.arbitro else None,
         'instancia': partido.get_instancia_display(),
+        'altura': partido.get_altura_display(),
         'descripcion': partido.descripcion
     })
 
@@ -78,7 +79,7 @@ def temporada_actual(request):
         'temporada_actual': f"Temporada {año_actual}"
     })
 
-def historicos(request):
+def historicos(request, club_id=None):
     # Filtros y opciones
     años_disponibles = Partido.objects.dates('fecha', 'year', order='DESC')
     equipos = Club.objects.all()
@@ -100,14 +101,18 @@ def historicos(request):
     # Aplicar filtros
     partidos = Partido.objects.filter(jugado=True)
 
+    if club_id:
+        partidos = partidos.filter(rival__id=club_id)
+        equipo_seleccionado = str(club_id) 
+
+    elif equipo_seleccionado and equipo_seleccionado.isdigit():
+        partidos = partidos.filter(rival__id=int(equipo_seleccionado))
+
     if temporada_seleccionada:
         partidos = partidos.filter(torneo__nombre=temporada_seleccionada)
 
     if año_seleccionado and año_seleccionado.isdigit():
         partidos = partidos.filter(fecha__year=int(año_seleccionado))
-
-    if equipo_seleccionado and equipo_seleccionado.isdigit():
-        partidos = partidos.filter(rival__id=int(equipo_seleccionado))
 
     if fecha_desde:
         partidos = partidos.filter(fecha__gte=fecha_desde)
@@ -295,6 +300,7 @@ def rivales(request):
         perdidos = partidos.filter(goles_chabas__lt=F('goles_rival')).count()
 
         data.append({
+            'id': club.id,
             'nombre': club.nombre,
             'fundacion': club.fundacion,
             'campeonatos': club.campeonatos,

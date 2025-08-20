@@ -26,8 +26,11 @@
                     {% if partido.tipo == 'L' %}Local{% else %}Visitante{% endif %}
                 </div>
                 <div class="match-condition">
-                    <p><strong>Instancia:</strong> {{ instancia }}</p>
+                    <p><strong>Instancia: </strong> {{ instancia }} {% if altura != 'ND' %} -
+                    {{ altura }}</p>
+                    {% endif %}
                 </div>
+                
                 <div class="match-condition">
                     {% if arbitro %}
                     <p><strong>Árbitro:</strong> {{ arbitro }}</p>

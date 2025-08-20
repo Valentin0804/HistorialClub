@@ -12,6 +12,7 @@ urlpatterns = [
     path('estadisticas/', views.estadisticas, name='estadisticas'),
     path('temporada-actual/', views.temporada_actual, name='temporada_actual'),
     path('historicos/', views.historicos, name='historicos'),
+    path('historicos/club/<int:club_id>/', views.historicos, name='historicos_por_club'),
     path('rivales/', views.rivales, name='rivales'),
     path('jugadores_por_anio/', views.jugadores_por_anio, name='jugadores_por_anio'),
     path('sobre_datos/', views.sobre_datos, name='sobre_datos'),
