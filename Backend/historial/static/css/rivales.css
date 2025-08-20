@@ -84,6 +84,15 @@
   color: var(--naranja-neutral);
 }
 
+.btn-full-fino {
+    display: block;          
+    width: 100%;            
+    padding-top: 0.25rem;   
+    padding-bottom: 0.25rem; 
+    font-size: 0.9rem;      
+    margin-top: 1rem;      
+}
+
 /* Ajuste Responsive */
 @media (max-width: 768px) {
   .rival-logo {
