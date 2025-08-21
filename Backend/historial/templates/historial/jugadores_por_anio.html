@@ -24,7 +24,7 @@
                     <option value=""> Elegir Año </option>
                         {% for a in anios_disponibles %}
                             <option value="{{ a }}" {% if a|stringformat:"s" == anio_seleccionado %}selected{% endif %}>
-                                {% if a == 2017 %}
+                                {% if a == 1995 %}
                                     Jugadores históricos
                                 {% else %}
                                     {{ a }}
