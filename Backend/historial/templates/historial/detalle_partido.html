@@ -1,4 +1,5 @@
 {% extends "historial/base.html" %}
+{% load youtube_filters %}
 {% load static %}
 {% block title %}Detalle del Partido{% endblock %}
 {% block extra_css %}
@@ -134,20 +135,18 @@
         <h2>Videos del Partido</h2> {# Título de la sección de videos #}
         {% if videos %}
             {% for video in videos %}
-                <div class="video-container">
-                    <h3 class="video-title">{{ video.clasificacion }}: {{ video.titulo|default:video.clasificacion }}</h3>
+                <p>{{ video.titulo }}</p>
                     <iframe 
-                        class="video-embed"
-                        src="https://www.youtube.com/embed/{{ video.get_youtube_id }}" 
+                        width="560" 
+                        height="315" 
+                        src="{{ video.url_youtube|youtube_embed_url }}" 
+                        title="{{ video.titulo }}" 
                         frameborder="0" 
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                         allowfullscreen>
                     </iframe>
-                    <p>
-                        <span class="video-url-label">URL:</span> 
-                        <a href="{{ video.url_youtube }}" target="_blank" class="video-url-link">{{ video.url_youtube }}</a>
-                    </p>
-                </div>
+                    <p>URL original: {{ video.url_youtube }}</p>
+                <hr>
             {% endfor %}
         {% else %}
             <div class="no-videos-message">
