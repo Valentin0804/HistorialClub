@@ -184,6 +184,55 @@
     </div>
 </div>
 <hr class="my-3 bg-white">
+{% if efemeride %}
+<div class="row justify-content-center mb-5">
+    <div class="col-lg-8">
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0"><i class="fas fa-calendar-day me-2"></i>Efeméride del Día</h4>
+            </div>
+            <div class="card-body">
+                <div class="text-center mb-3">
+                    <h5 class="text-muted">{{ efemeride.torneo.nombre }}</h5>
+                    <h6 class="text-muted">{{ efemeride.fecha|date:"d/m/Y" }}</h6>
+                    <span class="badge bg-secondary">
+                        {% if efemeride.tipo == 'L' %}🏠 Local{% else %}✈️ Visitante{% endif %}
+                        </span>
+                </div>
+                <div class="d-flex justify-content-center align-items-center my-4">
+                    <div class="text-center mx-4">
+                        <img src="{% static 'img/logo_chabas.png' %}"
+                            alt="Logo CA Chabás" class="img-fluid"
+                            style="max-height: 80px;">
+                        <h3 class="mt-2">{{ efemeride.goles_chabas }}</h3>
+                    </div>
+
+                    <div class="text-center mx-4">
+                        <h1 class="display-4 fw-bold">VS</h1>
+                        <h4 class="mt-2">{{ efemeride.rival.nombre }}</h4>
+                    </div>
+
+                    <div class="text-center mx-4">
+                        {% if efemeride.rival.escudo %}
+                        <img src="{% static 'img/escudos/'|add:efemeride.rival.escudo %}"
+                            alt="Escudo {{ efemeride.rival.nombre }}"
+                            class="img-fluid" style="max-height: 80px;">
+                        {% endif %}
+                        <h3 class="mt-2">{{ efemeride.goles_rival }}</h3>
+                    </div>
+                </div>
+                <div class="text-center mt-4">
+                    <a href="{% url 'detalle_partido' efemeride.id %}"
+                        class="btn btn-primary px-4">
+                        <i class="fas fa-info-circle me-2"></i>Ver detalles
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
 <!-- Maxima Goleada -->
 {% if maxima_goleada %}
 <div class="row justify-content-center mb-5">

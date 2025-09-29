@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.utils.html import format_html
-from .models import Club, Jugador, ParticipacionJugador, Torneo, Partido, Gol, TarjetaAmarilla, TarjetaRoja
+from .models import Club, Jugador, ParticipacionJugador, Torneo, Partido, Gol, TarjetaAmarilla, TarjetaRoja, VideoPartido 
 
 # Configuración global del admin
 admin.site.site_header = "Club Atlético Chabás - Administración"
@@ -127,12 +127,26 @@ class RojaInline(admin.TabularInline):
     extra = 1
     fields = ('jugador', 'minuto')
 
+class VideoPartidoInline(admin.TabularInline):
+    model = VideoPartido
+    extra = 1
+    fields = ('url_youtube', 'clasificacion', 'titulo')
+    readonly_fields = ('video_preview',)
+    def video_preview(self, obj):
+         if obj.url_youtube:
+             # Esto es solo un ejemplo, necesitarías una forma más robusta de obtener el ID y embeberlo
+             youtube_id = obj.get_youtube_id() # Si has implementado este método en el modelo
+             if youtube_id:
+                    return format_html('<iframe width="200" height="113" src="https://www.youtube.com/embed/{}" frameborder="0" allowfullscreen></iframe>', youtube_id)
+             return "No preview"
+    video_preview.short_description = "Previsualización"
+
 @admin.register(Partido)
 class PartidoAdmin(admin.ModelAdmin):
     list_display = ('fecha','instancia', 'vs_rival', 'jugado','resultado', 'arbitro','altura','torneo_link', 'detalle_link')
     list_filter = ('torneo', 'fecha', 'tipo', 'altura')
     search_fields = ('rival__nombre', 'torneo__nombre', 'arbitro')
-    inlines = [GolInline, AmarillaInline, RojaInline]
+    inlines = [GolInline, AmarillaInline, RojaInline, VideoPartidoInline]
     date_hierarchy = 'fecha'
     
     fieldsets = (
@@ -160,3 +174,12 @@ class PartidoAdmin(admin.ModelAdmin):
     def detalle_link(self, obj):
         return format_html('<a href="../partido/{}/">📝 Editar</a>', obj.id)
     detalle_link.short_description = 'Acciones'
+
+
+
+try:
+    admin.site.unregister(Partido)
+except admin.sites.NotRegistered:
+    pass 
+
+admin.site.register(Partido, PartidoAdmin)

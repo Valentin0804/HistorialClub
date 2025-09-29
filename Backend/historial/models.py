@@ -1,3 +1,4 @@
+import re
 from django.db import models
 from django.core.validators import MinValueValidator
 
@@ -103,10 +104,6 @@ class Partido(models.Model):
     descripcion = models.TextField(blank=True, null=True)
     jugado = models.BooleanField(default=True, help_text="Marcar si el partido ya fue jugado")
 
-    
-
-
-
     # Relaciones para estadísticas
     goleadores = models.ManyToManyField(
         Jugador, 
@@ -138,3 +135,36 @@ class TarjetaRoja(models.Model):
     partido = models.ForeignKey(Partido, on_delete=models.CASCADE)
     jugador = models.ForeignKey(Jugador, on_delete=models.CASCADE)
     minuto = models.PositiveIntegerField()
+
+class VideoPartido(models.Model):
+    CLASIFICACION_CHOICES = [
+        ('Completo', 'Partido Completo'),
+        ('Resumen', 'Resumen'),
+        ('Goles', 'Goles'), # Puedes agregar más clasificaciones como "Goles" o "Momentos destacados"
+        ('Otros', 'Otros'),
+    ]
+
+    partido = models.ForeignKey(Partido, on_delete=models.CASCADE, related_name='videos')
+    url_youtube = models.URLField(max_length=200, help_text="URL del video de YouTube")
+    clasificacion = models.CharField(
+        max_length=10, 
+        choices=CLASIFICACION_CHOICES, 
+        default='Resumen',
+        help_text="Clasificación del video (ej. Partido Completo, Resumen)"
+    )
+    titulo = models.CharField(max_length=200, blank=True, null=True, help_text="Título opcional para el video")
+
+    def get_youtube_id(self):
+        youtube_regex = (
+            r'(?:https?://)?(?:www\.)?'
+            r'(?:youtube\.com|youtu\.be)/'
+            r'(?:watch\?v=|embed/|v/|)'
+            r'([\w-]{11})'
+        )
+        match = re.search(youtube_regex, self.url_youtube)
+        if match:
+            return match.group(1)
+        return None 
+
+    def __str__(self):
+        return f"Video de {self.clasificacion} para {self.partido}"

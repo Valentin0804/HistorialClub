@@ -1,3 +1,4 @@
+from datetime import date
 from django.shortcuts import render, get_object_or_404
 from .models import Partido, Jugador, Club, Gol, TarjetaAmarilla, TarjetaRoja, Torneo
 from django.db.models import Count, F, Func, Q
@@ -8,7 +9,16 @@ def home(request):
     partidos_count = Partido.objects.count()
     titulos_count = 12  # Reemplaza con tu modelo real si lo tienes
     jugadores_count = Jugador.objects.count()
-    
+
+    hoy = date.today()
+    efemeride = Partido.objects.select_related('rival', 'torneo')\
+    .filter(
+        fecha__day=hoy.day,
+        fecha__month=hoy.month,
+        jugado=True
+    )\
+    .first()
+
     # Último partido jugado
     ultimo_partido = Partido.objects.select_related('rival', 'torneo')\
         .filter(jugado=True)\
@@ -35,6 +45,7 @@ def home(request):
         'ultimo_partido': ultimo_partido,
         'proximo_partido': proximo_partido,
         'maxima_goleada': maxima_goleada,
+        'efemeride': efemeride
     })
 
 def lista_partidos(request):
@@ -61,7 +72,8 @@ def detalle_partido(request, partido_id):
         'arbitro': partido.arbitro if partido.arbitro else None,
         'instancia': partido.get_instancia_display(),
         'altura': partido.get_altura_display(),
-        'descripcion': partido.descripcion
+        'descripcion': partido.descripcion,
+        'videos': partido.videos.all()
     })
 
 def temporada_actual(request):
