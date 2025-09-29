@@ -22,11 +22,10 @@
                     <h3 class="h5 mb-0 text-center">{{ club.nombre }}</h3>
                 </div>
                 <div class="card-body text-center py-4">
-                    <div class="escudo-container">
                         {% if club.escudo %}
                         <img src="{% static 'img/escudos/'|add:club.escudo %}" alt="Escudo de {{ club.nombre }}" class="img-fluid rival-logo mb-4 ">
                         {% endif %}
-                    </div>
+                    
                     
                     <div class="rival-info mb-4">
                         <div class="d-flex justify-content-between mb-2">
