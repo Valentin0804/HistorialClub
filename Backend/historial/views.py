@@ -11,13 +11,13 @@ def home(request):
     jugadores_count = Jugador.objects.count()
 
     hoy = date.today()
-    efemeride = Partido.objects.select_related('rival', 'torneo')\
+    efemerides = Partido.objects.select_related('rival', 'torneo')\
     .filter(
         fecha__day=hoy.day,
         fecha__month=hoy.month,
         jugado=True
     )\
-    .first()
+    .order_by('-fecha')  # Opcional: mostrar los más recientes primero
 
     # Último partido jugado
     ultimo_partido = Partido.objects.select_related('rival', 'torneo')\
@@ -45,7 +45,7 @@ def home(request):
         'ultimo_partido': ultimo_partido,
         'proximo_partido': proximo_partido,
         'maxima_goleada': maxima_goleada,
-        'efemeride': efemeride
+        'efemerides': efemerides
     })
 
 def lista_partidos(request):
