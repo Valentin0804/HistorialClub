@@ -1,0 +1,61 @@
+:root {
+  --primary-color: #019ee3;
+  --primary-dark: #007bb1;
+  --success-color: #28a745;
+  --warning-color: #ffb74d; /* Naranja neutral */
+  --danger-color: #d62727;  /* Rojo negativo */
+}
+
+/* Tarjetas de Estadísticas */
+.stats-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-radius: 1.25rem;
+  border: none !important;
+  background: #ffffff;
+}
+
+.stats-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 30px rgba(1, 158, 227, 0.15) !important;
+}
+
+/* Ajustes de Select2 para que sea responsive */
+.select2-container {
+  width: 100% !important;
+}
+
+.select2-selection {
+  height: 38px !important;
+  border: 1px solid #dee2e6 !important;
+  border-radius: 0.375rem !important;
+}
+
+/* Tablas de Ranking */
+.table thead th {
+  background-color: #f8f9fa;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.5px;
+  border-bottom: 2px solid #eee;
+}
+
+.table td {
+  vertical-align: middle;
+  font-size: 0.9rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .display-4 {
+    font-size: 1.8rem;
+  }
+  
+  .stats-card {
+    margin-bottom: 1rem;
+  }
+
+  /* Reducir padding en tablas para ganar espacio */
+  .table td, .table th {
+    padding: 0.6rem 0.4rem;
+  }
+}

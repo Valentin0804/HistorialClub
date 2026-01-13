@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.utils.html import format_html
-from .models import Club, Jugador, ParticipacionJugador, Torneo, Partido, Gol, TarjetaAmarilla, TarjetaRoja, VideoPartido 
+from .models import Club, Jugador, ParticipacionJugador, Torneo, Partido, Gol, TarjetaAmarilla, TarjetaRoja, VideoPartido, HitoHistorico
 
 # Configuración global del admin
 admin.site.site_header = "Club Atlético Chabás - Administración"
@@ -140,6 +140,21 @@ class VideoPartidoInline(admin.TabularInline):
                     return format_html('<iframe width="200" height="113" src="https://www.youtube.com/embed/{}" frameborder="0" allowfullscreen></iframe>', youtube_id)
              return "No preview"
     video_preview.short_description = "Previsualización"
+
+@admin.register(HitoHistorico)
+class HitoHistoricoAdmin(admin.ModelAdmin):
+    list_display = ('fecha', 'titulo', 'tipo', 'imagen_preview')
+    list_filter = ('tipo',)
+    search_fields = ('titulo', 'descripcion')
+    ordering = ('fecha',)
+    autocomplete_fields = ('partido',)
+
+    def imagen_preview(self, obj):
+        if obj.imagen:
+            return format_html('<img src="{}" width="60" />', obj.imagen.url)
+        return "Sin imagen"
+
+    imagen_preview.short_description = 'Imagen'
 
 @admin.register(Partido)
 class PartidoAdmin(admin.ModelAdmin):

@@ -1,79 +1,85 @@
 {% extends "historial/base.html" %}
 {% load static %}
-{% block title %}Club Atlético Chabás - El Más Campeón del Pueblo{% endblock %}
+{% block title %}Sobre los datos - CACH{% endblock %}
 {% block extra_css %}
-
 <link rel="stylesheet" href="{% static 'css/sobre_datos.css' %}">
+<style>
+    .fuente-item { background: #fff; border-radius: 10px; padding: 15px; margin-bottom: 10px; border-left: 4px solid #019ee3; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+    .timeline-data { border-left: 2px dashed #dee2e6; padding-left: 20px; position: relative; }
+    .timeline-dot { position: absolute; left: -7px; top: 5px; width: 12px; height: 12px; border-radius: 50%; background: #019ee3; }
+</style>
 {% endblock %}
 
 {% block content %}
 <div class="container py-5">
-  <div class="text-center mb-5">
-    <h1 class="display-4 fw-bold titulo1 color1 mb-3"> <i class="fas fa-book me-2"></i>Sobre los datos del historial </h1>
-    <p class="lead text-muted">Este proyecto busca conservar y compartir el
-      historial completo de los partidos de Atlético Chabás,
-      desde sus comienzos hasta la actualidad. Los datos cargados varían según
-      la disponibilidad de fuentes confiables en cada período.</p>
-  </div>
+    <div class="row justify-content-center">
+        <div class="col-lg-9">
+            <div class="text-center mb-5">
+                <h1 class="display-5 fw-bold titulo1 text-primary mb-3"> <i class="fas fa-database me-2"></i>Transparencia de Datos</h1>
+                <p class="lead text-muted">Este proyecto es un esfuerzo colaborativo para reconstruir la memoria deportiva de nuestra institución.</p>
+            </div>
 
-  <div class="text-center mb-5">
-    <h2 class="display-4 fw-bold titulo1 mb-3">Disponibilidad de datos</h2>
-    <ul class="navbar-nav-1 list-unstyled mx-auto" style="max-width: 600px;">
-      <li class="nav-item mx-1">
-        <i class="fas fa-check-circle text-success me-2"></i><strong>2025:</strong>
-        Datos completos (goleadores, tarjetas, árbitros).
-      </li>
-      <li class="nav-item mx-1">
-        <i class="fas fa-check-circle text-info me-2"></i><strong>2024 a 2022:</strong> 
-        Datos semi completos (goleadores, tarjetas).
-      </li>
-      <li class="nav-item mx-1">
-        <i
-          class="fas fa-exclamation-triangle text-warning me-2"></i><strong>2021 a 2018:</strong> 
-          Solo se registran los goleadores y algunas tarjetas.
-      </li>
-      <li class="nav-item mx-1">
-        <i class="fas fa-info-circle text-muted me-2"></i><strong>2017 a 1997 (clásicos solamente):</strong> 
-          Goleadores y algunos datos aislados.
-      </li>
-    </ul>
-  </div>
+            <div class="card border-0 shadow-sm mb-5 p-4">
+                <h3 class="h4 fw-bold mb-4 border-bottom pb-2">Precisión por Período</h3>
+                <div class="ms-3">
+                    <div class="timeline-data mb-4">
+                        <div class="timeline-dot"></div>
+                        <h6 class="fw-bold text-success">2022 - Actualidad (Alta Precisión)</h6>
+                        <p class="small text-muted">Datos completos incluyendo plantillas, goleadores, tarjetas, árbitros y estadios.</p>
+                    </div>
+                    <div class="timeline-data mb-4">
+                        <div class="timeline-dot" style="background: #17a2b8;"></div>
+                        <h6 class="fw-bold text-info">2018 - 2021 (Precisión Media)</h6>
+                        <p class="small text-muted">Registro de resultados y goleadores. Datos de tarjetas parciales según cobertura periodística.</p>
+                    </div>
+                    <div class="timeline-data mb-4">
+                        <div class="timeline-dot" style="background: #ffc107;"></div>
+                        <h6 class="fw-bold text-warning">1997 - 2017 (Registro Histórico)</h6>
+                        <p class="small text-muted">Enfoque principal en clásicos y partidos definitorios. Datos reconstruidos vía archivos de video y prensa.</p>
+                    </div>
+                </div>
+            </div>
 
-  <div class="text-center mb-5">
-    <h2 class="display-4 fw-bold titulo1 mb-3">Fuentes utilizadas</h2>
-    <p class="lead text-muted">Los datos fueron obtenidos de:</p>
-    <ul class="navbar-nav-1 list-unstyled mx-auto" style="max-width: 600px;"> 
-      <li class="nav-item mx-1">
-        <i class="fas fa-file-alt me-2"></i>Planillas oficiales de partidos.
-      </li>
-      <li class="nav-item mx-1">
-        <i class="fas fa-newspaper me-2"></i>Recortes del diario <strong>El Alargue</strong> 
-        y otros medios locales.
-      </li>
-      <li class="nav-item mx-1">
-        <i class="fas fa-film me-2"></i>Archivos fílmicos de los canales
-        <strong>Chatelco</strong> de nuestra localidad y 
-        <strong>TDC</strong> del programa 'El día después' de la localidad de Firmat.
-      </li>
-      <li class="nav-item mx-1">
-        <i class="fas fa-users me-2"></i>Archivos personales de hinchas, jugadores, dirigentes y redes del club.
-      </li>
-    </ul>
-  </div>
+            <div class="mb-5">
+                <h3 class="h4 fw-bold mb-4 text-center">Fuentes Documentales</h3>
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <div class="fuente-item d-flex align-items-center">
+                            <i class="fas fa-file-invoice text-primary me-3 fa-lg"></i>
+                            <span class="small">Planillas oficiales de la Liga Casildense.</span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="fuente-item d-flex align-items-center">
+                            <i class="fas fa-newspaper text-primary me-3 fa-lg"></i>
+                            <span class="small">Archivo histórico del diario <strong>El Alargue</strong>.</span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="fuente-item d-flex align-items-center">
+                            <i class="fas fa-tv text-primary me-3 fa-lg"></i>
+                            <span class="small">Archivos de <strong>Chatelco</strong> y <strong>TDC</strong> (Firmat).</span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="fuente-item d-flex align-items-center">
+                            <i class="fas fa-users text-primary me-3 fa-lg"></i>
+                            <span class="small">Colecciones personales y redes oficiales del club.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-  <div class="text-center mb-5">
-    <h2 class="display-4 fw-bold titulo1 mb-3">¿Querés colaborar o corregir algún dato?</h2>
-    <p class="lead">Si tenés información, fotos o notás algún error, ¡no dudes
-      en comunicarte! Tu aporte es fundamental.</p>
-    <ul class="navbar-nav-1 d-inline-block"> 
-      <li class="nav-item mx-1">
-        <i class="fas fa-envelope me-2"></i>Email: <a href="mailto:historial@clubatletico.com">valmol0015@gmail.com</a>
-      </li>
-    </ul>
-  </div>
-  <div class="text-center mb-5 ">
-    <p class="lead text-muted">¡Gracias por ayudar a construir la memoria deportiva del club!</p>
-  </div>
+            <div class="bg-primary text-white rounded-4 p-5 text-center shadow-lg">
+                <h3 class="fw-bold mb-3">¿Tenés información para sumar?</h3>
+                <p class="mb-4">Si posees fotos, recortes de diarios o datos que no figuran en el historial, tu aporte es invaluable para la memoria del club.</p>
+                <div class="d-inline-flex align-items-center bg-white text-dark px-4 py-2 rounded-pill shadow-sm">
+                    <i class="fas fa-envelope me-2 text-primary"></i>
+                    <a href="mailto:valmol0015@gmail.com" class="text-dark text-decoration-none fw-bold">valmol0015@gmail.com</a>
+                </div>
+                <p class="mt-4 extra-small opacity-75">¡Gracias por ayudar a construir el archivo del Más Campeón del Pueblo!</p>
+            </div>
+        </div>
+    </div>
 </div>
-
 {% endblock %}

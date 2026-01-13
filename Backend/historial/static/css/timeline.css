@@ -1,0 +1,167 @@
+/* Reinicio y Contenedor Principal */
+.timeline-page-wrapper {
+    background-color: #f4f7f6;
+    padding: 60px 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.timeline-header {
+    margin-bottom: 80px;
+}
+
+.header-line {
+    width: 60px;
+    height: 5px;
+    background: var(--primary-color);
+    margin: 20px auto;
+    border-radius: 10px;
+}
+
+/* La línea central (Spine) */
+.timeline-container {
+    position: relative;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.timeline-spine {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: #d1d9e6;
+    transform: translateX(-50%);
+}
+
+/* Items de la línea de tiempo */
+.timeline-item {
+    position: relative;
+    width: 50%;
+    margin-bottom: 60px;
+    display: flex;
+    flex-direction: column;
+}
+
+.item-left { align-self: flex-start; padding-right: 50px; text-align: right; }
+.item-right { align-self: flex-end; padding-left: 50px; text-align: left; }
+
+/* Puntos en la línea */
+/* Los puntos (Dots) */
+.timeline-dot {
+    position: absolute;
+    top: 30px;
+    width: 24px;
+    height: 24px;
+    background: #fff;
+    border: 4px solid var(--primary-color);
+    border-radius: 50%;
+    z-index: 10;
+}
+
+.item-left {
+    left: 0;
+    padding-right: 60px;
+    text-align: right;
+}
+
+.item-left .timeline-dot {
+    right: -12px; /* Ajuste para quedar sobre la línea */
+}
+
+/* --- ALINEACIÓN DERECHA (Pares) --- */
+.item-right {
+    left: 50%; /* Se mueve a la derecha */
+    padding-left: 60px;
+    text-align: left;
+}
+
+.item-right .timeline-dot {
+    left: -12px; /* Ajuste para quedar sobre la línea */
+}
+
+/* Año */
+.timeline-date {
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: var(--primary-dark);
+    margin-bottom: 10px;
+}
+
+/* Tarjeta Épica */
+.timeline-card {
+    display: inline-block;
+    width: 100%;
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    overflow: hidden;
+    transition: 0.3s;
+}
+
+.timeline-card:hover {
+    transform: translateY(-10px);
+}
+
+.card-tag {
+    padding: 5px 15px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: white;
+    background: var(--primary-color);
+}
+
+/* Colores de tags dinámicos */
+.tag-campeonato { background: #c9a227 !important; }
+.tag-fundacion { background: var(--primary-dark) !important; }
+
+.card-img-container {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+}
+
+.card-img-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.card-content {
+    padding: 25px;
+}
+
+.card-title {
+    color: var(--primary-dark);
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+/* Manejo de descripción larga */
+.card-description {
+    max-height: 160px;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+.card-description p {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: #666;
+    margin: 0;
+}
+
+/* Custom Scrollbar */
+.card-description::-webkit-scrollbar { width: 4px; }
+.card-description::-webkit-scrollbar-thumb { background: #ccc; border-radius: 10px; }
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .timeline-spine { left: 30px; }
+    .timeline-item { width: 100%; left: 0 !important; padding-left: 60px !important; padding-right: 0 !important; text-align: left !important; }
+    .timeline-dot { left: 18px !important; right: auto !important; }
+    .item-left .timeline-dot, .item-right .timeline-dot { left: 18px; }
+    .timeline-card { max-width: 100%; }
+}

@@ -137,6 +137,7 @@ class TarjetaRoja(models.Model):
     minuto = models.PositiveIntegerField()
 
 class VideoPartido(models.Model):
+
     CLASIFICACION_CHOICES = [
         ('Completo', 'Partido Completo'),
         ('Resumen', 'Resumen'),
@@ -168,3 +169,33 @@ class VideoPartido(models.Model):
 
     def __str__(self):
         return f"Video de {self.clasificacion} para {self.partido}"
+    
+class HitoHistorico(models.Model):
+    TIPO_CHOICES = [
+        ('fundacion', 'Fundación'),
+        ('cancha', 'Cancha'),
+        ('partido', 'Partido histórico'),
+        ('campeonato', 'Campeonato'),
+        ('otro', 'Otro'),
+    ]
+
+    fecha = models.DateField()
+    titulo = models.CharField(max_length=200)
+    descripcion = models.TextField(blank=True)
+    tipo = models.CharField(max_length=20, choices=TIPO_CHOICES)
+
+    partido = models.ForeignKey(
+        Partido,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        help_text="Partido relacionado (si aplica)"
+    )
+
+    imagen = models.ImageField(upload_to='hitos/', blank=True, null=True)
+
+    class Meta:
+        ordering = ['fecha']
+
+    def __str__(self):
+        return f"{self.fecha} - {self.titulo}"

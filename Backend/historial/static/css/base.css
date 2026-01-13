@@ -1,10 +1,17 @@
 :root {
-  --primary-color: #019ee3;
-  --primary-light: #01a8e3;
-  --primary-dark: #01689e;
-  --secondary-color: #f0f0f0;
-  --text-color: #333;
-  --light-text: #777;
+  /* Azules basados exactamente en el escudo */
+  --primary-color: #019ee3;    /* Celeste brillante del logo */
+  --primary-light: #4cc2f0;    /* Celeste más claro para hover */
+  --primary-dark: #019ee3;     /* Azul profundo de las letras del logo */
+  
+  /* Reemplazos para estados (Prohibido el Rojo) */
+  --success-color: #28a745;    /* Verde para victorias */
+  --neutral-color: #ffb74d;    /* Amarillo para empates */
+  --failure-color: #d62727;    /* Gris oscuro/Negro para derrotas (en lugar de rojo) */
+  
+  --secondary-color: #f8f9fa;
+  --text-color: #1a1a1a;
+  --light-text: #555;
   --white: #ffffff;
   --black: #000000;
 }
@@ -13,14 +20,17 @@
 body {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   color: var(--text-color);
+  background-color: #f4f7f9; /* Un fondo apenas azulado muy claro */
 }
 
 .titulo1 {
+  
   color: var(--primary-dark);
 }
 
 /* Navbar */
 .navbar {
+  background-color: var(--primary-dark) !important;
   padding: 0.8rem 0;
 }
 
@@ -38,6 +48,7 @@ body {
 
 .nav-link:hover {
   background-color: rgba(255, 255, 255, 0.1);
+  color: var(--white) !important;
 }
 
 .nav-link.active {
@@ -90,8 +101,8 @@ body {
 
 /* Button */
 .btn-primary {
-  background-color: var(--primary-color);
-  border-color: var(--primary-color);
+  background-color: var(--primary-dark);
+  border-color: var(--primary-dark);
   padding: 0.5rem 1.5rem;
   font-weight: 500;
   color: var(--white);
@@ -114,7 +125,7 @@ body {
 
 .bg-primary {
   background-color: var(--primary-color) !important;
-  color: var(--black) !important;
+  color: var(--white) !important;
 }
 
 /* Footer */
@@ -152,3 +163,61 @@ footer a:hover {
     padding: 0.5rem 0.75rem;
   }
 }
+/* --- Ajustes de Responsividad Críticos --- */
+
+/* Contenedor de tablas para evitar desbordamiento */
+.table-responsive {
+    border: none;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Ajuste de tipografía en móviles */
+@media (max-width: 576px) {
+    .display-6 { font-size: 1.5rem; }
+    .card-body { padding: 1rem; }
+    
+    /* Achicamos escudos y textos en el "Próximo Partido" */
+    .card-body img { height: 40px !important; }
+    .card-body h4 { font-size: 1.2rem; }
+    
+    /* Tabla de resultados: ocultamos la columna "Instancia" en móviles para ganar espacio */
+    .col-instancia { display: none; }
+    
+    /* Ajuste de nombres de equipos en la tabla */
+    .team-name-table {
+        font-size: 0.75rem;
+        max-width: 70px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    
+    .badge-score {
+        padding: 0.4rem 0.6rem !important;
+        font-size: 0.8rem !important;
+    }
+}
+
+/* Reemplazo de Rojo por Failure Color (Gris Oscuro) */
+.bg-loss {
+    background-color: var(--failure-color) !important;
+    color: var(--white) !important;
+}
+
+/* Estilo para los marcadores en la tabla */
+.match-result-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.team-label {
+    font-weight: 700;
+    font-size: 0.85rem;
+    flex: 1;
+}
+
+.team-label.text-end { text-align: right; }
+.team-label.text-start { text-align: left; }

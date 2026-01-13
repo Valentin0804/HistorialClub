@@ -15,25 +15,22 @@
     </div>
 
     <div class="card border-0 shadow-sm mb-5">
-        <div class="card-header bg-primary text-white py-3">
-            <h3 class="h5 mb-0"><i class="fas fa-filter me-2"></i>Filtrar Plantilla por año</h3>
-        </div>
-        <div class="card-body">
-            <form method="get" class="jugadores-filtros">
-                <select name="anio" id="anio" onchange="this.form.submit()">
-                    <option value=""> Elegir Año </option>
-                        {% for a in anios_disponibles %}
-                            <option value="{{ a }}" {% if a|stringformat:"s" == anio_seleccionado %}selected{% endif %}>
-                                {% if a == 1995 %}
-                                    Jugadores históricos
-                                {% else %}
-                                    {{ a }}
-                                {% endif %}
-                            </option>
-                        {% endfor %}
-                </select>
-            </form>
-        </div>
+    <div class="card-header bg-primary text-white py-3">
+        <h3 class="h5 mb-0"><i class="fas fa-calendar-alt me-2"></i>Seleccionar Plantilla Anual</h3>
+    </div>
+    <div class="card-body bg-light">
+        <form method="get" class="jugadores-filtros d-flex justify-content-center">
+            <select name="anio" id="anio" class="form-select form-select-lg w-auto border-primary text-primary fw-bold" onchange="this.form.submit()">
+                <option value=""> — Selecciona un año — </option>
+                {% for a in anios_disponibles %}
+                    <option value="{{ a }}" {% if a|stringformat:"s" == anio_seleccionado %}selected{% endif %}>
+                        {% if a == 1995 %}⭐ Jugadores históricos{% else %}Plantel {{ a }}{% endif %}
+                    </option>
+                {% endfor %}
+            </select>
+        </form>
+    </div>
+</div>
     </div>
 
     {% if jugadores %}

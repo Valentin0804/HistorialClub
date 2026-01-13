@@ -1,0 +1,80 @@
+/* stats.css */
+.stat-card {
+    transition: transform 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+}
+
+.stat-card table td {
+    padding: 12px 0;
+    font-size: 0.95rem;
+    border-bottom: 1px solid #f1f1f1;
+}
+
+.btn-check:checked + .btn-outline-primary {
+    background-color: var(--primary-color);
+    color: white;
+    box-shadow: 0 4px 10px rgba(1, 158, 227, 0.4);
+}
+
+@media (max-width: 768px) {
+    .display-5 {
+        font-size: 2.5rem;
+    }
+    
+    .stat-card {
+        margin-bottom: 1rem;
+    }
+    
+    .titulo1 {
+        font-size: 1.5rem;
+        text-align: center;
+    }
+}
+
+/* Identificadores de colores para filas */
+.text-success { color: #28a745 !important; }
+.text-warning { color: #f39c12 !important; }
+.text-danger { color: #c91a1a !important; }
+
+.uppercase {
+    letter-spacing: 1px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+/* Acordeones limpios */
+.accordion-button:not(.collapsed) {
+    background-color: #f8faff;
+    color: var(--primary-color);
+    box-shadow: none;
+}
+
+.accordion-button:focus {
+    box-shadow: none;
+    border-color: rgba(0,0,0,.125);
+}
+
+.uppercase {
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 700;
+}
+
+.bg-primary-subtle {
+    background-color: #e1f5fe !important; /* Celeste muy clarito */
+    border-left: 4px solid var(--primary-color);
+}
+
+@media (max-width: 768px) {
+    .accordion-button {
+        padding: 1rem 0.75rem;
+        font-size: 0.9rem;
+    }
+    
+    .display-6 {
+        font-size: 1.8rem;
+    }
+}

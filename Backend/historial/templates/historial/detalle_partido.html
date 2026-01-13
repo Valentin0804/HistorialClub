@@ -1,159 +1,141 @@
 {% extends "historial/base.html" %}
 {% load youtube_filters %}
 {% load static %}
-{% block title %}Detalle del Partido{% endblock %}
+{% block title %}Detalle - {{ partido.rival.nombre }}{% endblock %}
 {% block extra_css %}
-
 <link rel="stylesheet" href="{% static 'css/detalle_partido.css' %}">
 {% endblock %}
 
 {% block content %}
-
-<div class="match-detail-container container py-5 ">
+<div class="match-detail-container py-4">
     <div class="match-header">
-        <div class="match-date">{{ partido.fecha|date:"d/m/Y" }}</div>
+        <span class="badge bg-white text-muted shadow-sm mb-2 px-3 rounded-pill">{{ partido.fecha|date:"d F Y" }}</span>
         <h1>{{ partido.torneo.nombre }}</h1>
     </div>
 
     <div class="match-result-card">
         <div class="team-display">
-            <div class="team home-team">
-                <img src="{% static 'img/logo_chabas.png' %}" alt="Logo CA Chabás" class="team-logo">
-                <div class="team-name">CA Chabás</div>
+            <div class="team">
+                <img src="{% static 'img/logo_chabas.png' %}" alt="CA Chabás" class="team-logo">
+                <div class="team-name text-primary">CHABÁS</div>
             </div>
 
-            <div class="match-score">
-                <div class="match-condition {% if partido.tipo == 'L' %}local{% else %}visitor{% endif %}">
+            <div class="match-score-center">
+                <div class="match-info-pill {% if partido.tipo == 'L' %}text-primary{% else %}text-secondary{% endif %}">
                     {% if partido.tipo == 'L' %}Local{% else %}Visitante{% endif %}
                 </div>
-                <div class="match-condition">
-                    <p><strong>Instancia: </strong> {{ instancia }} {% if altura != 'ND' %} -
-                    {{ altura }}</p>
-                    {% endif %}
+                <div class="score-numbers">
+                    <span>{{ partido.goles_chabas }}</span>
+                    <span style="opacity: 0.3; font-weight: 300;">:</span>
+                    <span>{{ partido.goles_rival }}</span>
                 </div>
-                
-                <div class="match-condition">
-                    {% if arbitro %}
-                    <p><strong>Árbitro:</strong> {{ arbitro }}</p>
-                    {% endif %}
-                </div>
-
-                <div class="score">
-                    <span class="goals">{{ partido.goles_chabas }}</span>
-                    <span class="separator">-</span>
-                    <span class="goals">{{ partido.goles_rival }}</span>
-                </div>
-
-                <div class="vs-text">vs {{ partido.rival.nombre }}</div>
+                <div class="small fw-bold text-muted d-md-none">vs {{ partido.rival.nombre }}</div>
             </div>
 
-            <div class="team away-team">
+            <div class="team">
                 {% if partido.rival.escudo %}
-                <img src="{% static 'img/escudos/'|add:partido.rival.escudo %}"
-                    alt="Escudo {{ partido.rival.nombre }}" class="team-logo">
+                    <img src="{% static 'img/escudos/'|add:partido.rival.escudo %}" alt="{{ partido.rival.nombre }}" class="team-logo">
                 {% else %}
-                <div class="team-logo placeholder"></div>   
+                    <div class="team-logo bg-light rounded-circle d-flex align-items-center justify-content-center mx-auto">
+                        <i class="fas fa-shield-alt text-muted fa-2x"></i>
+                    </div>
                 {% endif %}
-                <div class="team-name">{{ partido.rival.nombre }}</div>
+                <div class="team-name">{{ partido.rival.nombre|upper }}</div>
+            </div>
+        </div>
+
+        <div class="text-center mt-3 border-top pt-2">
+            <div class="row g-2">
+                {% if arbitro %}
+                <div class="col-6 small text-muted border-end"><strong>Árbitro:</strong><br>{{ arbitro }}</div>
+                {% endif %}
+                <div class="col-{% if arbitro %}6{% else %}12{% endif %} small text-muted">
+                    <strong>Instancia:</strong><br>{{ instancia }} {% if altura != 'ND' %}({{ altura }}){% endif %}
+                </div>
             </div>
         </div>
     </div>
 
-    
     <div class="match-details">
-        <!-- Goles -->
         <div class="detail-section">
-            <h2 class="section-title"><i class="fas fa-futbol"></i> Goles </h2>
+            <h2 class="section-title text-success"><i class="fas fa-futbol me-2"></i>GOLES</h2>
             {% if goles %}
-            <ul class="detail-list">
                 {% for gol in goles %}
-                <li class="detail-item">
-                    <span class="player-name">{{ gol.jugador.nombre }} {{ gol.jugador.apellido }}</span>
-                    <span class="minute-badge">{{ gol.minuto }}'</span>
-                </li>
+                <div class="d-flex justify-content-between border-bottom py-2 small">
+                    <span class="fw-bold">{{ gol.jugador.nombre }} {{ gol.jugador.apellido }}</span>
+                    <span class="badge bg-light text-dark border">{{ gol.minuto }}'</span>
+                </div>
                 {% endfor %}
-            </ul>
             {% else %}
-            <div class="empty-message">No hubo goles en este partido</div>
+                <p class="text-muted small italic">Sin goles registrados.</p>
             {% endif %}
         </div>
 
-        <!-- Tarjetas Amarillas -->
-        <div class="detail-section">
-            <h2 class="section-title yellow-card">
-                <i class="fas fa-square yellow"></i> Amarillas
-            </h2>
+        <div class="detail-section" style="border-color: var(--naranja-neutral);">
+            <h2 class="section-title text-warning"><i class="fas fa-square me-2"></i>AMARILLAS</h2>
             {% if amarillas %}
-            <ul class="detail-list">
                 {% for am in amarillas %}
-                <li class="detail-item">
-                    <span class="player-name">{{ am.jugador.nombre }} {{ am.jugador.apellido }}</span>
-                    <span class="minute-badge">{{ am.minuto }}'</span>
-                </li>
+                <div class="d-flex justify-content-between border-bottom py-2 small">
+                    <span>{{ am.jugador.nombre }} {{ am.jugador.apellido }}</span>
+                    <span class="badge bg-warning-subtle text-warning border border-warning-subtle">{{ am.minuto }}'</span>
+                </div>
                 {% endfor %}
-            </ul>
             {% else %}
-            <div class="empty-message">No hubo amonestados en este partido</div>
+                <p class="text-muted small">Sin amonestados.</p>
             {% endif %}
         </div>
 
-        <!-- Tarjetas Rojas -->
-        <div class="detail-section">
-            <h2 class="section-title red-card"> <i class="fas fa-square red"></i> Expulsiones </h2>
+        <div class="detail-section" style="border-color: var(--rojo-negativo);">
+            <h2 class="section-title text-danger"><i class="fas fa-square me-2"></i>EXPULSIONES</h2>
             {% if rojas %}
-            <ul class="detail-list">
                 {% for roja in rojas %}
-                <li class="detail-item">
-                    <span class="player-name">{{ roja.jugador.nombre }} {{ roja.jugador.apellido }}</span>
-                    <span class="minute-badge">{{ roja.minuto }}'</span>
-                </li>
+                <div class="d-flex justify-content-between border-bottom py-2 small text-danger fw-bold">
+                    <span>{{ roja.jugador.nombre }} {{ roja.jugador.apellido }}</span>
+                    <span class="badge bg-danger">{{ roja.minuto }}'</span>
+                </div>
                 {% endfor %}
-            </ul>
             {% else %}
-            <div class="empty-message">No hubo expulsados en este partido</div>
+                <p class="text-muted small text-center py-2">Limpio: Sin tarjetas rojas.</p>
             {% endif %}
         </div>
 
-        <!-- Observaciones -->
         <div class="detail-section">
-            <h2 class="section-title"> <i class="fas fa-square"></i> Observaciones </h2>
-            {% if descripcion %}
-            <p>{{ descripcion }}</p>
-            {% else %}
-            <div class="empty-message">No hubo observaciones en este partido</div>
-            {% endif %}
+            <h2 class="section-title text-dark"><i class="fas fa-comment-dots me-2"></i>RESUMEN / NOTAS</h2>
+            <div class="bg-light p-3 rounded small">
+                {% if descripcion %}
+                    {{ descripcion|linebreaks }}
+                {% else %}
+                    No hay observaciones adicionales para este encuentro.
+                {% endif %}
+            </div>
         </div>
-
     </div>
 
-    <div class="match-footer">
-        <p>(0') = No hay datos del minuto del partido</p>
-    </div>
-
-    
-<div class="video-section">
-        <h2>Videos del Partido</h2> {# Título de la sección de videos #}
+    <div class="mt-5">
+        <h3 class="fw-bold mb-4 text-center"><i class="fab fa-youtube text-danger me-2"></i>Resumen en Video</h3>
         {% if videos %}
+            <div class="row justify-content-center">
             {% for video in videos %}
-                <p>{{ video.titulo }}</p>
-                    <iframe 
-                        width="560" 
-                        height="315" 
-                        src="{{ video.url_youtube|youtube_embed_url }}" 
-                        title="{{ video.titulo }}" 
-                        frameborder="0" 
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                        allowfullscreen>
-                    </iframe>
-                    <p>URL original: {{ video.url_youtube }}</p>
-                <hr>
+                <div class="col-lg-8 mb-4">
+                    <div class="video-responsive">
+                        <iframe src="{{ video.url_youtube|youtube_embed_url }}" 
+                                title="{{ video.titulo }}" frameborder="0" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                allowfullscreen></iframe>
+                    </div>
+                    <p class="small text-center text-muted fw-bold">{{ video.titulo }}</p>
+                </div>
             {% endfor %}
+            </div>
         {% else %}
-            <div class="no-videos-message">
-                <p>No hay videos disponibles para este partido.</p>
+            <div class="alert alert-light text-center border">
+                <i class="fas fa-video-slash me-2 text-muted"></i> No hay archivos fílmicos disponibles.
             </div>
         {% endif %}
     </div>
-</div>
 
+    <div class="text-center mt-5 text-muted extra-small">
+        <p><i class="fas fa-info-circle me-1"></i> (0') Indica que el minuto exacto no está disponible en las fuentes históricas.</p>
+    </div>
+</div>
 {% endblock %}

@@ -1,0 +1,146 @@
+{% extends "historial/base.html" %}
+{% block content %}
+<div class="container py-4">
+    <h2 class="titulo1 mb-4 text-center">Estadísticas por Temporada</h2>
+
+    <div class="card shadow-sm mb-4 border-0 rounded-4">
+        <div class="card-body">
+            <form method="get" class="d-flex flex-wrap gap-2 align-items-center">
+                <span class="small fw-bold me-2">FILTRAR/COMPARAR:</span>
+                {% for t in todos_los_torneos|slice:":5" %}
+                <input type="checkbox" class="btn-check" name="t" value="{{ t.id }}" id="t{{ t.id }}">
+                <label class="btn btn-outline-primary btn-sm rounded-pill" for="t{{ t.id }}">{{ t.nombre }}</label>
+                {% endfor %}
+                <button type="submit" class="btn btn-dark btn-sm rounded-pill px-3">Aplicar</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="accordion accordion-flush shadow-sm rounded-4 overflow-hidden" id="accordionStats">
+        {% for item in stats %}
+        <div class="accordion-item border-bottom">
+            <h2 class="accordion-header">
+                <button class="accordion-button {% if not forloop.first %}collapsed{% endif %} py-3" type="button"
+                    data-bs-toggle="collapse" data-bs-target="#collapse{{ item.torneo.id }}">
+                    <div class="d-flex justify-content-between w-100 align-items-center pe-3">
+                        <div>
+                            <span class="fw-bold text-dark h5 mb-0">{{ item.torneo.nombre }}</span>
+                            <small class="text-muted d-block" style="font-size: 0.7rem;">{{ item.torneo.fecha_inicio|date:"Y" }}</small>
+                        </div>
+                        <div class="text-end">
+                            <span
+                                class="badge {% if item.porcentaje_puntos >= 60 %}bg-success{% elif item.porcentaje_puntos >= 40 %}bg-warning text-dark{% else %}bg-danger{% endif %} rounded-pill">
+                                {{ item.porcentaje_puntos }}% Efectividad
+                            </span>
+                        </div>
+                    </div>
+                </button>
+            </h2>
+
+            <div id="collapse{{ item.torneo.id }}"
+                class="accordion-collapse collapse {% if forloop.first %}show{% endif %}"
+                data-bs-parent="#accordionStats">
+                <div class="accordion-body bg-white border-top">
+
+                    {% if item.datos_curiosos %}
+                    <div class="p-3 mb-4 rounded-4" style="background-color: #eef8ff; border-left: 5px solid #019ee3;">
+                        <h6 class="fw-bold text-primary mb-2 small uppercase"><i class="fas fa-robot me-2"></i>Análisis
+                            de Campaña</h6>
+                        <ul class="mb-0 small text-dark">
+                            {% for dato in item.datos_curiosos %}
+                            <li class="mb-1">{{ dato }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% endif %}
+
+                    <div class="row g-3">
+                        <div class="col-12 col-md-4">
+                            <div class="card border-0 bg-light rounded-4 h-100">
+                                <div class="card-body text-center">
+                                    <span class="text-muted small uppercase fw-bold">Puntos Fase Regular</span>
+                                    <div class="display-6 fw-bold my-2">{{ item.puntos_obtenidos }}<span
+                                            class="h4 text-muted">/{{ item.puntos_posibles }}</span></div>
+                                    <div class="mt-3">
+                                        <small class="text-muted uppercase d-block mb-1">Últimos partidos</small>
+                                        <div class="d-flex justify-content-center gap-1">
+                                            {% for resultado in item.racha %}
+                                            {% if resultado == 'V' %}
+                                            <span class="badge rounded-circle bg-success"
+                                                style="width: 24px; height: 24px; display: flex; align-items: center; justify-content: center;">V</span>
+                                            {% elif resultado == 'E' %}
+                                            <span class="badge rounded-circle bg-warning text-dark"
+                                                style="width: 24px; height: 24px; display: flex; align-items: center; justify-content: center;">E</span>
+                                            {% else %}
+                                            <span class="badge rounded-circle bg-danger"
+                                                style="width: 24px; height: 24px; display: flex; align-items: center; justify-content: center;">D</span>
+                                            {% endif %}
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                    <div class="progress" style="height: 10px; border-radius: 10px;">
+
+                                        <div class="progress" style="height: 10px; border-radius: 10px;">
+                                            <div class="progress-bar bg-primary" role="progressbar"
+                                                style="--w: {{ item.porcentaje_puntos|default:0 }}%; width: var(--w);">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-4">
+                            <div class="card border-0 bg-light rounded-4 h-100">
+                                <div class="card-body d-flex flex-column justify-content-center">
+                                    <div class="d-flex justify-content-around align-items-center text-center">
+                                        <div>
+                                            <div class="text-success small fw-bold">FAVOR</div>
+                                            <div class="h2 fw-bold mb-0">{{ item.gf }}</div>
+                                        </div>
+                                        <div class="vr" style="height: 40px;"></div>
+                                        <div>
+                                            <div class="text-danger small fw-bold">CONTRA</div>
+                                            <div class="h2 fw-bold mb-0">{{ item.gc }}</div>
+                                        </div>
+                                    </div>
+                                    <div class="text-center mt-2 small text-muted">
+                                        Dif:
+                                        <span
+                                            class="fw-bold {% if item.diff_goles > 0 %}text-success{% elif item.diff_goles < 0 %}text-danger{% endif %}">
+                                            {% if item.diff_goles > 0 %}+{% endif %}{{ item.diff_goles }}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-4">
+                            <div class="card border-0 bg-dark text-white rounded-4 h-100">
+                                <div class="card-body d-flex align-items-center">
+                                    {% if item.goleador %}
+                                    <div class="flex-grow-1">
+                                        <span class="text-secondary small uppercase">Máximo Goleador</span>
+                                        <div class="fw-bold fs-5">{{ item.goleador.nombre }} {{ item.goleador.apellido }}</div>
+                                    </div>
+                                    <div class="h1 fw-bold text-primary mb-0">{{ item.goles_goleador }}</div>
+                                    {% else %}
+                                    <div class="text-center w-100 small text-muted">Sin datos de goles</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <a href="{% url 'partidos' %}?temporada={{ item.torneo.nombre }}"
+                            class="btn btn-outline-primary btn-sm rounded-pill px-4">
+                            Ver todos los partidos de esta temporada
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endblock %}

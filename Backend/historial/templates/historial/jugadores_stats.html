@@ -1,0 +1,170 @@
+{% extends "historial/base.html" %}
+{% load static %}
+
+{% block title %}Estadísticas - Club Atlético Chabás{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/jugadores_stats.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container py-4 py-md-5">
+    <div class="text-center mb-4 mb-md-5">
+        <h1 class="fw-bold titulo1 mb-2"><i class="fas fa-chart-line me-2"></i>Estadísticas</h1>
+        <p class="text-muted">Rendimiento histórico de nuestros jugadores</p>
+    </div>
+
+    <div class="card border-0 shadow-sm mb-5 rounded-4 overflow-hidden">
+        <div class="card-header bg-primary text-white py-3 border-0">
+            <h3 class="h6 mb-0 text-center text-md-start"><i class="fas fa-filter me-2"></i>Personalizar Vista</h3>
+        </div>
+        <div class="card-body p-4">
+            <form method="get" class="row g-3 align-items-end">
+                <div class="col-12 col-md-4">
+                    <label class="small fw-bold mb-1 text-muted">Temporada</label>
+                    <select name="temporada" class="form-select">
+                        <option value>Todas</option>
+                        {% for temporada in temporadas %}
+                        <option value="{{ temporada }}" {% if filtros.temporada == temporada %}selected{% endif %}>{{ temporada }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="col-12 col-md-4">
+                    <label class="small fw-bold mb-1 text-muted">Jugador</label>
+                    <select name="jugador" id="jugador" class="form-select select2-search">
+                        <option value="">Todos los jugadores</option>
+                        {% for j in jugadores %}
+                        <option value="{{ j.id }}" {% if filtros.jugador == j.id|stringformat:"s" %}selected{% endif %}>{{ j.nombre }} {{ j.apellido }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="col-12 col-md-4">
+                    <label class="small fw-bold mb-1 text-muted">Equipo Rival</label>
+                    <select name="equipo" id="equipo" class="form-select select2-search">
+                        <option value>Todos los rivales</option>
+                        {% for equipo in equipos %}
+                        <option value="{{ equipo.id }}" {% if filtros.equipo == equipo.id|stringformat:"s" %}selected{% endif %}>{{ equipo.nombre }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="col-12 text-center text-md-end mt-4">
+                    <hr class="d-md-none">
+                    <button type="submit" class="btn btn-primary px-4 rounded-pill">
+                        <i class="fas fa-sync-alt me-2"></i>Actualizar
+                    </button>
+                    <a href="{% url 'jugadores_stats' %}" class="btn btn-outline-secondary px-4 rounded-pill">
+                        <i class="fas fa-broom me-2"></i>Limpiar
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-12 col-lg-4">
+            <div class="card stats-card h-100 shadow-sm">
+                <div class="card-header bg-primary text-white text-center py-3">
+                    <h5 class="mb-0"><i class="fas fa-futbol me-2"></i>GOLEADORES</h5>
+                </div>
+                <div class="card-body p-0">
+                    <table class="table table-hover mb-0">
+                        <thead>
+                            <tr class="text-center">
+                                <th width="20%">#</th>
+                                <th class="text-start">Jugador</th>
+                                <th width="25%">G</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for jugador in estadisticas.goleadores|dictsortreversed:"total_goles"|slice:":10" %}
+                            <tr class="text-center">
+                                <td class="fw-bold text-muted">{{ forloop.counter }}</td>
+                                <td class="text-start small fw-bold">{{ jugador.nombre }} {{ jugador.apellido }}</td>
+                                <td><span class="badge bg-primary px-3">{{ jugador.total_goles }}</span></td>
+                            </tr>
+                            {% empty %}
+                            <tr><td colspan="3" class="text-center py-4 text-muted small">Sin datos</td></tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-lg-4">
+            <div class="card stats-card h-100 shadow-sm">
+                <div class="card-header bg-warning text-dark text-center py-3">
+                    <h5 class="mb-0"><i class="fas fa-square me-2"></i>AMARILLAS</h5>
+                </div>
+                <div class="card-body p-0">
+                    <table class="table table-hover mb-0">
+                        <thead>
+                            <tr class="text-center">
+                                <th width="20%">#</th>
+                                <th class="text-start">Jugador</th>
+                                <th width="25%">A</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for jugador in estadisticas.amarillas|dictsortreversed:"total_amarillas"|slice:":10" %}
+                            <tr class="text-center">
+                                <td class="fw-bold text-muted">{{ forloop.counter }}</td>
+                                <td class="text-start small">{{ jugador.nombre }} {{ jugador.apellido }}</td>
+                                <td><span class="badge bg-warning text-dark px-3">{{ jugador.total_amarillas }}</span></td>
+                            </tr>
+                            {% empty %}
+                            <tr><td colspan="3" class="text-center py-4 text-muted small">Sin datos</td></tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-lg-4">
+            <div class="card stats-card h-100 shadow-sm">
+                <div class="card-header bg-danger text-white text-center py-3">
+                    <h5 class="mb-0"><i class="fas fa-square me-2"></i>EXPULSIONES</h5>
+                </div>
+                <div class="card-body p-0">
+                    <table class="table table-hover mb-0">
+                        <thead>
+                            <tr class="text-center">
+                                <th width="20%">#</th>
+                                <th class="text-start">Jugador</th>
+                                <th width="25%">R</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for jugador in estadisticas.rojas|dictsortreversed:"total_rojas"|slice:":10" %}
+                            <tr class="text-center">
+                                <td class="fw-bold text-muted">{{ forloop.counter }}</td>
+                                <td class="text-start small">{{ jugador.nombre }} {{ jugador.apellido }}</td>
+                                <td><span class="badge bg-danger px-3">{{ jugador.total_rojas }}</span></td>
+                            </tr>
+                            {% empty %}
+                            <tr><td colspan="3" class="text-center py-4 text-muted small">Sin datos</td></tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block scripts %}
+<script>
+    $(document).ready(function() {
+        $('.select2-search').select2({
+            theme: 'bootstrap-5',
+            width: '100%',
+            dropdownParent: $('form') // Evita problemas de scroll en móviles
+        });
+    });
+</script>
+{% endblock %}
+{% endblock %}

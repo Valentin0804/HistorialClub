@@ -1,0 +1,60 @@
+{% extends "historial/base.html" %}
+{% load static %}
+
+{% block title %}Historia del Club{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/timeline.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="timeline-page-wrapper">
+    <header class="timeline-header text-center">
+        <h1 class="titulo1 display-4 fw-bold">Nuestra Historia</h1>
+        <div class="header-line"></div>
+    </header>
+
+    <div class="timeline-container">
+        <div class="timeline-spine"></div>
+
+        {% for hito in hitos %}
+        <div class="timeline-item {% if forloop.counter|divisibleby:2 %}item-right{% else %}item-left{% endif %}">
+            <div class="timeline-dot"></div>
+
+            <div class="timeline-date">{{ hito.fecha.year }}</div>
+
+            <article class="timeline-card">
+                <div class="card-tag tag-{{ hito.tipo|slugify }}">
+                    {{ hito.tipo }}
+                </div>
+
+                {% if hito.imagen %}
+                <div class="card-img-container">
+                    <img src="{{ hito.imagen.url }}" alt="{{ hito.titulo }}">
+                </div>
+                {% endif %}
+
+                <div class="card hito-card">
+                    <div class="card-body">
+                        <h5>{{ hito.titulo }}</h5>
+                        
+
+                        <p class="mt-2">{{ hito.descripcion }}</p>
+
+                        {% if hito.partido %}
+                        <a href="{% url 'detalle_partido' hito.partido.id %}" class="btn btn-sm btn-primary mt-2">
+                            <i class="fas fa-futbol"></i>
+                            Ver partido
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+
+            </article>
+        </div>
+        {% empty %}
+        <p class="text-center mt-5">Aún no hay hitos registrados.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

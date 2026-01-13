@@ -1,123 +1,58 @@
+/* --- Ajustes de Escala y Colores --- */
 :root {
-  --celeste-primario: var(--primary-color);
-  --celeste-claro: var(--primary-light);
-  --celeste-oscuro: var(--primary-dark);
-  --fondo-secundario: var(--secondary-color);
-  --texto-principal: var(--text-color);
-  --texto-secundario: var(--light-text);
-  --blanco: var(--white);
-  --verde-positivo: #66bb6a;
-  --naranja-neutral: #ffb74d;
-  --rojo-negativo: #d62727;
+    --failure-color: #d62727; /* Gris oscuro para derrotas */
+    --success-color: #28a745;
+    --neutral-color: #ffb74d;
 }
 
-.hero-section {
-  position: relative;
-  overflow: hidden;
+/* Evitar que el Hero sea gigante en móviles */
+@media (max-width: 768px) {
+    .hero-section {
+        padding: 2.5rem 1rem !important;
+        margin-bottom: 20px !important;
+    }
+    .display-6 { font-size: 1.6rem; }
+    
+    /* Ajuste de márgenes negativos para que no se peguen al borde */
+    .mt-n4 { margin-top: -1.5rem !important; }
 }
 
-.color1 {
-  color: var(--primary-color);
+/* --- Tablas Responsivas Pro --- */
+.table-responsive {
+    border: none;
 }
 
-.hero-section h1 {
-  color: #000;
+/* En pantallas muy pequeñas, ocultamos columnas menos importantes */
+@media (max-width: 576px) {
+    .hide-mobile { display: none; }
+    
+    /* Ajuste de nombres de equipos en tablas para que no desborden */
+    .team-name {
+        max-width: 80px;
+        display: inline-block;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        vertical-align: middle;
+    }
+    
+    .card-body { padding: 1rem; }
+    
+    /* Badges de marcador más compactos en móvil */
+    .badge-score {
+        padding: 0.4rem 0.6rem !important;
+        font-size: 0.8rem !important;
+    }
 }
 
-.hero-section::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: url('{% static "img/pattern.png" %}') repeat;
-  opacity: 0.8;
-  z-index: 0;
+/* Reemplazo de Rojo (bg-danger) por Gris (Failure) */
+.bg-failure {
+    background-color: var(--failure-color) !important;
+    color: white !important;
 }
 
-.hero-section .container {
-  position: relative;
-  z-index: 1;
-}
-
-/* Cards */
-.card,
-.stats-card {
-  background-color: var(--blanco);
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  animation: fadeIn 0.2s ease-out forwards;
-}
-
-.stats-card {
-  border-top: 4px solid var(--celeste-primario);
-}
-
-.stats-card:nth-child(1) {
-  animation-delay: 0.1s;
-}
-.stats-card:nth-child(2) {
-  animation-delay: 0.2s;
-}
-.stats-card:nth-child(3) {
-  animation-delay: 0.3s;
-}
-
-/* Último partido */
-.match-result {
-  font-size: 3rem;
-  font-weight: bold;
-  color: var(--celeste-primario);
-}
-
-.team-logo {
-  max-height: 80px;
-  width: auto;
-  margin: 0 auto;
-}
-
-/* Animaciones */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.sponsors {
- text-align: center;
- padding: 40px 20px;
- background-color: #f7f7f7;
-} 
-
-.sponsors-title {
- margin-bottom: 40px;
- font-size: 2em;
- color: #333;
-} 
-
-.sponsors-container {
- display: flex;
- flex-wrap: wrap;
- justify-content: center;
- align-items: center;
- gap: 40px;
-} 
-
-.sponsor-logo {
- flex: 1 1 150px; /* Permite que los logos se ajusten */
- max-width: 150px;
-} 
-
-.sponsor-logo img {
- width: 100%;
- height: auto;
- filter: grayscale(100%); /* Efecto de escala de grises */
- transition: filter 0.3s ease;
-} 
-
-.sponsor-logo img:hover {
- filter: grayscale(0%); /* El color aparece al pasar el ratón */
+/* Contenedor de escudos para que no se deformen */
+.img-escudo {
+    object-fit: contain;
+    max-width: 100%;
 }
