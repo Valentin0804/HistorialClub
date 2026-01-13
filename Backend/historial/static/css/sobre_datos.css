@@ -12,7 +12,6 @@
   --rojo-negativo: #d62727;
 }
 
-/* Animaciones */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -38,6 +37,11 @@
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
+.fuente-item { background: #fff; border-radius: 10px; padding: 15px; margin-bottom: 10px; border-left: 4px solid #019ee3; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+.timeline-data { border-left: 2px dashed #dee2e6; padding-left: 20px; position: relative; }
+.timeline-dot { position: absolute; left: -7px; top: 5px; width: 12px; height: 12px; border-radius: 50%; background: #019ee3; }
+
+
 .navbar-nav-1 li:hover {
   transform: translateY(-3px);
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
@@ -60,7 +64,7 @@
   font-size: 1.25rem;
   color: var(--celeste-oscuro);
 }
-/* Ajuste Responsive */
+
 @media (max-width: 768px) {
   h1.display-4,
   h2.display-4 {

@@ -1,32 +1,34 @@
-/* --- Ajustes de Escala y Colores --- */
 :root {
-    --failure-color: #d62727; /* Gris oscuro para derrotas */
+    --failure-color: #d62727;
     --success-color: #28a745;
     --neutral-color: #ffb74d;
 }
 
-/* Evitar que el Hero sea gigante en móviles */
 @media (max-width: 768px) {
     .hero-section {
         padding: 2.5rem 1rem !important;
         margin-bottom: 20px !important;
     }
-    .display-6 { font-size: 1.6rem; }
-    
-    /* Ajuste de márgenes negativos para que no se peguen al borde */
-    .mt-n4 { margin-top: -1.5rem !important; }
+
+    .display-6 {
+        font-size: 1.6rem;
+    }
+
+    .mt-n4 {
+        margin-top: -1.5rem !important;
+    }
 }
 
-/* --- Tablas Responsivas Pro --- */
 .table-responsive {
     border: none;
 }
 
-/* En pantallas muy pequeñas, ocultamos columnas menos importantes */
 @media (max-width: 576px) {
-    .hide-mobile { display: none; }
-    
-    /* Ajuste de nombres de equipos en tablas para que no desborden */
+    .hide-mobile {
+        display: none;
+    }
+
+
     .team-name {
         max-width: 80px;
         display: inline-block;
@@ -35,23 +37,22 @@
         text-overflow: ellipsis;
         vertical-align: middle;
     }
-    
-    .card-body { padding: 1rem; }
-    
-    /* Badges de marcador más compactos en móvil */
+
+    .card-body {
+        padding: 1rem;
+    }
+
     .badge-score {
         padding: 0.4rem 0.6rem !important;
         font-size: 0.8rem !important;
     }
 }
 
-/* Reemplazo de Rojo (bg-danger) por Gris (Failure) */
 .bg-failure {
     background-color: var(--failure-color) !important;
     color: white !important;
 }
 
-/* Contenedor de escudos para que no se deformen */
 .img-escudo {
     object-fit: contain;
     max-width: 100%;

@@ -1,14 +1,12 @@
 :root {
-  /* Azules basados exactamente en el escudo */
-  --primary-color: #019ee3;    /* Celeste brillante del logo */
-  --primary-light: #4cc2f0;    /* Celeste más claro para hover */
-  --primary-dark: #019ee3;     /* Azul profundo de las letras del logo */
-  
-  /* Reemplazos para estados (Prohibido el Rojo) */
-  --success-color: #28a745;    /* Verde para victorias */
-  --neutral-color: #ffb74d;    /* Amarillo para empates */
-  --failure-color: #d62727;    /* Gris oscuro/Negro para derrotas (en lugar de rojo) */
-  
+  --primary-color: #019ee3;
+  --primary-light: #4cc2f0;
+  --primary-dark: #019ee3;
+
+  --success-color: #28a745;
+  --neutral-color: #ffb74d;
+  --failure-color: #d62727;
+
   --secondary-color: #f8f9fa;
   --text-color: #1a1a1a;
   --light-text: #555;
@@ -16,15 +14,14 @@
   --black: #000000;
 }
 
-/* Base */
 body {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   color: var(--text-color);
-  background-color: #f4f7f9; /* Un fondo apenas azulado muy claro */
+  background-color: #f4f7f9;
 }
 
 .titulo1 {
-  
+
   color: var(--primary-dark);
 }
 
@@ -58,11 +55,9 @@ body {
 
 /* Hero */
 .hero-section {
-  background: linear-gradient(
-    135deg,
-    var(--primary-light) 0%,
-    var(--primary-color) 100%
-  );
+  background: linear-gradient(135deg,
+      var(--primary-light) 0%,
+      var(--primary-color) 100%);
   color: var(--white);
   border-radius: 0 0 2rem 2rem;
   margin-bottom: 3rem;
@@ -78,18 +73,18 @@ body {
 }
 
 .escudo-container {
-  width: 100px;   /* ancho fijo */
-  height: 100px;  /* alto fijo */
+  width: 100px;
+  height: 100px;
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow: hidden;  /* evita que sobresalga */
+  overflow: hidden;
 }
 
 .escudo-img {
   max-width: 100%;
   max-height: 100%;
-  object-fit: contain; /* mantiene proporción dentro del cuadro */
+  object-fit: contain;
 }
 
 
@@ -99,7 +94,6 @@ body {
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }
 
-/* Button */
 .btn-primary {
   background-color: var(--primary-dark);
   border-color: var(--primary-dark);
@@ -128,7 +122,6 @@ body {
   color: var(--white) !important;
 }
 
-/* Footer */
 footer {
   background-color: var(--primary-color);
   color: var(--white);
@@ -144,7 +137,6 @@ footer a:hover {
   text-decoration: none;
 }
 
-/* Responsive */
 @media (max-width: 768px) {
   .hero-section h1 {
     font-size: 2.2rem;
@@ -163,61 +155,70 @@ footer a:hover {
     padding: 0.5rem 0.75rem;
   }
 }
-/* --- Ajustes de Responsividad Críticos --- */
 
-/* Contenedor de tablas para evitar desbordamiento */
 .table-responsive {
-    border: none;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
+  border: none;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
-/* Ajuste de tipografía en móviles */
 @media (max-width: 576px) {
-    .display-6 { font-size: 1.5rem; }
-    .card-body { padding: 1rem; }
-    
-    /* Achicamos escudos y textos en el "Próximo Partido" */
-    .card-body img { height: 40px !important; }
-    .card-body h4 { font-size: 1.2rem; }
-    
-    /* Tabla de resultados: ocultamos la columna "Instancia" en móviles para ganar espacio */
-    .col-instancia { display: none; }
-    
-    /* Ajuste de nombres de equipos en la tabla */
-    .team-name-table {
-        font-size: 0.75rem;
-        max-width: 70px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-    
-    .badge-score {
-        padding: 0.4rem 0.6rem !important;
-        font-size: 0.8rem !important;
-    }
+  .display-6 {
+    font-size: 1.5rem;
+  }
+
+  .card-body {
+    padding: 1rem;
+  }
+
+  .card-body img {
+    height: 40px !important;
+  }
+
+  .card-body h4 {
+    font-size: 1.2rem;
+  }
+
+  .col-instancia {
+    display: none;
+  }
+
+  .team-name-table {
+    font-size: 0.75rem;
+    max-width: 70px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .badge-score {
+    padding: 0.4rem 0.6rem !important;
+    font-size: 0.8rem !important;
+  }
 }
 
-/* Reemplazo de Rojo por Failure Color (Gris Oscuro) */
 .bg-loss {
-    background-color: var(--failure-color) !important;
-    color: var(--white) !important;
+  background-color: var(--failure-color) !important;
+  color: var(--white) !important;
 }
 
-/* Estilo para los marcadores en la tabla */
 .match-result-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 }
 
 .team-label {
-    font-weight: 700;
-    font-size: 0.85rem;
-    flex: 1;
+  font-weight: 700;
+  font-size: 0.85rem;
+  flex: 1;
 }
 
-.team-label.text-end { text-align: right; }
-.team-label.text-start { text-align: left; }
+.team-label.text-end {
+  text-align: right;
+}
+
+.team-label.text-start {
+  text-align: left;
+}

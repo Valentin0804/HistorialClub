@@ -1,11 +1,9 @@
-/* Contenedor principal */
 .jugadores-container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 2rem 1rem;
 }
 
-/* Título */
 .jugadores-header h2 {
   color: var(--celeste-oscuro);
   font-size: 2rem;
@@ -14,7 +12,6 @@
   font-weight: 600;
 }
 
-/* Selector de año */
 .jugadores-filtros {
   display: flex;
   justify-content: center;
@@ -33,14 +30,12 @@
   min-width: 200px;
 }
 
-/* Lista de jugadores */
 .jugadores-lista {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 1.5rem;
 }
 
-/* Card de jugador */
 .jugador-card {
   background: var(--blanco);
   border-radius: 12px;
@@ -58,7 +53,6 @@
   transform: translateY(-4px);
 }
 
-/* Imagen del jugador */
 .jugador-card img {
   width: 100px;
   height: 100px;
@@ -68,7 +62,6 @@
   border: 2px solid var(--celeste-primario);
 }
 
-/* Nombre y posición */
 .jugador-nombre {
   font-size: 1.2rem;
   font-weight: 600;
@@ -81,7 +74,6 @@
   margin-top: 0.25rem;
 }
 
-/* Sin jugadores */
 .jugadores-vacio {
   text-align: center;
   color: var(--texto-secundario);
@@ -89,7 +81,6 @@
   margin-top: 2rem;
 }
 
-/* Ajuste Responsive */
 @media (max-width: 600px) {
   .jugador-card {
     padding: 1rem;

@@ -52,6 +52,8 @@
                         </div>
                         <div class="col-auto px-3 px-md-5 border-start border-end">
                             <small class="text-muted d-block hide-mobile">{{ ultimo_partido.torneo.nombre|truncatechars:20 }}</small>
+                            <small class="text-muted d-block hide-mobile">{{ ultimo_partido.instancia|truncatechars:20 }}</small>
+
                             <strong class="small">FINAL</strong>
                         </div>
                         <div class="col">
@@ -65,7 +67,7 @@
         </div>
     </div>
 
-    <!-- Goleada y Efemérides (2 columnas en desktop, 1 en móvil) -->
+    <!-- Goleada y Efemérides -->
     <div class="row g-3 mb-5">
         <div class="col-12 col-md-6">
             {% if maxima_goleada %}
@@ -75,6 +77,8 @@
                         <h6 class="text-uppercase opacity-75 extra-small fw-bold mb-1">Mayor Goleada</h6>
                         <h2 class="fw-bold mb-0">{{ maxima_goleada.goles_chabas }}-{{ maxima_goleada.goles_rival }}</h2>
                         <p class="mb-0 small text-truncate">vs {{ maxima_goleada.rival.nombre }}</p>
+                        <p class="mb-0 small"> {{ maxima_goleada.fecha|date:"Y" }}</p>
+
                     </div>
                     <a href="{% url 'detalle_partido' maxima_goleada.id %}" class="btn btn-sm btn-light rounded-pill px-3 fw-bold text-success">Ver</a>
                 </div>
@@ -112,7 +116,7 @@
                     <thead class="table-light">
                         <tr class="extra-small text-uppercase">
                             <th class="ps-3">Fecha</th>
-                            <th class="hide-mobile">Torneo</th>
+                            <th class="hide-mobile">Instancia</th>
                             <th class="text-center">Partido</th>
                             <th class="text-center">Ficha</th>
                         </tr>
@@ -142,7 +146,7 @@
         </div>
     </div>
 
-    <!-- Estadísticas de Temporada (3 columnas en desktop, 1 en móvil) -->
+    <!-- Estadísticas de Temporada -->
     <div class="row g-3 mb-5">
         <!-- Goleadores -->
         <div class="col-12 col-md-4">
@@ -182,7 +186,7 @@
             </div>
         </div>
 
-        <!-- Expulsados (Sin Rojo, usamos bg-failure o dark) -->
+        <!-- Expulsados -->
         <div class="col-12 col-md-4">
             <div class="card border-0 shadow-sm h-100 overflow-hidden">
                 <div class="card-header bg-danger text-white py-2 fw-bold small text-center">TOP EXPULSADOS</div>
