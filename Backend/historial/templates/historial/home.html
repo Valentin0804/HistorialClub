@@ -129,7 +129,7 @@
                             <td class="text-center">
                                 <div class="d-flex align-items-center justify-content-center gap-2">
                                     <span class="fw-bold small team-name text-end">CACH</span>
-                                    <span class="badge badge-score {% if p.goles_chabas > p.goles_rival %}bg-success{% elif p.goles_chabas < p.goles_rival %}bg-danger{% else %}bg-secondary{% endif %} px-2 py-2" style="min-width: 45px;">
+                                    <span class="badge badge-score {% if p.goles_chabas > p.goles_rival %}bg-success{% elif p.goles_chabas < p.goles_rival %}bg-danger{% else %}bg-warning{% endif %} px-2 py-2" style="min-width: 45px;">
                                         {{ p.goles_chabas }}-{{ p.goles_rival }}
                                     </span>
                                     <span class="fw-bold small team-name text-start">{{ p.rival.nombre }}</span>

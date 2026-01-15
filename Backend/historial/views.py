@@ -3,6 +3,7 @@ from django.shortcuts import render, get_object_or_404
 from .models import Partido, Jugador, Club, Gol, TarjetaAmarilla, TarjetaRoja, Torneo, HitoHistorico
 from django.db.models import Count, F, Q, Sum
 from django.utils import timezone
+import random
 
 def home(request):
     hoy = date.today()
@@ -413,18 +414,60 @@ def temporadas_stats(request):
             else:
                 racha.append('E')
 
-        # 4. Datos Curiosos (IA Style)
-        datos_curiosos = []
+        # 4. Datos Curiosos Dinámicos
+        candidatos = []
+        
+        # --- Dato: Goleada (La paliza) ---
         gran_victoria = partidos_todos.filter(goles_chabas__gt=F('goles_rival')).order_by('-goles_chabas').first()
-        
         if gran_victoria:
-            datos_curiosos.append(f"La mayor alegría fue el {gran_victoria.goles_chabas}-{gran_victoria.goles_rival} contra {gran_victoria.rival.nombre}.")
+            if gran_victoria.tipo == 'L':
+                candidatos.append(f"La locura de local: le metimos un {gran_victoria.goles_chabas}-{gran_victoria.goles_rival} a {gran_victoria.rival.nombre}.")
+            else:
+                candidatos.append(f"Lo más lindo: el {gran_victoria.goles_chabas}-{gran_victoria.goles_rival} a {gran_victoria.rival.nombre} en su casa.")
+
+        # --- Dato: Valla Invicta (Arco cerrado) ---
+        vallas_invictas = partidos_todos.filter(goles_rival=0).count()
+        if vallas_invictas > 7:
+            candidatos.append(f"En {vallas_invictas} partidos nuestro arco se fue en 0")
+
+        # --- Dato: Tarjetas (Hacha y tiza) ---
+        amarillas = TarjetaAmarilla.objects.filter(partido__torneo=torneo).count()
+        rojas = TarjetaRoja.objects.filter(partido__torneo=torneo).count()
+        if rojas > 3 and amarillas > 10:
+            candidatos.append(f"Se jugó con el cuchillo entre los dientes: metimos {amarillas} amarillas y {rojas} rojas.")
+        # elif amarillas < 5 and pj_total > 5:
+        #    candidatos.append(f"Unos señores: apenas {amarillas} amarillas en todo el torneo. Fair play puro.")
+
+        # --- Dato: Instancia Máxima ---
+        # Definimos un orden de importancia para las instancias
+        orden_instancias = ['Final', 'FinVue', 'FinIda', 'Semi', 'SemVue', 'SemIda', 'Cua', 'CuaVue', 'CuaIda', 'Oct', 'OctVue', 'OctIda']
+        instancia_maxima = "Fase de Grupos"
         
-        if pj_total > 0:
-            if porcentaje_puntos >= 75:
-                datos_curiosos.append(f"¡Temporada histórica! Se logró una efectividad del {porcentaje_puntos}%.")
-            elif gf > gc * 1.5:
-                datos_curiosos.append(f"Gran poder ofensivo: se anotaron {gf} goles en {pj_total} partidos.")
+        for inst in orden_instancias:
+            if partidos_todos.filter(instancia=inst).exists():
+                # Mapeo de nombres para que suene bien
+                nombres_bonitos = {
+                    'Final': 'la Final', 'FinVue': 'la Final', 'FinIda': 'la Final',
+                    'Semi': 'Semis', 'SemVue': 'Semis', 'SemIda': 'Semis',
+                    'Cua': 'Cuartos', 'CuaVue': 'Cuartos', 'CuaIda': 'Cuartos'
+                }
+                instancia_maxima = nombres_bonitos.get(inst, "instancias decisivas")
+                break
+        
+        if instancia_maxima != "Fase de Grupos":
+            candidatos.append(f"Nuestra temporada se termino en {instancia_maxima}.")
+
+        # --- Dato: Efectividad (El laburo de la temporada) ---
+        if porcentaje_puntos >= 70:
+            candidatos.append(f"Campaña de locos. Sacamos el {porcentaje_puntos}% de los puntos.")
+        elif porcentaje_puntos <= 35 and pj_total > 0:
+            candidatos.append("Torneo para el olvido. A barajar y dar de nuevo.")
+
+        # SELECCIÓN FINAL: Mezclamos para que no sea siempre igual
+        if len(candidatos) >= 3:
+            datos_curiosos = random.sample(candidatos, 3)
+        else:
+            datos_curiosos = candidatos
 
         # 5. Máximo Goleador
         top_g = Jugador.objects.filter(gol__partido__torneo=torneo).annotate(goles_t=Count('gol')).order_by('-goles_t').first()
