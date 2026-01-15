@@ -21,7 +21,8 @@
             </div>
 
             <div class="match-score-center">
-                <div class="match-info-pill {% if partido.tipo == 'L' %}text-primary{% else %}text-secondary{% endif %}">
+                <div
+                    class="match-info-pill {% if partido.tipo == 'L' %}text-primary{% else %}text-secondary{% endif %}">
                     {% if partido.tipo == 'L' %}Local{% else %}Visitante{% endif %}
                 </div>
                 <div class="score-numbers">
@@ -34,11 +35,12 @@
 
             <div class="team">
                 {% if partido.rival.escudo %}
-                    <img src="{% static 'img/escudos/'|add:partido.rival.escudo %}" alt="{{ partido.rival.nombre }}" class="team-logo">
+                <img src="{% static 'img/escudos/'|add:partido.rival.escudo %}" alt="{{ partido.rival.nombre }}"
+                    class="team-logo">
                 {% else %}
-                    <div class="team-logo bg-light rounded-circle d-flex align-items-center justify-content-center mx-auto">
-                        <i class="fas fa-shield-alt text-muted fa-2x"></i>
-                    </div>
+                <div class="team-logo bg-light rounded-circle d-flex align-items-center justify-content-center mx-auto">
+                    <i class="fas fa-shield-alt text-muted fa-2x"></i>
+                </div>
                 {% endif %}
                 <div class="team-name">{{ partido.rival.nombre|upper }}</div>
             </div>
@@ -60,42 +62,42 @@
         <div class="detail-section">
             <h2 class="section-title text-success"><i class="fas fa-futbol me-2"></i>GOLES</h2>
             {% if goles %}
-                {% for gol in goles %}
-                <div class="d-flex justify-content-between border-bottom py-2 small">
-                    <span class="fw-bold">{{ gol.jugador.nombre }} {{ gol.jugador.apellido }}</span>
-                    <span class="badge bg-light text-dark border">{{ gol.minuto }}'</span>
-                </div>
-                {% endfor %}
+            {% for gol in goles %}
+            <div class="d-flex justify-content-between border-bottom py-2 small">
+                <span class="fw-bold">{{ gol.jugador.nombre }} {{ gol.jugador.apellido }}</span>
+                <span class="badge bg-light text-dark border">{{ gol.minuto }}'</span>
+            </div>
+            {% endfor %}
             {% else %}
-                <p class="text-muted small italic">Sin goles registrados.</p>
+            <p class="text-muted small italic">Sin goles registrados.</p>
             {% endif %}
         </div>
 
         <div class="detail-section" style="border-color: var(--naranja-neutral);">
             <h2 class="section-title text-warning"><i class="fas fa-square me-2"></i>AMARILLAS</h2>
             {% if amarillas %}
-                {% for am in amarillas %}
-                <div class="d-flex justify-content-between border-bottom py-2 small">
-                    <span>{{ am.jugador.nombre }} {{ am.jugador.apellido }}</span>
-                    <span class="badge bg-warning-subtle text-warning border border-warning-subtle">{{ am.minuto }}'</span>
-                </div>
-                {% endfor %}
+            {% for am in amarillas %}
+            <div class="d-flex justify-content-between border-bottom py-2 small">
+                <span>{{ am.jugador.nombre }} {{ am.jugador.apellido }}</span>
+                <span class="badge bg-warning-subtle text-warning border border-warning-subtle">{{ am.minuto }}'</span>
+            </div>
+            {% endfor %}
             {% else %}
-                <p class="text-muted small">Sin amonestados.</p>
+            <p class="text-muted small">Sin amonestados.</p>
             {% endif %}
         </div>
 
         <div class="detail-section" style="border-color: var(--rojo-negativo);">
             <h2 class="section-title text-danger"><i class="fas fa-square me-2"></i>EXPULSIONES</h2>
             {% if rojas %}
-                {% for roja in rojas %}
-                <div class="d-flex justify-content-between border-bottom py-2 small text-danger fw-bold">
-                    <span>{{ roja.jugador.nombre }} {{ roja.jugador.apellido }}</span>
-                    <span class="badge bg-danger">{{ roja.minuto }}'</span>
-                </div>
-                {% endfor %}
+            {% for roja in rojas %}
+            <div class="d-flex justify-content-between border-bottom py-2 small text-danger fw-bold">
+                <span>{{ roja.jugador.nombre }} {{ roja.jugador.apellido }}</span>
+                <span class="badge bg-danger">{{ roja.minuto }}'</span>
+            </div>
+            {% endfor %}
             {% else %}
-                <p class="text-muted small text-center py-2">Limpio: Sin tarjetas rojas.</p>
+            <p class="text-muted small text-center py-2">Limpio: Sin tarjetas rojas.</p>
             {% endif %}
         </div>
 
@@ -103,9 +105,9 @@
             <h2 class="section-title text-dark"><i class="fas fa-comment-dots me-2"></i>RESUMEN / NOTAS</h2>
             <div class="bg-light p-3 rounded small">
                 {% if descripcion %}
-                    {{ descripcion|linebreaks }}
+                {{ descripcion|linebreaks }}
                 {% else %}
-                    No hay observaciones adicionales para este encuentro.
+                No hay observaciones adicionales para este encuentro.
                 {% endif %}
             </div>
         </div>
@@ -114,28 +116,46 @@
     <div class="mt-5">
         <h3 class="fw-bold mb-4 text-center"><i class="fab fa-youtube text-danger me-2"></i>Resumen en Video</h3>
         {% if videos %}
-            <div class="row justify-content-center">
+        <div class="row justify-content-center">
             {% for video in videos %}
-                <div class="col-lg-8 mb-4">
-                    <div class="video-responsive">
-                        <iframe src="{{ video.url_youtube|youtube_embed_url }}" 
-                                title="{{ video.titulo }}" frameborder="0" 
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                                allowfullscreen></iframe>
-                    </div>
-                    <p class="small text-center text-muted fw-bold">{{ video.titulo }}</p>
+            <div class="col-lg-6 mb-4">
+                <div class="video-card-historial">
+                    <a href="{{ video.url_youtube }}" target="_blank" class="video-link">
+                        <div class="thumbnail-container">
+                            <img src="https://img.youtube.com/vi/{{ video.get_youtube_id }}/maxresdefault.jpg"
+                                class="img-fluid" alt="{{ video.titulo }}">
+
+                            <div class="play-button-overlay">
+                                <i class="fas fa-play"></i>
+                            </div>
+
+                            {% if "t=" in video.url_youtube %}
+                            <div class="time-badge">
+                                <i class="fas fa-clock me-1"></i> Inicia en el momento exacto
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="video-info-bar">
+                            <span class="video-title-text">{{ video.titulo }}</span>
+                            <span class="video-action-btn">Ver en YouTube <i
+                                    class="fas fa-external-link-alt ms-1"></i></span>
+                        </div>
+                    </a>
                 </div>
+            </div>
             {% endfor %}
-            </div>
+        </div>
         {% else %}
-            <div class="alert alert-light text-center border">
-                <i class="fas fa-video-slash me-2 text-muted"></i> No hay archivos fílmicos disponibles.
-            </div>
+        <div class="alert alert-light text-center border">
+            <i class="fas fa-video-slash me-2 text-muted"></i> No hay archivos fílmicos disponibles.
+        </div>
         {% endif %}
     </div>
 
     <div class="text-center mt-5 text-muted extra-small">
-        <p><i class="fas fa-info-circle me-1"></i> (0') Indica que el minuto exacto no está disponible en las fuentes históricas.</p>
+        <p><i class="fas fa-info-circle me-1"></i> (0') Indica que el minuto exacto no está disponible en las fuentes
+            históricas.</p>
     </div>
 </div>
 {% endblock %}
