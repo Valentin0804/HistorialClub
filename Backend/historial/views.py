@@ -463,6 +463,38 @@ def temporadas_stats(request):
         elif porcentaje_puntos <= 35 and pj_total > 0:
             candidatos.append("Torneo para el olvido. A barajar y dar de nuevo.")
 
+       # --- Dato: El Clásico (Contra Huracán) ---
+        partidos_clasico = partidos_todos.filter(rival__nombre__icontains='Huracan')
+        if partidos_clasico.exists():
+            v_c = sum(1 for p in partidos_clasico if p.goles_chabas > p.goles_rival)
+            d_c = sum(1 for p in partidos_clasico if p.goles_chabas < p.goles_rival)
+            e_c = sum(1 for p in partidos_clasico if p.goles_chabas == p.goles_rival)
+            total_c = partidos_clasico.count()
+
+            # Caso 1: Ganamos absolutamente todos
+            if v_c == total_c:
+                candidatos.append("Paternidad absoluta: este año ganamos todos los clásicos.")
+            
+            # Caso 2: Invictos (al menos una victoria y empates, pero ninguna derrota)
+            elif d_c == 0 and v_c > 0:
+                candidatos.append("El pueblo quedó en orden: este año no pudieron festejar ni una vez.")
+            
+            # Caso 3: Empatamos todos los que jugamos
+            elif e_c == total_c:
+                candidatos.append("Clásicos trabados: Hubo tablas en todos los enfrentamientos.")
+            
+
+        hat_trick = Gol.objects.filter(partido__torneo=torneo)\
+            .values('partido', 'jugador__nombre', 'jugador__apellido')\
+            .annotate(g=Count('id'))\
+            .filter(g__gte=3)\
+            .order_by('-g')\
+            .first() # Ahora con order_by no tira error
+        
+        if hat_trick:
+            candidatos.append(f"{hat_trick['jugador__nombre']} {hat_trick['jugador__apellido']} clavó tres en un mismo partido y se llevó la pelota.")
+
+
         # SELECCIÓN FINAL: Mezclamos para que no sea siempre igual
         if len(candidatos) >= 3:
             datos_curiosos = random.sample(candidatos, 3)
