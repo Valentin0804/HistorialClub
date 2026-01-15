@@ -1,200 +1,217 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="es">
-    <head>
-        <!-- Metadatos básicos -->
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        
-        <!-- Metadatos SEO -->
-        <title>CACH - {% block title %}{% endblock %}</title>
-        <meta name="description" content="La historia del Club Atlético Chabás: partidos, jugadores, goles, títulos y más.">
-        <meta name="keywords" content="Club Atlético Chabás, fútbol, liga, historia, goles, campeonatos, partidos, temporadas, línea de tiempo">
-        
-        <!-- Favicon -->
-        <link rel="icon" type="image/png" href="{% static 'img/Leon.png' %}">
-        
-        <!-- Schema.org Structured Data -->
-        <script type="application/ld+json">
-            {
-                "@context": "https://schema.org",
-                "@type": "SportsOrganization",
-                "name": "Club Atlético Chabás",
-                "alternateName": "CACH Info",
-                "description": "La historia del Club Atlético Chabás: partidos, jugadores, goles, títulos y más.",
-                "logo": "https://www.atleticochabas.info/static/img/Leon.png",
-                "image": "https://www.atleticochabas.info/static/img/jugador_default.png"
-            }
-        </script>
-        
-        <!-- Google Analytics -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-D35F21W3SX"></script>
-        <script>
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-D35F21W3SX');
-        </script>
 
-        <!-- CSS -->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-        <link rel="stylesheet" href="{% static 'css/base.css' %}">
-        
-        <!-- CSS adicional por bloque -->
-        {% block extra_css %}{% endblock %}
-    </head>
+<head>
+    <!-- Metadatos básicos -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <body class="d-flex flex-column min-vh-100 bg-light">
-        <!-- Navegación -->
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
-            <div class="container">
-                <!-- Logo y marca -->
-                <a class="navbar-brand fw-bold" href="{% url 'home' %}">
-                    <img src="{% static 'img/Leon.png' %}" alt="Logo CACH" height="40" class="me-2">
-                    CACH
-                </a>
+    <!-- Metadatos SEO -->
+    <title>{% block title %}Club Atlético Chabás | El Más Campeón del Pueblo{% endblock %}</title>
+    <meta name="description"
+        content="Sitio oficial del Club Atlético Chabás. Seguí la campaña del Lagunero: resultados, tabla de posiciones, historia y estadísticas de nuestros 12 títulos.">
+    <meta name="keywords"
+        content="Club Atlético Chabás, CACH, El Lagunero, fútbol Chabás, Liga Casildense, historia CACH">
 
-                <!-- Botón para móviles -->
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+    <meta property="og:title" content="Club Atlético Chabás - Sitio Oficial">
+    <meta property="og:description"
+        content="La historia y el presente del Más Campeón del Pueblo. Partidos, jugadores y estadísticas.">
+    <meta property="og:image" content="https://www.atleticochabas.info{% static 'img/Leon.png' %}">
+    <meta property="og:url" content="https://www.atleticochabas.info">
+    <meta property="og:type" content="website">
 
-                <!-- Menú de navegación -->
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav ms-auto align-items-lg-center">
-                        <!-- INICIO -->
-                        <li class="nav-item mx-1">
-                            <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}"
-                               href="{% url 'home' %}">
-                                <i class="fas fa-home me-1"></i>Inicio
-                            </a>
-                        </li>
+    <link rel="shortcut icon" href="{% static 'img/Leon.png' %}" type="image/x-icon">
+    <link rel="icon" type="image/png" href="{% static 'img/Leon.png' %}">
 
-                        <!-- COMPETENCIA -->
-                        <li class="nav-item dropdown mx-1">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                                <i class="fas fa-calendar-alt me-1"></i>Competencia
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li>
-                                    <a class="dropdown-item" href="{% url 'temporada_actual' %}">
-                                        <i class="fas fa-play me-2"></i>Temporada actual
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" href="{% url 'partidos' %}">
-                                        <i class="fas fa-history me-2"></i>Partidos Históricos
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" href="{% url 'rivales' %}">
-                                        <i class="fas fa-shield-alt me-2"></i>Rivales
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "SportsOrganization",
+        "name": "Club Atlético Chabás",
+        "alternateName": "CACH",
+        "url": "https://www.atleticochabas.info",
+        "logo": "https://www.atleticochabas.info{% static 'img/Leon.png' %}",
+        "sameAs": [
+            "https://www.facebook.com/clubatleticochabas",
+            "https://www.instagram.com/clubatleticochabas/"
+        ]
+    }
+</script>
 
-                        <!-- ESTADÍSTICAS -->
-                        <li class="nav-item dropdown mx-1">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                                <i class="fas fa-chart-bar me-1"></i>Estadísticas
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li>
-                                    <a class="dropdown-item" href="{% url 'jugadores_stats' %}">
-                                        <i class="fas fa-id-card me-2"></i>Jugadores
-                                    </a>
-                                </li>
-                                
-                                <li>
-                                    <a class="dropdown-item" href="{% url 'temporadas_stats' %}">
-                                        <i class="fas fa-chart-line me-2"></i>Temporadas
-                                    </a>
-                                </li>
-                                
-                            </ul>
-                        </li>
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-D35F21W3SX"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-D35F21W3SX');
+    </script>
 
-                        <!-- HISTORIA -->
-                        <li class="nav-item dropdown mx-1">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                                <i class="fas fa-landmark me-1"></i>Historia
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li>
-                                    <a class="dropdown-item" href="{% url 'historia' %}">
-                                        <i class="fas fa-stream me-2"></i>Línea de tiempo
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" href="{% url 'jugadores_por_anio' %}">
-                                        <i class="fas fa-users me-2"></i>Plantillas
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
+    <!-- CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+
+    <!-- CSS adicional por bloque -->
+    {% block extra_css %}{% endblock %}
+</head>
+
+<body class="d-flex flex-column min-vh-100 bg-light">
+    <!-- Navegación -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+        <div class="container">
+            <!-- Logo y marca -->
+            <a class="navbar-brand fw-bold" href="{% url 'home' %}">
+                <img src="{% static 'img/Leon.png' %}" alt="Logo CACH" height="40" class="me-2">
+                CACH
+            </a>
+
+            <!-- Botón para móviles -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Menú de navegación -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-lg-center">
+                    <!-- INICIO -->
+                    <li class="nav-item mx-1">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}"
+                            href="{% url 'home' %}">
+                            <i class="fas fa-home me-1"></i>Inicio
+                        </a>
+                    </li>
+
+                    <!-- COMPETENCIA -->
+                    <li class="nav-item dropdown mx-1">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-calendar-alt me-1"></i>Competencia
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="dropdown-item" href="{% url 'temporada_actual' %}">
+                                    <i class="fas fa-play me-2"></i>Temporada actual
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{% url 'partidos' %}">
+                                    <i class="fas fa-history me-2"></i>Partidos Históricos
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{% url 'rivales' %}">
+                                    <i class="fas fa-shield-alt me-2"></i>Rivales
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <!-- ESTADÍSTICAS -->
+                    <li class="nav-item dropdown mx-1">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-chart-bar me-1"></i>Estadísticas
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="dropdown-item" href="{% url 'jugadores_stats' %}">
+                                    <i class="fas fa-id-card me-2"></i>Jugadores
+                                </a>
+                            </li>
+
+                            <li>
+                                <a class="dropdown-item" href="{% url 'temporadas_stats' %}">
+                                    <i class="fas fa-chart-line me-2"></i>Temporadas
+                                </a>
+                            </li>
+
+                        </ul>
+                    </li>
+
+                    <!-- HISTORIA -->
+                    <li class="nav-item dropdown mx-1">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-landmark me-1"></i>Historia
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="dropdown-item" href="{% url 'historia' %}">
+                                    <i class="fas fa-stream me-2"></i>Línea de tiempo
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{% url 'jugadores_por_anio' %}">
+                                    <i class="fas fa-users me-2"></i>Plantillas
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
             </div>
-        </nav>
+        </div>
+    </nav>
 
-        <!-- Contenido principal -->
-        <main class="flex-grow-1 py-4">
-            {% block content %}{% endblock %}
-        </main>
+    <!-- Contenido principal -->
+    <main class="flex-grow-1 py-4">
+        {% block content %}{% endblock %}
+    </main>
 
-        <!-- Pie de página -->
-        <footer class="bg-primary text-white py-4 mt-auto">
-            <div class="container">
-                <div class="row">
-                    <!-- Información del club -->
-                    <div class="col-md-4 text-center text-md-start mb-3 mb-md-0">
-                        <h5 class="fw-bold">Club Atlético Chabás</h5>
-                        <p class="mb-0">EL MÁS CAMPEÓN DEL PUEBLO</p>
-                    </div>
+    <!-- Pie de página -->
+    <footer class="bg-primary text-white py-4 mt-auto">
+        <div class="container">
+            <div class="row">
+                <!-- Información del club -->
+                <div class="col-md-4 text-center text-md-start mb-3 mb-md-0">
+                    <h5 class="fw-bold">Club Atlético Chabás</h5>
+                    <p class="mb-0">EL MÁS CAMPEÓN DEL PUEBLO</p>
+                </div>
 
-                    <!-- Redes sociales -->
-                    <div class="col-md-4 text-center">
-                        <div class="mb-2">
-                            <a href="https://www.facebook.com/clubatleticochabas" target="_blank" class="text-white mx-2" aria-label="Facebook">
-                                <i class="fab fa-facebook-f fa-lg"></i>
-                            </a>
-                            <a href="https://www.instagram.com/clubatleticochabas/" target="_blank" class="text-white mx-2" aria-label="Instagram">
-                                <i class="fab fa-instagram fa-lg"></i>
-                            </a>
-                            <a href="https://whatsapp.com/channel/0029VbA2CvgFnSz5CQVegz2C" target="_blank" class="text-white mx-2" aria-label="WhatsApp">
-                                <i class="fab fa-whatsapp fa-lg"></i>
-                            </a>
-                        </div>
-                        <p class="mb-0">⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐</p>
-                    </div>
-
-                    <!-- Enlace información datos -->
-                    <div class="col-md-4 text-center text-md-end">
-                        <a class="nav-link text-white" href="{% url 'sobre_datos' %}">
-                            <i class="fas fa-info-circle me-1"></i> Sobre nuestros datos
+                <!-- Redes sociales -->
+                <div class="col-md-4 text-center">
+                    <div class="mb-2">
+                        <a href="https://www.facebook.com/clubatleticochabas" target="_blank" class="text-white mx-2"
+                            aria-label="Facebook">
+                            <i class="fab fa-facebook-f fa-lg"></i>
+                        </a>
+                        <a href="https://www.instagram.com/clubatleticochabas/" target="_blank" class="text-white mx-2"
+                            aria-label="Instagram">
+                            <i class="fab fa-instagram fa-lg"></i>
+                        </a>
+                        <a href="https://whatsapp.com/channel/0029VbA2CvgFnSz5CQVegz2C" target="_blank"
+                            class="text-white mx-2" aria-label="WhatsApp">
+                            <i class="fab fa-whatsapp fa-lg"></i>
                         </a>
                     </div>
+                    <p class="mb-0">⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐</p>
                 </div>
 
-                <hr class="my-3 bg-white">
-
-                <!-- Copyright -->
-                <div class="text-center">
-                    <p class="mb-0">&copy; {% now "Y" %} Valentin Molina. Todos los derechos reservados.</p>
-                    <p class="mb-0 small">Diseñado con <i class="fas fa-heart" style="color: var(--white);"></i> por los hinchas laguneros.</p>
+                <!-- Enlace información datos -->
+                <div class="col-md-4 text-center text-md-end">
+                    <a class="nav-link text-white" href="{% url 'sobre_datos' %}">
+                        <i class="fas fa-info-circle me-1"></i> Sobre nuestros datos
+                    </a>
                 </div>
             </div>
-        </footer>
 
-        <!-- JavaScript -->
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-        
-        <!-- JavaScript adicional por bloque -->
-        {% block scripts %}{% endblock %}
-    </body>
+            <hr class="my-3 bg-white">
+
+            <!-- Copyright -->
+            <div class="text-center">
+                <p class="mb-0">&copy; {% now "Y" %} Valentin Molina. Todos los derechos reservados.</p>
+                <p class="mb-0 small">Diseñado con <i class="fas fa-heart" style="color: var(--white);"></i> por los
+                    hinchas laguneros.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    <!-- JavaScript adicional por bloque -->
+    {% block scripts %}{% endblock %}
+</body>
+
 </html>

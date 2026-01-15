@@ -1,7 +1,7 @@
 :root {
     --primary-color: #019ee3;
     --success-color: #28a745;
-    --neutral-color: #;
+    --naranja-neutral: #ffb74d;
     --failure-color: #d62727;
 }
 
@@ -29,11 +29,11 @@
 }
 
 .loss {
-    color: var(--failure-color);
+    color: var(--failure-color) !important;
 }
 
 .draw {
-    color: var(--neutral-color);
+    color: var(--naranja-neutral) !important;
 }
 
 .uppercase {
@@ -76,7 +76,7 @@
 }
 
 .draw-row {
-    border-left: 6px solid var(--neutral-color);
+    border-left: 6px solid var(--naranja-neutral);
 }
 
 .info-btn {
@@ -132,7 +132,7 @@
     }
 
     .draw-row {
-        border-top: 5px solid var(--neutral-color) !important;
+        border-top: 5px solid #ffb74d !important;
     }
 
     body .container table.matches-table td {

@@ -21,8 +21,7 @@ body {
 }
 
 .titulo1 {
-
-  color: var(--primary-dark);
+  color: var(--primary-color);
 }
 
 /* Navbar */

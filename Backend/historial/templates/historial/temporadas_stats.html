@@ -1,7 +1,17 @@
 {% extends "historial/base.html" %}
+{% load static %}
+
+{% block title %}Estadísticas - Club Atlético Chabás{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/stats.css' %}">
+{% endblock %}
 {% block content %}
-<div class="container py-4">
-    <h2 class="titulo1 mb-4 text-center">Estadísticas por Temporada</h2>
+<div class="container py-4 py-md-5">
+    <div class="text-center mb-4 mb-md-5">
+        <h1 class="fw-bold titulo1 mb-2"><i class="fas fa-chart-line me-2"></i>Estadísticas por Temporada</h1>
+        <p class="text-muted">Rendimiento histórico de nuestras temporadas</p>
+    </div>
 
     <div class="card shadow-sm mb-4 border-0 rounded-4">
         <div class="card-body">

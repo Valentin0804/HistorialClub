@@ -9,51 +9,54 @@
 {% block content %}
 
 <div class="jugadores-container">
-    <div class="text-center mb-5">
-        <h1 class="display-4 fw-bold titulo1 mb-3"><i class="fas fa-users me-2"></i>Plantillas anuales</h1>
-        <p class="lead text-muted">Conoce a los protagonistas de cada año</p>
+
+    <div class="text-center mb-4 mb-md-5">
+        <h1 class="fw-bold titulo1 mb-2"><i class="fas fa-users me-2"></i>Plantillas anuales</h1>
+        <p class="text-muted">Conoce a los protagonistas de cada año</p>
     </div>
 
     <div class="card border-0 shadow-sm mb-5">
-    <div class="card-header bg-primary text-white py-3">
-        <h3 class="h5 mb-0"><i class="fas fa-calendar-alt me-2"></i>Seleccionar Plantilla Anual</h3>
-    </div>
-    <div class="card-body bg-light">
-        <form method="get" class="jugadores-filtros d-flex justify-content-center">
-            <select name="anio" id="anio" class="form-select form-select-lg w-auto border-primary text-primary fw-bold" onchange="this.form.submit()">
-                <option value=""> — Selecciona un año — </option>
-                {% for a in anios_disponibles %}
+        <div class="card-header bg-primary text-white py-3">
+            <h3 class="h5 mb-0"><i class="fas fa-calendar-alt me-2"></i>Seleccionar Plantilla Anual</h3>
+        </div>
+        <div class="card-body bg-light">
+            <form method="get" class="jugadores-filtros d-flex justify-content-center">
+                <select name="anio" id="anio"
+                    class="form-select form-select-lg w-auto border-primary text-primary fw-bold"
+                    onchange="this.form.submit()">
+                    <option value=""> — Selecciona un año — </option>
+                    {% for a in anios_disponibles %}
                     <option value="{{ a }}" {% if a|stringformat:"s" == anio_seleccionado %}selected{% endif %}>
                         {% if a == 1995 %}⭐ Jugadores históricos{% else %}Plantel {{ a }}{% endif %}
                     </option>
-                {% endfor %}
-            </select>
-        </form>
+                    {% endfor %}
+                </select>
+            </form>
+        </div>
     </div>
 </div>
-    </div>
 
-    {% if jugadores %}
-        <div class="jugadores-lista">
-            {% for jugador in jugadores %}
-                <div class="jugador-card">
-                   {% if jugador.foto %}
-                        <img src="{{ jugador.foto.url }}" alt="{{ jugador }}">
-                    {% else %}
-                        <img src="{% static 'img/jugador_default.png' %}" alt="Jugador sin foto">
-                    {% endif %}
-                    <div class="jugador-nombre">
-                        {{ jugador.nombre }} {{ jugador.apellido }}
-                    </div>
-                    <div class="jugador-posicion">
-                        {{ jugador.get_posicion_display }}
-                    </div>
-                </div>
-            {% endfor %}
+{% if jugadores %}
+<div class="jugadores-lista">
+    {% for jugador in jugadores %}
+    <div class="jugador-card">
+        {% if jugador.foto %}
+        <img src="{{ jugador.foto.url }}" alt="{{ jugador }}">
+        {% else %}
+        <img src="{% static 'img/jugador_default.png' %}" alt="Jugador sin foto">
+        {% endif %}
+        <div class="jugador-nombre">
+            {{ jugador.nombre }} {{ jugador.apellido }}
         </div>
-    {% else %}
-        <p class="jugadores-vacio">No hay jugadores para el año seleccionado.</p>
-    {% endif %}
+        <div class="jugador-posicion">
+            {{ jugador.get_posicion_display }}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<p class="jugadores-vacio">No hay jugadores para el año seleccionado.</p>
+{% endif %}
 
 </div>
 {% endblock %}
