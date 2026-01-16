@@ -54,8 +54,7 @@
 
                     {% if item.datos_curiosos %}
                     <div class="p-3 mb-4 rounded-4" style="background-color: #eef8ff; border-left: 5px solid #019ee3;">
-                        <h6 class="fw-bold text-primary mb-2 small uppercase"><i class="fas fa-robot me-2"></i>Análisis
-                            de Campaña</h6>
+                        <h6 class="fw-bold text-primary mb-2 small uppercase"><i class="fas fa-robot me-2"></i>Análisis de Campaña</h6>
                         <ul class="mb-0 small text-dark">
                             {% for dato in item.datos_curiosos %}
                             <li class="mb-1">{{ dato }}</li>
@@ -125,6 +124,7 @@
                             </div>
                         </div>
 
+
                         <div class="col-12 col-md-4">
                             <div class="card border-0 bg-dark text-white rounded-4 h-100">
                                 <div class="card-body d-flex align-items-center">
@@ -138,6 +138,46 @@
                                     <div class="text-center w-100 small text-muted">Sin datos de goles</div>
                                     {% endif %}
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row g-2 mb-3 mt-2">
+                        <div class="col-6 col-md-3">
+                            <div class="border rounded p-2 text-center bg-light">
+                                <small class="text-muted d-block">PARTIDOS</small>
+                                <span class="fw-bold">{{ item.pj }}</span>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <div class="border rounded p-2 text-center">
+                                <small class="text-success d-block">VICTORIAS</small>
+                                <span class="fw-bold">{{ item.victorias }}</span>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <div class="border rounded p-2 text-center">
+                                <small class="text-warning d-block">EMPATES</small>
+                                <span class="fw-bold">{{ item.empates }}</span>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <div class="border rounded p-2 text-center">
+                                <small class="text-danger d-block">DERROTAS</small>
+                                <span class="fw-bold">{{ item.derrotas }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row g-2 mb-3 small">
+                        <div class="col-12 d-flex justify-content-between bg-light p-2 rounded">
+                            <span><i class="fas fa-square text-warning me-1"></i> Amarillas: <b>{{ item.amarillas }}</b></span>
+                            <span><i class="fas fa-square text-danger me-1"></i> Rojas: <b>{{ item.rojas }}</b></span>
+                            <span><i class="fas fa-shield-alt text-info me-1"></i> Arcos en 0: <b>{{ item.vallas_invictas }}</b></span>
+                        </div>
+                        <div class="col-12 mt-2">
+                            <div class="text-muted" style="font-size: 0.75rem;">
+                                Racha Invicta Máxima: <b class="text-dark">{{ item.max_racha_no_perdidos }} part.</b> |
+                                Promedio Goles: <b class="text-dark">{{ item.promedio_gf }}</b>
                             </div>
                         </div>
                     </div>

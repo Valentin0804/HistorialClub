@@ -188,3 +188,36 @@
     font-size: 1.5rem;
   }
 }
+
+.accordion-button:not(.collapsed) {
+    background-color: #f8f9fa;
+    color: #019ee3;
+    box-shadow: inset 0 -1px 0 rgba(0,0,0,.125);
+}
+
+.accordion-button:focus {
+    box-shadow: none;
+    border-color: rgba(0,0,0,.125);
+}
+
+.uppercase {
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.7rem;
+}
+
+/* Efecto Hover en las cards de estadísticas */
+.card.bg-light {
+    transition: transform 0.2s ease;
+}
+
+.card.bg-light:hover {
+    transform: translateY(-3px);
+    background-color: #f1f3f5 !important;
+}
+
+/* Badge de racha circular */
+.badge.rounded-circle {
+    font-size: 0.7rem;
+    font-weight: bold;
+}

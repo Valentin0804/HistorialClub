@@ -57,6 +57,7 @@ def home(request):
         'partidos_recientes': partidos_recientes,
         'top_expulsados': top_5_expulsados,
     })
+    
 def lista_partidos(request):
     """Muestra todos los partidos ordenados por fecha descendente"""
     partidos = Partido.objects.all().order_by('-fecha')
@@ -401,6 +402,24 @@ def temporadas_stats(request):
         gf = partidos_todos.aggregate(Sum('goles_chabas'))['goles_chabas__sum'] or 0
         gc = partidos_todos.aggregate(Sum('goles_rival'))['goles_rival__sum'] or 0
         diff_goles = gf - gc
+        victorias = sum(1 for p in partidos_todos if p.goles_chabas > p.goles_rival)
+        empates = sum(1 for p in partidos_todos if p.goles_chabas == p.goles_rival)
+        derrotas = sum(1 for p in partidos_todos if p.goles_chabas < p.goles_rival)
+
+
+        racha_act_np, max_racha_np = 0, 0
+        racha_act_g, max_racha_g = 0, 0
+        for p in partidos_todos:
+            # No perdidos
+            if p.goles_chabas >= p.goles_rival:
+                racha_act_np += 1
+                max_racha_np = max(max_racha_np, racha_act_np)
+            else: racha_act_np = 0
+            # Ganados
+            if p.goles_chabas > p.goles_rival:
+                racha_act_g += 1
+                max_racha_g = max(max_racha_g, racha_act_g)
+            else: racha_act_g = 0
 
         # 3. Cálculo de la Racha (Últimos 5 partidos)
         # Traemos los últimos 5 jugados de este torneo
@@ -506,8 +525,19 @@ def temporadas_stats(request):
 
         stats_resultados.append({
             'torneo': torneo,
+            'pj': pj_total,            
             'puntos_obtenidos': puntos_obtenidos,
             'puntos_posibles': puntos_posibles,
+            'victorias': victorias,
+            'empates': empates,
+            'derrotas': derrotas,
+            'promedio_gf': round(gf / pj_total, 2) if pj_total > 0 else 0,
+            'promedio_puntos': round(puntos_obtenidos / pj_fecha, 2) if pj_fecha > 0 else 0,
+            'vallas_invictas': vallas_invictas,
+            'rojas': rojas,
+            'amarillas': amarillas,
+            'max_racha_no_perdidos': max_racha_np,
+            'max_racha_ganados': max_racha_g,
             'porcentaje_puntos': porcentaje_puntos,
             'pj': pj_total,
             'gf': gf,
