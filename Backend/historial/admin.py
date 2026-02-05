@@ -1,3 +1,5 @@
+import openpyxl
+from django.http import HttpResponse
 from django.contrib import admin
 from django.utils.html import format_html
 from .models import Club, Jugador, ParticipacionJugador, Torneo, Partido, Gol, TarjetaAmarilla, TarjetaRoja, VideoPartido, HitoHistorico
@@ -5,6 +7,89 @@ from .models import Club, Jugador, ParticipacionJugador, Torneo, Partido, Gol, T
 # Configuración global del admin
 admin.site.site_header = "Club Atlético Chabás - Administración"
 admin.site.index_title = "Panel de Control"
+
+# --- ACCIÓN EXCEL ---
+@admin.action(description="Descargar seleccionados en Excel (Completo)")
+def exportar_partidos_excel(modeladmin, request, queryset):
+    wb = openpyxl.Workbook()
+    ws = wb.active
+    ws.title = "Reporte Detallado"
+
+    # Encabezados extendidos
+    columns = [
+        'Fecha', 'Torneo', 'Rival', 'Condición', 'Instancia', 'Altura', 
+        'Resultado', 'Goleadores', 'Amonestados', 'Expulsados', 
+        'Árbitro', 'Video (Link)', 'Jugado'
+    ]
+    ws.append(columns)
+
+    # Optimizamos la consulta para no saturar la DB
+    queryset = queryset.prefetch_related('gol_set__jugador', 'tarjetaamarilla_set__jugador', 'tarjetaroja_set__jugador', 'videos')
+
+    for partido in queryset:
+        # Extraer nombres de goleadores con su minuto
+        goles = ", ".join([f"{g.jugador.apellido} ({g.minuto}')" for g in partido.gol_set.all()])
+        
+        # Extraer amonestados
+        amarillas = ", ".join([f"{a.jugador.apellido}" for a in partido.tarjetaamarilla_set.all()])
+        
+        # Extraer expulsados
+        rojas = ", ".join([f"{r.jugador.apellido}" for r in partido.tarjetaroja_set.all()])
+
+        # Extraer primer link de video si existe
+        video_url = partido.videos.first().url_youtube if partido.videos.exists() else "Sin video"
+
+        ws.append([
+            partido.fecha,
+            str(partido.torneo),
+            partido.rival.nombre,
+            partido.get_tipo_display(),
+            partido.get_instancia_display(),
+            partido.get_altura_display(), # 'Ronda 1', 'Playoff', etc.
+            f"{partido.goles_chabas} - {partido.goles_rival}",
+            goles,
+            amarillas,
+            rojas,
+            partido.arbitro,
+            video_url,
+            "Sí" if partido.jugado else "No"
+        ])
+
+    # Ajuste automático del ancho de las columnas para que se vea bien
+    for col in ws.columns:
+        max_length = 0
+        column = col[0].column_letter
+        for cell in col:
+            try:
+                if len(str(cell.value)) > max_length:
+                    max_length = len(str(cell.value))
+            except: pass
+        ws.column_dimensions[column].width = max_length + 2
+
+    response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    response['Content-Disposition'] = 'attachment; filename="historial_completo_chabas.xlsx"'
+    wb.save(response)
+    return response
+
+# --- ACCIÓN SQL ---
+@admin.action(description="Exportar seleccionados a .SQL (INSERTS)")
+def exportar_partidos_sql(modeladmin, request, queryset):
+    sql_output = "-- Backup de Partidos - Club Atlético Chabás\n"
+    table_name = "historial_partido" # Reemplaza 'tuapp' por el nombre real de tu carpeta de app
+    
+    for p in queryset:
+        # Escapamos comillas simples en strings para evitar errores de SQL
+        desc = p.descripcion.replace("'", "''") if p.descripcion else ""
+        arbitro = p.arbitro.replace("'", "''")
+        
+        sql_output += (
+            f"INSERT INTO {table_name} (fecha, torneo_id, rival_id, arbitro, instancia, tipo, goles_chabas, goles_rival, jugado) "
+            f"VALUES ('{p.fecha}', {p.torneo.id}, {p.rival.id}, '{arbitro}', '{p.instancia}', '{p.tipo}', {p.goles_chabas}, {p.goles_rival}, {1 if p.jugado else 0});\n"
+        )
+
+    response = HttpResponse(sql_output, content_type='text/plain')
+    response['Content-Disposition'] = 'attachment; filename="partidos_backup.sql"'
+    return response
 
 # 1. CLUBES
 @admin.register(Club)
@@ -163,6 +248,8 @@ class PartidoAdmin(admin.ModelAdmin):
     search_fields = ('rival__nombre', 'torneo__nombre', 'arbitro')
     inlines = [GolInline, AmarillaInline, RojaInline, VideoPartidoInline]
     date_hierarchy = 'fecha'
+
+    actions = [exportar_partidos_excel, exportar_partidos_sql] 
     
     fieldsets = (
         (None, {
@@ -190,11 +277,3 @@ class PartidoAdmin(admin.ModelAdmin):
         return format_html('<a href="../partido/{}/">📝 Editar</a>', obj.id)
     detalle_link.short_description = 'Acciones'
 
-
-
-try:
-    admin.site.unregister(Partido)
-except admin.sites.NotRegistered:
-    pass 
-
-admin.site.register(Partido, PartidoAdmin)
