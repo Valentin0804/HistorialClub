@@ -9,68 +9,75 @@ admin.site.site_header = "Club Atlético Chabás - Administración"
 admin.site.index_title = "Panel de Control"
 
 # --- ACCIÓN EXCEL ---
-@admin.action(description="Descargar seleccionados en Excel (Completo)")
+@admin.action(description="Descargar Excel Optimizado (Lectura + Power BI)")
 def exportar_partidos_excel(modeladmin, request, queryset):
     wb = openpyxl.Workbook()
     ws = wb.active
-    ws.title = "Reporte Detallado"
+    ws.title = "Datos_Partidos"
 
-    # Encabezados extendidos
-    columns = [
-        'Fecha', 'Torneo', 'Rival', 'Condición', 'Instancia', 'Altura', 
-        'Resultado', 'Goleadores', 'Amonestados', 'Expulsados', 
-        'Árbitro', 'Video (Link)', 'Jugado'
+    # Encabezados pensados para análisis de datos
+    headers = [
+        'ID_Partido', 'Fecha', 'Temporada', 'Rival', 'Condicion', 
+        'Instancia', 'Altura', 'Goles_Chabas', 'Goles_Rival', 
+        'Diferencia_Goles', 'Resultado', 'Puntos_Obtenidos',
+        'Goleadores_Nombres', 'Amonestados', 'Expulsados', 
+        'Arbitro', 'Jugado'
     ]
-    ws.append(columns)
+    ws.append(headers)
 
-    # Optimizamos la consulta para no saturar la DB
-    queryset = queryset.prefetch_related('gol_set__jugador', 'tarjetaamarilla_set__jugador', 'tarjetaroja_set__jugador', 'videos')
+    # Optimizamos la carga de datos relacionados
+    queryset = queryset.select_related('torneo', 'rival').prefetch_related(
+        'gol_set__jugador', 'tarjetaamarilla_set__jugador', 'tarjetaroja_set__jugador'
+    )
 
-    for partido in queryset:
-        # Extraer nombres de goleadores con su minuto
-        goles = ", ".join([f"{g.jugador.apellido} ({g.minuto}')" for g in partido.gol_set.all()])
+    for p in queryset:
+        # 1. Lógica de Resultado y Puntos
+        diferencia = p.goles_chabas - p.goles_rival
+        if diferencia > 0:
+            res_texto, puntos = "Victoria", 3
+        elif diferencia < 0:
+            res_texto, puntos = "Derrota", 0
+        else:
+            res_texto, puntos = "Empate", 1
+
+        # 2. Limpieza de Goleadores (Solo nombres para que Power BI agrupe bien)
+        nombres_goleadores = ", ".join([g.jugador.apellido for g in p.gol_set.all()])
         
-        # Extraer amonestados
-        amarillas = ", ".join([f"{a.jugador.apellido}" for a in partido.tarjetaamarilla_set.all()])
-        
-        # Extraer expulsados
-        rojas = ", ".join([f"{r.jugador.apellido}" for r in partido.tarjetaroja_set.all()])
-
-        # Extraer primer link de video si existe
-        video_url = partido.videos.first().url_youtube if partido.videos.exists() else "Sin video"
+        # 3. Otros datos
+        temporada = p.torneo.nombre
+        condicion = p.get_tipo_display() # Local o Visitante
 
         ws.append([
-            partido.fecha,
-            str(partido.torneo),
-            partido.rival.nombre,
-            partido.get_tipo_display(),
-            partido.get_instancia_display(),
-            partido.get_altura_display(), # 'Ronda 1', 'Playoff', etc.
-            f"{partido.goles_chabas} - {partido.goles_rival}",
-            goles,
-            amarillas,
-            rojas,
-            partido.arbitro,
-            video_url,
-            "Sí" if partido.jugado else "No"
+            p.id,
+            p.fecha,
+            temporada,
+            p.rival.nombre,
+            condicion,
+            p.get_instancia_display(),
+            p.get_altura_display(),
+            p.goles_chabas,
+            p.goles_rival,
+            diferencia,
+            res_texto,
+            puntos,
+            nombres_goleadores,
+            ", ".join([a.jugador.apellido for a in p.tarjetaamarilla_set.all()]),
+            ", ".join([r.jugador.apellido for r in p.tarjetaroja_set.all()]),
+            p.arbitro,
+            "Sí" if p.jugado else "No"
         ])
 
-    # Ajuste automático del ancho de las columnas para que se vea bien
+    # Ajuste de diseño para el humano que lo lee
     for col in ws.columns:
-        max_length = 0
-        column = col[0].column_letter
-        for cell in col:
-            try:
-                if len(str(cell.value)) > max_length:
-                    max_length = len(str(cell.value))
-            except: pass
-        ws.column_dimensions[column].width = max_length + 2
+        ws.column_dimensions[col[0].column_letter].width = 18
 
     response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-    response['Content-Disposition'] = 'attachment; filename="historial_completo_chabas.xlsx"'
+    response['Content-Disposition'] = 'attachment; filename="reporte_club_atletico_chabas.xlsx"'
     wb.save(response)
     return response
 
+# En tu clase PartidoAdmin recordá agregar la acción:
+# actions = [exportar_partidos_completo]
 # --- ACCIÓN SQL ---
 @admin.action(description="Exportar seleccionados a .SQL (INSERTS)")
 def exportar_partidos_sql(modeladmin, request, queryset):
