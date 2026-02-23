@@ -208,16 +208,19 @@ class GolInline(admin.TabularInline):
     model = Gol
     extra = 1
     fields = ('jugador', 'minuto')
+    autocomplete_fields = ['jugador']
 
 class AmarillaInline(admin.TabularInline):
     model = TarjetaAmarilla
     extra = 1
     fields = ('jugador', 'minuto')
+    autocomplete_fields = ['jugador']
 
 class RojaInline(admin.TabularInline):
     model = TarjetaRoja
     extra = 1
     fields = ('jugador', 'minuto')
+    autocomplete_fields = ['jugador']
 
 class VideoPartidoInline(admin.TabularInline):
     model = VideoPartido
@@ -250,7 +253,7 @@ class HitoHistoricoAdmin(admin.ModelAdmin):
 
 @admin.register(Partido)
 class PartidoAdmin(admin.ModelAdmin):
-    list_display = ('fecha','instancia', 'vs_rival', 'jugado','resultado', 'arbitro','altura','torneo_link', 'detalle_link')
+    list_display = ('fecha','instancia', 'vs_rival', 'estado','resultado', 'arbitro','altura','torneo_link', 'detalle_link')
     list_filter = ('torneo', 'fecha', 'tipo', 'altura')
     search_fields = ('rival__nombre', 'torneo__nombre', 'arbitro')
     inlines = [GolInline, AmarillaInline, RojaInline, VideoPartidoInline]
@@ -260,7 +263,7 @@ class PartidoAdmin(admin.ModelAdmin):
     
     fieldsets = (
         (None, {
-            'fields': ('fecha', 'torneo', 'rival', 'tipo', 'arbitro', 'instancia', 'altura', 'descripcion', 'jugado')
+            'fields': ('fecha', 'torneo', 'rival', 'tipo', 'arbitro', 'instancia', 'altura', 'descripcion', 'estado')
         }),
         ('Resultado', {
             'fields': ('goles_chabas', 'goles_rival')

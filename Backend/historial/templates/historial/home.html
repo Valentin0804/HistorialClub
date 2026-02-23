@@ -3,7 +3,8 @@
 
 {% block content %}
 <!-- Hero Section Adaptable -->
-<div class="hero-section py-5 text-center px-3" style="background: linear-gradient(135deg, #019ee3, #01689e); border-radius: 0 0 30px 30px; margin-bottom: 30px;">
+<div class="hero-section py-5 text-center px-3"
+    style="background: linear-gradient(135deg, #019ee3, #01689e); border-radius: 0 0 30px 30px; margin-bottom: 30px;">
     <img src="{% static 'img/logo_chabas.png' %}" style="max-height: 80px;" class="mb-3 img-fluid">
     <h1 class="display-6 fw-bold text-white">Club Atlético Chabás</h1>
 </div>
@@ -15,23 +16,61 @@
         <div class="col-12 col-lg-10">
             {% if proximo_partido %}
             <div class="card border-0 shadow-sm mb-3">
-                <div class="card-header bg-primary d-flex justify-content-between align-items-center py-2">
+                <div
+                    class="card-header {% if proximo_partido.estado == 'V' %}bg-success{% else %}bg-primary{% endif %} d-flex justify-content-between align-items-center py-2">
+                    {% if proximo_partido.estado == 'V' %}
+                    <span class="text-white fw-bold small d-flex align-items-center">
+                        <span class="spinner-grow spinner-grow-sm me-2" role="status" aria-hidden="true"></span>
+                        EN VIVO
+                    </span>
+                    {% else %}
                     <span class="text-white fw-bold small">PRÓXIMO PARTIDO</span>
-                    <a href="{% url 'partidos_por_club' proximo_partido.rival.id %}" class="btn-pill-light" style="background: rgba(255,255,255,0.2); color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; border: 1px solid white; text-decoration: none;">Historial</a>
+                    {% endif %}
+                    <a href="{% url 'partidos_por_club' proximo_partido.rival.id %}" class="btn-pill-light"
+                        style="background: rgba(255,255,255,0.2); color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; border: 1px solid white; text-decoration: none;">Historial</a>
                 </div>
+
                 <div class="card-body py-4">
                     <div class="row align-items-center text-center g-0">
                         <div class="col">
-                            <img src="{% static 'img/logo_chabas.png' %}" height="50" class="img-escudo">
-                            <div class="small fw-bold d-block mt-1">CACH</div>
+                            <img src="{% static 'img/logo_chabas.png' %}" height="55" class="img-escudo mb-1">
+                            <div class="small fw-bold d-block">CACH</div>
                         </div>
+
                         <div class="col-auto px-2 px-md-4">
-                            <div class="badge bg-light text-dark border mb-1" style="font-size: 0.7rem;">{{ proximo_partido.fecha|date:"d/m" }}</div>
+                            <div class="badge bg-light text-dark border mb-1" style="font-size: 0.7rem;">
+                                {{ proximo_partido.fecha|date:"d/m" }}
+                            </div>
+
+                            {% if proximo_partido.estado == 'V' %}
+                            <div class="d-flex align-items-center justify-content-center">
+                                <h2 class="mb-0 fw-bold px-2">{{ proximo_partido.goles_chabas }}</h2>
+                                <span class="text-muted fw-light">:</span>
+                                <h2 class="mb-0 fw-bold px-2">{{ proximo_partido.goles_rival }}</h2>
+                            </div>
+                            <small class="text-success fw-bold d-block"
+                                style="font-size: 0.7rem; letter-spacing: 1px;">MINUTO A MINUTO</small>
+                            <div class="mt-2">
+                                {% for gol in proximo_partido.gol_set.all %}
+                                <div class="text-primary fw-bold" style="font-size: 0.75rem; line-height: 1.2;">
+                                    ⚽ {{ gol.jugador.apellido }}
+                                    <span class="text-muted fw-normal">({{ gol.minuto }}')</span>
+                                </div>
+                                {% empty %}
+                                {% if proximo_partido.goles_chabas > 0 %}
+                                <small class="text-muted" style="font-size: 0.65rem;">Cargando goleadores...</small>
+                                {% endif %}
+                                {% endfor %}
+                            </div>
+                            {% else %}
                             <h4 class="mb-0 fw-bold">VS</h4>
+                            {% endif %}
                         </div>
+
                         <div class="col">
-                            <img src="{% static 'img/escudos/'|add:proximo_partido.rival.escudo %}" height="50" class="img-escudo">
-                            <div class="small fw-bold d-block mt-1">{{ proximo_partido.rival.nombre|truncatechars:12 }}</div>
+                            <img src="{% static 'img/escudos/'|add:proximo_partido.rival.escudo %}" height="55"
+                                class="img-escudo mb-1">
+                            <div class="small fw-bold d-block">{{ proximo_partido.rival.nombre }}</div>
                         </div>
                     </div>
                 </div>
@@ -42,23 +81,26 @@
             <div class="card border-0 shadow-sm">
                 <div class="card-header bg-dark d-flex justify-content-between align-items-center py-2">
                     <span class="text-white fw-bold small">ÚLTIMO RESULTADO</span>
-                    <a href="{% url 'detalle_partido' ultimo_partido.id %}" class="btn-pill-light" style="background: rgba(255,255,255,0.2); color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; border: 1px solid white; text-decoration: none;">Ver</a>
+                    <a href="{% url 'detalle_partido' ultimo_partido.id %}" class="btn-pill-light"
+                        style="background: rgba(255,255,255,0.2); color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; border: 1px solid white; text-decoration: none;">Ver</a>
                 </div>
                 <div class="card-body py-4">
                     <div class="row align-items-center text-center">
                         <div class="col">
+                            <!--<img src="{% static 'img/logo_chabas.png' %}" height="50" class="img-escudo">-->
                             <h3 class="fw-bold mb-0">{{ ultimo_partido.goles_chabas }}</h3>
                             <small class="text-muted fw-bold">CACH</small>
                         </div>
                         <div class="col-auto px-3 px-md-5 border-start border-end">
-                            <small class="text-muted d-block hide-mobile">{{ ultimo_partido.torneo.nombre|truncatechars:20 }}</small>
-                            <small class="text-muted d-block hide-mobile">{{ ultimo_partido.instancia|truncatechars:20 }}</small>
+                            <small class="text-muted d-block hide-mobile">{{ ultimo_partido.torneo.nombre|truncatechars:30 }}</small>
+                            <small class="text-muted d-block hide-mobile">{{ ultimo_partido.instancia|truncatechars:30 }}</small>
 
-                            <strong class="small">FINAL</strong>
+
                         </div>
                         <div class="col">
+                            <!--<img src="{% static 'img/escudos/'|add:ultimo_partido.rival.escudo %}" height="50" class="img-escudo">-->
                             <h3 class="fw-bold mb-0">{{ ultimo_partido.goles_rival }}</h3>
-                            <small class="text-muted fw-bold">{{ ultimo_partido.rival.nombre|truncatechars:12 }}</small>
+                            <small class="text-muted fw-bold">{{ ultimo_partido.rival.nombre }}</small>
                         </div>
                     </div>
                 </div>
@@ -80,7 +122,8 @@
                         <p class="mb-0 small"> {{ maxima_goleada.fecha|date:"Y" }}</p>
 
                     </div>
-                    <a href="{% url 'detalle_partido' maxima_goleada.id %}" class="btn btn-sm btn-light rounded-pill px-3 fw-bold text-success">Ver</a>
+                    <a href="{% url 'detalle_partido' maxima_goleada.id %}"
+                        class="btn btn-sm btn-light rounded-pill px-3 fw-bold text-success">Ver</a>
                 </div>
             </div>
             {% endif %}
@@ -95,7 +138,8 @@
                         <h4 class="mb-0 fw-bold">{{ e.fecha|date:"Y" }}: {{ e.goles_chabas }}-{{ e.goles_rival }}</h4>
                         <p class="mb-0 small">vs {{ e.rival.nombre|truncatechars:15 }}</p>
                     </div>
-                    <a href="{% url 'detalle_partido' e.id %}" class="btn btn-sm btn-light rounded-pill px-3 fw-bold text-info">Ver</a>
+                    <a href="{% url 'detalle_partido' e.id %}"
+                        class="btn btn-sm btn-light rounded-pill px-3 fw-bold text-info">Ver</a>
                     {% endwith %}
                 </div>
             </div>
@@ -129,14 +173,18 @@
                             <td class="text-center">
                                 <div class="d-flex align-items-center justify-content-center gap-2">
                                     <span class="fw-bold small team-name text-end">CACH</span>
-                                    <span class="badge badge-score {% if p.goles_chabas > p.goles_rival %}bg-success{% elif p.goles_chabas < p.goles_rival %}bg-danger{% else %}bg-warning{% endif %} px-2 py-2" style="min-width: 45px;">
+                                    <span
+                                        class="badge badge-score {% if p.goles_chabas > p.goles_rival %}bg-success{% elif p.goles_chabas < p.goles_rival %}bg-danger{% else %}bg-warning{% endif %} px-2 py-2"
+                                        style="min-width: 45px;">
                                         {{ p.goles_chabas }}-{{ p.goles_rival }}
                                     </span>
                                     <span class="fw-bold small team-name text-start">{{ p.rival.nombre }}</span>
                                 </div>
                             </td>
                             <td class="text-center">
-                                <a href="{% url 'detalle_partido' p.id %}" class="btn btn-sm btn-outline-dark rounded-pill px-2 py-1"><i class="fas fa-eye"></i></a>
+                                <a href="{% url 'detalle_partido' p.id %}"
+                                    class="btn btn-sm btn-outline-dark rounded-pill px-2 py-1"><i
+                                        class="fas fa-eye"></i></a>
                             </td>
                         </tr>
                         {% endfor %}
@@ -209,13 +257,15 @@
     <!-- Botones Finales -->
     <div class="row g-3">
         <div class="col-12 col-md-6">
-            <a href="{% url 'historia' %}" class="card border-0 shadow-sm text-center py-4 text-decoration-none bg-white h-100">
+            <a href="{% url 'historia' %}"
+                class="card border-0 shadow-sm text-center py-4 text-decoration-none bg-white h-100">
                 <h4 class="text-dark fw-bold">Historia</h4>
                 <div class="btn btn-primary rounded-pill mx-auto px-4">Línea de Tiempo</div>
             </a>
         </div>
         <div class="col-12 col-md-6">
-            <a href="{% url 'partidos' %}" class="card border-0 shadow-sm text-center py-4 text-decoration-none bg-white h-100">
+            <a href="{% url 'partidos' %}"
+                class="card border-0 shadow-sm text-center py-4 text-decoration-none bg-white h-100">
                 <h4 class="text-dark fw-bold">Archivo</h4>
                 <div class="btn btn-dark rounded-pill mx-auto px-4">Partidos Históricos</div>
             </a>

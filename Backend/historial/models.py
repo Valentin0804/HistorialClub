@@ -92,6 +92,13 @@ class Partido(models.Model):
         ('No definido', 'ND'),
     ]
     
+    ESTADO = [
+    ('J', 'Jugado'),
+    ('P', 'Próximo'),
+    ('V', 'En vivo'),
+    ]
+
+    
     fecha = models.DateField(blank=True, null=True)
     torneo = models.ForeignKey(Torneo, on_delete=models.PROTECT)
     rival = models.ForeignKey(Club, on_delete=models.PROTECT)
@@ -102,7 +109,7 @@ class Partido(models.Model):
     goles_chabas = models.PositiveIntegerField(default=0)
     goles_rival = models.PositiveIntegerField(default=0)
     descripcion = models.TextField(blank=True, null=True)
-    jugado = models.BooleanField(default=True, help_text="Marcar si el partido ya fue jugado")
+    estado = models.CharField( max_length=1, choices=ESTADO, default='P')
 
     # Relaciones para estadísticas
     goleadores = models.ManyToManyField(

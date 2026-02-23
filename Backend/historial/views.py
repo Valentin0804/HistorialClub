@@ -9,9 +9,8 @@ def home(request):
     hoy = date.today()
     
     # 1. Partidos principales
-    ultimo_partido = Partido.objects.select_related('rival', 'torneo').filter(jugado=True).order_by('-fecha').first()
-    proximo_partido = Partido.objects.select_related('rival', 'torneo').filter(jugado=False).order_by('fecha').first()
-
+    ultimo_partido = Partido.objects.select_related('rival', 'torneo').filter(estado="J").order_by('-fecha').first()
+    proximo_partido = Partido.objects.select_related('rival', 'torneo').filter(estado__in=['V', 'P']).order_by('fecha').first()
     # 2. Torneo Actual (El último creado por fecha)
     torneo_actual = Torneo.objects.order_by('-fecha_inicio').first()
     partidos_recientes = []
@@ -19,7 +18,7 @@ def home(request):
 
     if torneo_actual:
         # Últimos 5 resultados del torneo actual
-        partidos_recientes = Partido.objects.filter(torneo=torneo_actual, jugado=True).order_by('-fecha')[:5]
+        partidos_recientes = Partido.objects.filter(torneo=torneo_actual, estado="J").order_by('-fecha')[:5]
         
         # Top 5 Goleadores del torneo actual
         # Contamos cuántas veces aparece cada jugador en la tabla Gol para este torneo
@@ -36,10 +35,10 @@ def home(request):
             .annotate(total_rojas=Count('tarjetaroja')).order_by('-total_rojas')[:5]
         
         # Obtenemos los últimos 5 partidos ya jugados del torneo actual
-        partidos_recientes = Partido.objects.filter(torneo=torneo_actual, jugado=True).order_by('-fecha')[:5]
+        partidos_recientes = Partido.objects.filter(torneo=torneo_actual, estado="J").order_by('-fecha')[:5]
 
     # 3. Efemérides y Máxima Goleada
-    efemerides = Partido.objects.filter(fecha__day=hoy.day, fecha__month=hoy.month, jugado=True).order_by('-fecha')
+    efemerides = Partido.objects.filter(fecha__day=hoy.day, fecha__month=hoy.month, estado="J").order_by('-fecha')
     
     maxima_goleada = Partido.objects.filter(goles_chabas__gt=F('goles_rival'))\
         .annotate(dif=F('goles_chabas') - F('goles_rival'))\
@@ -93,7 +92,7 @@ def temporada_actual(request):
     # Filtrar partidos cuya fecha sea en el año actual
 
     partidos = Partido.objects.filter(
-        fecha__year=año_actual, jugado=True
+        fecha__year=año_actual, estado="J"
     ).order_by('fecha')
 
     return render(request, 'historial/temporada_actual.html', {
@@ -121,7 +120,7 @@ def partidos(request, club_id=None):
     accion = request.GET.get('accion')  # 'gol', 'amarilla', 'roja'
 
     # Aplicar filtros
-    partidos = Partido.objects.filter(jugado=True)
+    partidos = Partido.objects.filter(estado="J")
 
     if club_id:
         partidos = partidos.filter(rival__id=club_id)
@@ -315,7 +314,7 @@ def rivales(request):
     data = []
 
     for club in clubes:
-        partidos = Partido.objects.filter(rival=club, jugado=True)
+        partidos = Partido.objects.filter(rival=club, estado="J")
 
         ganados = partidos.filter(goles_chabas__gt=F('goles_rival')).count()
         empatados = partidos.filter(goles_chabas=F('goles_rival')).count()
@@ -385,7 +384,7 @@ def temporadas_stats(request):
 
     for torneo in torneos_a_procesar:
         # 1. Definimos los partidos de ESTE torneo específico dentro del bucle
-        partidos_todos = Partido.objects.filter(torneo=torneo, jugado=True).order_by('fecha')
+        partidos_todos = Partido.objects.filter(torneo=torneo, estado="J").order_by('fecha')
         
         # Partidos de Fase Regular ("Fecha") para puntos
         partidos_fecha = partidos_todos.filter(instancia='Fecha')
