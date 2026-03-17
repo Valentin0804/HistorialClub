@@ -560,22 +560,18 @@ def galeria_videos(request):
     query = request.GET.get('q', '').strip()
     orden_pref = request.GET.get('orden', 'desc')
 
-    # select_related para evitar múltiples consultas a la BD
     videos_qs = VideoPartido.objects.all().select_related('partido', 'partido__rival')
 
     if query:
         if query.isdigit():
-            # Filtro por año (solo si tienen fecha)
             videos_qs = videos_qs.filter(fecha__isnull=False, fecha__year=query)
         else:
-            # Filtro por texto
             videos_qs = videos_qs.filter(
                 Q(titulo__icontains=query) | 
                 Q(partido__rival__nombre__icontains=query) | 
                 Q(clasificacion__icontains=query)
             )
 
-    # Ordenamiento: usamos el campo 'orden' que definiste en el modelo
     if orden_pref == 'asc':
         videos_qs = videos_qs.order_by('fecha', 'orden')
     else:
@@ -583,18 +579,15 @@ def galeria_videos(request):
 
     videos_por_anio = defaultdict(list)
     for video in videos_qs:
-        # Verificamos la fecha para evitar el error 500
-        if video.fecha:
-            anio = video.fecha.year
-        else:
-            anio = "Sin Fecha"
+        anio = video.fecha.year if video.fecha else "Sin Fecha"
         videos_por_anio[anio].append(video)
 
-    # Ordenar las llaves del diccionario para el template
-    # Convertimos a string para poder comparar "Sin Fecha" con los años
+    # Ordenamos de forma simple
     reversa = (orden_pref == 'desc')
+    items = sorted(videos_por_anio.items(), key=lambda x: str(x[0]), reverse=reversa)
+
     context = {
-        'videos_agrupados': dict(sorted(videos_por_anio.items(), key=lambda x: str(x[0]), reverse=reversa)),
+        'videos_agrupados': dict(items),
         'query': query,
         'orden': orden_pref,
     }
