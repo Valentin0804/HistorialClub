@@ -557,38 +557,5 @@ def temporadas_stats(request):
     })
 
 def galeria_videos(request):
-    query = request.GET.get('q', '').strip()
-    orden_pref = request.GET.get('orden', 'desc')
-
-    videos_qs = VideoPartido.objects.all().select_related('partido', 'partido__rival')
-
-    if query:
-        if query.isdigit():
-            videos_qs = videos_qs.filter(fecha__isnull=False, fecha__year=query)
-        else:
-            videos_qs = videos_qs.filter(
-                Q(titulo__icontains=query) | 
-                Q(partido__rival__nombre__icontains=query) | 
-                Q(clasificacion__icontains=query)
-            )
-
-    if orden_pref == 'asc':
-        videos_qs = videos_qs.order_by('fecha', 'orden')
-    else:
-        videos_qs = videos_qs.order_by('-fecha', 'orden')
-
-    videos_por_anio = defaultdict(list)
-    for video in videos_qs:
-        anio = video.fecha.year if video.fecha else "Sin Fecha"
-        videos_por_anio[anio].append(video)
-
-    # Ordenamos de forma simple
-    reversa = (orden_pref == 'desc')
-    items = sorted(videos_por_anio.items(), key=lambda x: str(x[0]), reverse=reversa)
-
-    context = {
-        'videos_agrupados': dict(items),
-        'query': query,
-        'orden': orden_pref,
-    }
-    return render(request, 'historial/videos.html', context)
+    videos_qs = VideoPartido.objects.all().order_by('-fecha')
+    return render(request, 'historial/videos.html', {'videos': videos_qs})

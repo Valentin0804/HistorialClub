@@ -168,17 +168,12 @@ class VideoPartido(models.Model):
         ordering = ['-fecha', 'orden'] # Esto asegura que siempre salgan en orden 1, 2, 3...
 
     def get_youtube_id(self):
-        youtube_regex = (
-            r'(?:https?://)?(?:www\.)?'
-            r'(?:youtube\.com|youtu\.be)/'
-            r'(?:watch\?v=|embed/|v/|)'
-            r'([\w-]{11})'
-        )
+        youtube_regex = r'(?:https?://)?(?:www\.)?(?:youtube\.com|youtu\.be)/(?:watch\?v=|embed/|v/|)([\w-]{11})'
         match = re.search(youtube_regex, self.url_youtube)
         if match:
             return match.group(1)
         return None 
-        
+
     def get_thumbnail_url(self):
         """Devuelve la URL de la imagen de portada de alta calidad"""
         video_id = self.get_youtube_id()
@@ -187,7 +182,7 @@ class VideoPartido(models.Model):
         return None  # O una imagen por defecto si prefieres
 
     def __str__(self):
-        return f"Video de {self.clasificacion} para {self.partido}"
+        return f"{self.titulo or 'Video'} - {self.clasificacion}"
     
 class HitoHistorico(models.Model):
     TIPO_CHOICES = [
