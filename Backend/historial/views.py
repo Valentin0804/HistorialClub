@@ -557,5 +557,43 @@ def temporadas_stats(request):
     })
 
 def galeria_videos(request):
-    videos_qs = VideoPartido.objects.all().order_by('-fecha')
-    return render(request, 'historial/videos.html', {'videos': videos_qs})
+    query = request.GET.get('q', '').strip()
+    orden_pref = request.GET.get('orden', 'desc')
+
+    # select_related es vital para que no dé timeout en Railway
+    videos_qs = VideoPartido.objects.all().select_related('partido', 'partido__rival')
+
+    if query:
+        if query.isdigit():
+            # Filtro por año (solo si tienen fecha para no romper Postgres)
+            videos_qs = videos_qs.filter(fecha__isnull=False, fecha__year=query)
+        else:
+            videos_qs = videos_qs.filter(
+                Q(titulo__icontains=query) | 
+                Q(partido__rival__nombre__icontains=query) | 
+                Q(clasificacion__icontains=query)
+            )
+
+    # Ordenamiento estable
+    if orden_pref == 'asc':
+        videos_qs = videos_qs.order_by('fecha', 'orden', 'id')
+    else:
+        videos_qs = videos_qs.order_by('-fecha', 'orden', 'id')
+
+    videos_por_anio = defaultdict(list)
+    for video in videos_qs:
+        # Usamos un string para el año para evitar errores de comparación en el sorted
+        anio_str = str(video.fecha.year) if video.fecha else "Sin Fecha"
+        videos_por_anio[anio_str].append(video)
+
+    # Ordenamos las llaves del diccionario
+    reversa = (orden_pref == 'desc')
+    # Al ser todo strings, el sorted no fallará
+    videos_ordenados = dict(sorted(videos_por_anio.items(), reverse=reversa))
+
+    context = {
+        'videos_agrupados': videos_ordenados,
+        'query': query,
+        'orden': orden_pref,
+    }
+    return render(request, 'historial/videos.html', context)
