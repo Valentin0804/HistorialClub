@@ -557,33 +557,45 @@ def temporadas_stats(request):
     })
 
 def galeria_videos(request):
-    query = request.GET.get('q')
-    orden = request.GET.get('orden', 'desc')
+    query = request.GET.get('q', '').strip()
+    orden_pref = request.GET.get('orden', 'desc')
 
-    videos_qs = VideoPartido.objects.all().select_related('partido')
+    # select_related para evitar múltiples consultas a la BD
+    videos_qs = VideoPartido.objects.all().select_related('partido', 'partido__rival')
 
     if query:
-        # 1. Si el usuario escribió un número (ej: 1992)
         if query.isdigit():
-            videos_qs = videos_qs.filter( Q(fecha__year=query) | Q(titulo__icontains=query) )
-        # 2. Si escribió texto (ej: 'Matienzo')
+            # Filtro por año (solo si tienen fecha)
+            videos_qs = videos_qs.filter(fecha__isnull=False, fecha__year=query)
         else:
-            videos_qs = videos_qs.filter(Q(titulo__icontains=query)| Q(partido__rival__nombre__icontains=query)| Q(clasificacion__icontains=query)  )
+            # Filtro por texto
+            videos_qs = videos_qs.filter(
+                Q(titulo__icontains=query) | 
+                Q(partido__rival__nombre__icontains=query) | 
+                Q(clasificacion__icontains=query)
+            )
 
-    # El resto del código de orden y agrupación se mantiene igual...
-    if orden == 'asc':
+    # Ordenamiento: usamos el campo 'orden' que definiste en el modelo
+    if orden_pref == 'asc':
         videos_qs = videos_qs.order_by('fecha', 'orden')
     else:
         videos_qs = videos_qs.order_by('-fecha', 'orden')
 
     videos_por_anio = defaultdict(list)
     for video in videos_qs:
-        anio = video.fecha.year if video.fecha else "Sin Fecha"
+        # Verificamos la fecha para evitar el error 500
+        if video.fecha:
+            anio = video.fecha.year
+        else:
+            anio = "Sin Fecha"
         videos_por_anio[anio].append(video)
 
+    # Ordenar las llaves del diccionario para el template
+    # Convertimos a string para poder comparar "Sin Fecha" con los años
+    reversa = (orden_pref == 'desc')
     context = {
-        'videos_agrupados': dict(sorted(videos_por_anio.items(), key=lambda x: str(x[0]), reverse=(orden == 'desc'))),
+        'videos_agrupados': dict(sorted(videos_por_anio.items(), key=lambda x: str(x[0]), reverse=reversa)),
         'query': query,
-        'orden': orden,
+        'orden': orden_pref,
     }
     return render(request, 'historial/videos.html', context)
