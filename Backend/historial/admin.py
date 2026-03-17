@@ -225,15 +225,20 @@ class RojaInline(admin.TabularInline):
 class VideoPartidoInline(admin.TabularInline):
     model = VideoPartido
     extra = 1
-    fields = ('url_youtube', 'clasificacion', 'titulo')
+    # Agregamos 'fecha' aquí por si quieres poner una distinta a la del partido
+    fields = ('url_youtube', 'clasificacion', 'titulo', 'fecha', 'video_preview')
     readonly_fields = ('video_preview',)
+    
     def video_preview(self, obj):
-         if obj.url_youtube:
-             # Esto es solo un ejemplo, necesitarías una forma más robusta de obtener el ID y embeberlo
-             youtube_id = obj.get_youtube_id() # Si has implementado este método en el modelo
-             if youtube_id:
-                    return format_html('<iframe width="200" height="113" src="https://www.youtube.com/embed/{}" frameborder="0" allowfullscreen></iframe>', youtube_id)
-             return "No preview"
+        if obj.id and obj.url_youtube: # Verificamos que el objeto ya exista
+            youtube_id = obj.get_youtube_id()
+            if youtube_id:
+                return format_html(
+                    '<iframe width="160" height="90" src="https://www.youtube.com/embed/{}" '
+                    'frameborder="0" allowfullscreen style="border-radius:5px;"></iframe>', 
+                    youtube_id
+                )
+        return "Guardar para ver preview"
     video_preview.short_description = "Previsualización"
 
 @admin.register(HitoHistorico)
@@ -287,3 +292,17 @@ class PartidoAdmin(admin.ModelAdmin):
         return format_html('<a href="../partido/{}/">📝 Editar</a>', obj.id)
     detalle_link.short_description = 'Acciones'
 
+
+@admin.register(VideoPartido)
+class VideoPartidoAdmin(admin.ModelAdmin):
+    # Columnas que verás en la lista de videos
+    list_display = ('titulo', 'clasificacion', 'fecha', 'partido', 'orden')
+    
+    # Filtros laterales para encontrar videos rápido
+    list_filter = ('clasificacion', 'fecha')
+    
+    # Buscador por título o nombre del rival
+    search_fields = ('titulo', 'partido__rival__nombre')
+    
+    # Esto permite editar el orden directamente desde la lista sin entrar al video
+    list_editable = ('orden',)
