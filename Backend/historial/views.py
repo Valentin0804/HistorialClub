@@ -1,8 +1,9 @@
 from datetime import date
 from django.shortcuts import render, get_object_or_404
-from .models import Partido, Jugador, Club, Gol, TarjetaAmarilla, TarjetaRoja, Torneo, HitoHistorico
+from .models import Partido, Jugador, Club, Gol, TarjetaAmarilla, TarjetaRoja, Torneo, HitoHistorico, VideoPartido
 from django.db.models import Count, F, Q, Sum
 from django.utils import timezone
+from collections import defaultdict
 import random
 
 def home(request):
@@ -82,7 +83,7 @@ def detalle_partido(request, partido_id):
         'instancia': partido.get_instancia_display(),
         'altura': partido.get_altura_display(),
         'descripcion': partido.descripcion,
-        'videos': partido.videos.all()
+        'videos': partido.videos_archivo.all()
     })
 
 def temporada_actual(request):
@@ -370,6 +371,7 @@ def historia(request):
     return render(request, 'historia.html', {'hitos': hitos})
 
 def temporadas_stats(request):
+
     todos_los_torneos = Torneo.objects.all().order_by('-fecha_inicio')
     seleccionados_ids = request.GET.getlist('t')
     
@@ -553,3 +555,35 @@ def temporadas_stats(request):
         'stats': stats_resultados,
         'modo_comparativa': modo_comparativa,
     })
+
+def galeria_videos(request):
+    query = request.GET.get('q')
+    orden = request.GET.get('orden', 'desc')
+
+    videos_qs = VideoPartido.objects.all().select_related('partido')
+
+    if query:
+        # 1. Si el usuario escribió un número (ej: 1992)
+        if query.isdigit():
+            videos_qs = videos_qs.filter( Q(fecha__year=query) | Q(titulo__icontains=query) )
+        # 2. Si escribió texto (ej: 'Matienzo')
+        else:
+            videos_qs = videos_qs.filter(Q(titulo__icontains=query)| Q(partido__rival__nombre__icontains=query)| Q(clasificacion__icontains=query)  )
+
+    # El resto del código de orden y agrupación se mantiene igual...
+    if orden == 'asc':
+        videos_qs = videos_qs.order_by('fecha', 'orden')
+    else:
+        videos_qs = videos_qs.order_by('-fecha', 'orden')
+
+    videos_por_anio = defaultdict(list)
+    for video in videos_qs:
+        anio = video.fecha.year if video.fecha else "Sin Fecha"
+        videos_por_anio[anio].append(video)
+
+    context = {
+        'videos_agrupados': dict(sorted(videos_por_anio.items(), key=lambda x: str(x[0]), reverse=(orden == 'desc'))),
+        'query': query,
+        'orden': orden,
+    }
+    return render(request, 'historial/videos.html', context)

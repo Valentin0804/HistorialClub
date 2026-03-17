@@ -121,6 +121,14 @@ body {
   color: var(--white) !important;
 }
 
+footer a, 
+footer a:hover, 
+footer a:focus, 
+footer a:active {
+    text-decoration: none !important;
+    outline: none;
+}
+
 footer {
   background-color: var(--primary-color);
   color: var(--white);
@@ -133,7 +141,6 @@ footer a {
 
 footer a:hover {
   opacity: 0.8;
-  text-decoration: none;
 }
 
 @media (max-width: 768px) {

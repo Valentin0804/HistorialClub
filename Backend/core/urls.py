@@ -18,6 +18,7 @@ urlpatterns = [
     path('sobre_datos/', views.sobre_datos, name='sobre_datos'),
     path('historia/', views.historia_club, name='historia'),
     path('temporada_stats/', views.temporadas_stats, name='temporadas_stats'),
+    path('videos/', views.galeria_videos, name='videos')
 
 
 ]

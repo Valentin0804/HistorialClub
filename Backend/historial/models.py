@@ -148,12 +148,10 @@ class VideoPartido(models.Model):
     CLASIFICACION_CHOICES = [
         ('Completo', 'Partido Completo'),
         ('Resumen', 'Resumen'),
-        ('Goles', 'Goles'), # Puedes agregar más clasificaciones como "Goles" o "Momentos destacados"
+        ('Goles', 'Goles'),
         ('Otros', 'Otros'),
     ]
 
-    partido = models.ForeignKey(Partido, on_delete=models.CASCADE, related_name='videos')
-    url_youtube = models.URLField(max_length=200, help_text="URL del video de YouTube")
     clasificacion = models.CharField(
         max_length=10, 
         choices=CLASIFICACION_CHOICES, 
@@ -161,6 +159,13 @@ class VideoPartido(models.Model):
         help_text="Clasificación del video (ej. Partido Completo, Resumen)"
     )
     titulo = models.CharField(max_length=200, blank=True, null=True, help_text="Título opcional para el video")
+    fecha = models.DateField(blank=True, null=True, help_text="Si se vincula a un partido, se usará la fecha de este automáticamente.")
+    orden = models.PositiveIntegerField(default=1, help_text="Orden de aparición (ej: 1 para parte 1)")
+    partido = models.ForeignKey('Partido', on_delete=models.SET_NULL, null=True, blank=True, related_name='videos_archivo')
+    url_youtube = models.URLField(help_text="Pegá la URL completa (propia o ajena)")
+
+    class Meta:
+        ordering = ['-fecha', 'orden'] # Esto asegura que siempre salgan en orden 1, 2, 3...
 
     def get_youtube_id(self):
         youtube_regex = (
@@ -173,6 +178,13 @@ class VideoPartido(models.Model):
         if match:
             return match.group(1)
         return None 
+        
+    def get_thumbnail_url(self):
+        """Devuelve la URL de la imagen de portada de alta calidad"""
+        video_id = self.get_youtube_id()
+        if video_id:
+            return f"https://img.youtube.com/vi/{video_id}/hqdefault.jpg"
+        return None  # O una imagen por defecto si prefieres
 
     def __str__(self):
         return f"Video de {self.clasificacion} para {self.partido}"
