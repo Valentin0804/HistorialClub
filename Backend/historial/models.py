@@ -182,10 +182,12 @@ class VideoPartido(models.Model):
         return None  # O una imagen por defecto si prefieres
 
     def save(self, *args, **kwargs):
-    # Si el video no tiene fecha pero el partido sí, copiamos la fecha del partido
-    if not self.fecha and self.partido:
-        self.fecha = self.partido.fecha
-    super().save(*args, **kwargs)
+        # Todo esto tiene que tener un nivel de sangría (tabulación) hacia adentro
+        if not self.fecha and self.partido:
+            self.fecha = self.partido.fecha
+        
+        # El super().save también debe estar indentado
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.titulo or 'Video'} - {self.clasificacion}"
