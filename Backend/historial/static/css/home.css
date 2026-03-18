@@ -49,11 +49,157 @@
 }
 
 .bg-failure {
-    background-color: var(--failure-color) !important;
+
     color: white !important;
 }
 
 .img-escudo {
     object-fit: contain;
     max-width: 100%;
+}
+
+/* Estilo para las tarjetas de estadísticas rápidas */
+.stat-card {
+    background: #fff;
+    padding: 1.25rem;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    border: 1px solid #f1f4f8;
+    transition: transform 0.2s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-3px);
+}
+
+.stat-icon {
+    width: 45px;
+    height: 45px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+}
+
+.stat-content h4 {
+    font-size: 1.1rem;
+    letter-spacing: -0.5px;
+}
+
+/* Colores suaves para los fondos de los iconos */
+.bg-soft-primary { background-color: rgba(1, 158, 227, 0.1); }
+.bg-soft-success { background-color: rgba(25, 135, 84, 0.1); }
+.bg-soft-warning { background-color: rgba(255, 193, 7, 0.1); }
+.bg-soft-danger  { background-color: rgba(220, 53, 69, 0.1); }
+
+.fw-black { font-weight: 900; }
+.extra-small { font-size: 0.65rem; font-weight: 700; }
+
+/* Sección de Introducción */
+.brand-intro-section {
+    background: #ffffff;
+    border-radius: 30px;
+    border: 1px solid #f0f2f5;
+    position: relative;
+    overflow: hidden;
+}
+
+.brand-intro-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 6px;
+    height: 100%;
+    background: linear-gradient(to bottom, #019ee3, #01689e);
+}
+
+.feature-tag {
+    background: #f8fafc;
+    color: #f8fafc;
+    padding: 6px 14px;
+    border-radius: 10px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    border: 1px solid #e2e8f0;
+}
+
+.lead {
+    font-size: 1.15rem;
+    line-height: 1.6;
+}
+
+/* Animación sutil para el logo */
+.floating-logo {
+    max-height: 180px;
+    opacity: 0.15;
+    filter: grayscale(100%);
+    transform: rotate(-10deg);
+    transition: all 0.5s ease;
+}
+
+.brand-intro-section:hover .floating-logo {
+    opacity: 0.25;
+    transform: rotate(0deg) scale(1.1);
+}
+
+.bg-soft-primary { 
+    background-color: rgba(1, 158, 227, 0.1); 
+}
+
+/* Tipografía de títulos */
+h2.display-6 {
+    letter-spacing: -1px;
+}
+/* Color gris oscuro personalizado (casi negro para que resalte el contenido) */
+.bg-dark-custom {
+    background-color: #1a1d20; /* Un gris profundo profesional */
+    border: 1px solid #2d3238;
+}
+
+/* Texto gris claro para que sea legible pero no brille tanto como el blanco puro */
+.text-light-muted {
+    color: #a0aec0;
+    line-height: 1.6;
+}
+
+/* Efecto para la imagen de la izquierda */
+.image-container-modern {
+    background: radial-gradient(circle, rgba(1, 158, 227, 0.1) 0%, rgba(0,0,0,0) 70%)!important;
+    padding: 20px;
+    border-radius: 20px;
+}
+
+.main-brand-img {
+    max-height: 220px;
+    filter: drop-shadow(0 10px 15px rgba(0,0,0,0.5));
+    transition: transform 0.3s ease;
+}
+
+.main-brand-img:hover {
+    transform: scale(1.05);
+}
+
+/* Tarjetas de items dentro del fondo oscuro */
+.feature-item-dark {
+    background: rgba(255, 255, 255, 0.03)!important;
+    padding: 15px;
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    height: 100%;
+}
+
+.feature-item-dark:hover {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: #019ee3;
+}
+
+.uppercase {
+    letter-spacing: 1px;
+    font-size: 0.75rem;
 }

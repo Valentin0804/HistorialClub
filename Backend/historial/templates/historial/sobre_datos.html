@@ -1,6 +1,7 @@
 {% extends "historial/base.html" %}
 {% load static %}
-{% block title %}Sobre los datos - CACH{% endblock %}
+{% block title %}Transparencia de Datos - CACH{% endblock %}
+
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/sobre_datos.css' %}">
 {% endblock %}
@@ -8,78 +9,117 @@
 {% block content %}
 <div class="container py-5">
     <div class="row justify-content-center">
-        <div class="col-lg-9">
-            <div class="text-center mb-5">
-                <h1 class="display-5 fw-bold titulo1 text-primary mb-3"> <i class="fas fa-database me-2"></i>Transparencia de Datos</h1>
-                <p class="lead text-muted">Este proyecto es un esfuerzo colaborativo para reconstruir la memoria deportiva de nuestra institución.</p>
+        <div class="col-lg-10">
+            
+            <div class="text-center mb-5 fade-in-up">
+                <span class="badge bg-soft-primary text-primary px-3 py-2 mb-3">Archivo Histórico</span>
+                <h1 class="display-4 fw-bold text-dark">Memoria <span class="text-primary">Azul y Blanca</span></h1>
+                <p class="lead text-muted mx-auto" style="max-width: 700px;">
+                    Un esfuerzo colaborativo para digitalizar y preservar cada momento de la historia del Club Atlético Chabás.
+                </p>
             </div>
 
-            <div class="card border-0 shadow-sm mb-5 p-4">
-                <h3 class="h4 fw-bold mb-4 border-bottom pb-2">Precisión por Período</h3>
-                <div class="ms-3">
+            <div class="card border-0 shadow-sm mb-5 p-4 rounded-4 fade-in-up">
+                <h3 class="h5 fw-bold mb-4 d-flex align-items-center">
+                    <i class="fas fa-history me-2 text-primary"></i> Precisión del Registro Histórico
+                </h3>
+                <div class="ms-2">
                     <div class="timeline-data mb-4">
-                        <div class="timeline-dot"></div>
-                        <h6 class="fw-bold text-success">2022 - Actualidad (Alta Precisión)</h6>
-                        <p class="small text-muted">Datos completos incluyendo plantillas, goleadores, tarjetas, árbitros y estadios.</p>
+                        <div class="timeline-dot bg-success"></div>
+                        <h6 class="fw-bold text-success mb-1">2022 - Actualidad (Digitalización Total)</h6>
+                        <p class="small text-muted mb-0">Planillas completas, goleadores, tarjetas, árbitros y estadios en tiempo real.</p>
                     </div>
                     <div class="timeline-data mb-4">
                         <div class="timeline-dot" style="background: #17a2b8;"></div>
-                        <h6 class="fw-bold text-info">2018 - 2021 (Precisión Media)</h6>
-                        <p class="small text-muted">Registro de resultados y goleadores. Datos de tarjetas parciales según cobertura periodística.</p>
+                        <h6 class="fw-bold text-info mb-1">2018 - 2021 (Precisión Media)</h6>
+                        <p class="small text-muted mb-0">Resultados confirmados. Estadísticas de tarjetas sujetas a cobertura periodística.</p>
                     </div>
                     <div class="timeline-data mb-4">
                         <div class="timeline-dot" style="background: #ffc107;"></div>
-                        <h6 class="fw-bold text-warning">1997 - 2017 (Registro Histórico)</h6>
-                        <p class="small text-muted">Enfoque principal en clásicos y partidos definitorios. Datos reconstruidos vía archivos de video y prensa.</p>
+                        <h6 class="fw-bold text-warning mb-1">1997 - 2017 (Archivo de Oro)</h6>
+                        <p class="small text-muted mb-0">Reconstrucción basada en archivos de video, clásicos y finales históricas.</p>
                     </div>
                 </div>
             </div>
 
-            <div class="mb-5">
-                <h3 class="h4 fw-bold mb-4 text-center">Fuentes Documentales</h3>
+            <div class="mb-5 fade-in-up">
+                <h3 class="h5 fw-bold mb-4 text-center">Fuentes Documentales</h3>
                 <div class="row g-3">
-                    <div class="col-md-6">
-                        <div class="fuente-item d-flex align-items-center">
-                            <i class="fas fa-file-invoice text-primary me-3 fa-lg"></i>
-                            <span class="small">Planillas oficiales de la Liga Casildense.</span>
+                    <div class="col-md-3">
+                        <div class="fuente-item text-center">
+                            <i class="fas fa-file-contract text-primary mb-3 fa-2x"></i>
+                            <p class="small fw-bold mb-0">Planillas Oficiales</p>
+                            <span class="text-muted extra-small">Liga Casildense</span>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="fuente-item d-flex align-items-center">
-                            <i class="fas fa-newspaper text-primary me-3 fa-lg"></i>
-                            <span class="small">Archivo histórico del diario <strong>El Alargue</strong>.</span>
+                    <div class="col-md-3">
+                        <div class="fuente-item text-center">
+                            <i class="fas fa-newspaper text-primary mb-3 fa-2x"></i>
+                            <p class="small fw-bold mb-0">Diario El Alargue</p>
+                            <span class="text-muted extra-small">Archivo Hemeroteca</span>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="fuente-item d-flex align-items-center">
-                            <i class="fas fa-tv text-primary me-3 fa-lg"></i>
-                            <span class="small">Archivos de <strong>Chatelco</strong> y <strong>TDC</strong> (Firmat).</span>
+                    <div class="col-md-3">
+                        <div class="fuente-item text-center">
+                            <i class="fas fa-book text-primary mb-3 fa-2x"></i>
+                            <p class="small fw-bold mb-0">Libro del Centenario</p>
+                            <span class="text-muted extra-small">Relatos y Testimonios</span>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="fuente-item d-flex align-items-center">
-                            <i class="fas fa-users text-primary me-3 fa-lg"></i>
-                            <span class="small">Colecciones personales y redes oficiales del club.</span>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="fuente-item d-flex align-items-center">
-                            <i class="fas fa-book-open text-primary me-3 fa-lg"></i>
-                            <span class="small">Libro de los 100 años del Club.</span>
+                    <div class="col-md-3">
+                        <div class="fuente-item text-center">
+                            <i class="fas fa-folder-open text-primary mb-3 fa-2x"></i>
+                            <p class="small fw-bold mb-0">Archivos Personales</p>
+                            <span class="text-muted extra-small">Anotaciones y recortes</span>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="bg-primary text-white rounded-4 p-5 text-center shadow-lg">
-                <h3 class="fw-bold mb-3">¿Tenés información para sumar?</h3>
-                <p class="mb-4">Si posees fotos, recortes de diarios o datos que no figuran en el historial, tu aporte es invaluable para la memoria del club.</p>
-                <div class="d-inline-flex align-items-center bg-white text-dark px-4 py-2 rounded-pill shadow-sm">
-                    <i class="fas fa-envelope me-2 text-primary"></i>
-                    <a href="mailto:valmol0015@gmail.com" class="text-dark text-decoration-none fw-bold">valmol0015@gmail.com</a>
+            <div class="mb-5 fade-in-up">
+                <h3 class="h5 fw-bold mb-4 text-center">Archivo de Video y Cobertura TV</h3>
+                <div class="row g-3">
+                    <div class="col-md-6 col-lg-3">
+                        <div class="fuente-item video-source-card text-center">
+                            <i class="fab fa-youtube mb-2 fa-2x"></i>
+                            <p class="small fw-bold mb-1">TDC Firmat</p>
+                            <span class="text-muted d-block" style="font-size: 0.75rem;">Compactos Históricos</span>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <div class="fuente-item video-source-card text-center">
+                            <i class="fas fa-tv mb-2 fa-2x"></i>
+                            <p class="small fw-bold mb-1">Chatelco</p>
+                            <span class="text-muted d-block" style="font-size: 0.75rem;">Archivo Local</span>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <div class="fuente-item video-source-card text-center">
+                            <i class="fas fa-camera-retro mb-2 fa-2x"></i>
+                            <p class="small fw-bold mb-1">Zona Deportiva</p>
+                            <span class="text-muted d-block" style="font-size: 0.75rem;">Seguimiento Campañas</span>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <div class="fuente-item video-source-card text-center">
+                            <i class="fas fa-bullhorn mb-2 fa-2x"></i>
+                            <p class="small fw-bold mb-1">C.A. Chabás Info</p>
+                            <span class="text-muted d-block" style="font-size: 0.75rem;">Videos de la Hinchada</span>
+                        </div>
+                    </div>
                 </div>
-                <p class="mt-4 extra-small opacity-75">¡Gracias por ayudar a construir el archivo del Más Campeón del Pueblo!</p>
             </div>
+
+            <div class="bg-primary text-white rounded-4 p-5 text-center shadow-lg fade-in-up" style="background: linear-gradient(45deg, #019ee3, #007bbd) !important;">
+                <h3 class="fw-bold mb-3">¿Tenés material para aportar?</h3>
+                <p class="mb-4 opacity-90">Buscamos videos de tribuna, compactos antiguos o fotos de formaciones que no tengamos registradas.</p>
+                <div class="d-inline-flex align-items-center bg-white text-dark px-4 py-2 rounded-pill shadow contact-pill">
+                    <i class="fas fa-envelope me-2 text-primary"></i>
+                    <a href="mailto:valmol0015@gmail.com" class="text-dark text-decoration-none fw-bold small">valmol0015@gmail.com</a>
+                </div>
+                <p class="mt-4 small opacity-75 italic">"La historia la escribimos entre todos."</p>
+            </div>
+
         </div>
     </div>
 </div>

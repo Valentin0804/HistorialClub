@@ -2,22 +2,19 @@
 {% load static %}
 
 {% block content %}
-<!-- Hero Section Adaptable -->
 <div class="hero-section py-5 text-center px-3"
     style="background: linear-gradient(135deg, #019ee3, #01689e); border-radius: 0 0 30px 30px; margin-bottom: 30px;">
-    <img src="{% static 'img/logo_chabas.png' %}" style="max-height: 80px;" class="mb-3 img-fluid">
+    <img src="{% static 'img/logo_chabas.png' %}" style="max-height: 80px;" class="mb-3 img-fluid" alt="Logotipo Club Atlético Chabás">
     <h1 class="display-6 fw-bold text-white">Club Atlético Chabás</h1>
 </div>
 
 <div class="container pb-5 mt-n4">
 
-    <!-- Próximo y Último Partido -->
     <div class="row justify-content-center g-3 mb-4">
         <div class="col-12 col-lg-10">
             {% if proximo_partido %}
             <div class="card border-0 shadow-sm mb-3">
-                <div
-                    class="card-header {% if proximo_partido.estado == 'V' %}bg-success{% else %}bg-primary{% endif %} d-flex justify-content-between align-items-center py-2">
+                <div class="card-header {% if proximo_partido.estado == 'V' %}bg-success{% else %}bg-primary{% endif %} d-flex justify-content-between align-items-center py-2">
                     {% if proximo_partido.estado == 'V' %}
                     <span class="text-white fw-bold small d-flex align-items-center">
                         <span class="spinner-grow spinner-grow-sm me-2" role="status" aria-hidden="true"></span>
@@ -27,13 +24,13 @@
                     <span class="text-white fw-bold small">PRÓXIMO PARTIDO</span>
                     {% endif %}
                     <a href="{% url 'partidos_por_club' proximo_partido.rival.id %}" class="btn-pill-light"
-                        style="background: rgba(255,255,255,0.2); color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; border: 1px solid white; text-decoration: none;">Historial</a>
+                        style="background: rgba(255,255,255,0.2); color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; border: 1px solid white; text-decoration: none;">Ver Historial vs {{ proximo_partido.rival.nombre }}</a>
                 </div>
 
                 <div class="card-body py-4">
                     <div class="row align-items-center text-center g-0">
                         <div class="col">
-                            <img src="{% static 'img/logo_chabas.png' %}" height="55" class="img-escudo mb-1">
+                            <img src="{% static 'img/logo_chabas.png' %}" height="55" class="img-escudo mb-1" alt="Escudo CA Chabás">
                             <div class="small fw-bold d-block">CACH</div>
                         </div>
 
@@ -63,13 +60,13 @@
                                 {% endfor %}
                             </div>
                             {% else %}
-                            <h4 class="mb-0 fw-bold">VS</h4>
+                            <div class="h4 mb-0 fw-bold">VS</div>
                             {% endif %}
                         </div>
 
                         <div class="col">
                             <img src="{% static 'img/escudos/'|add:proximo_partido.rival.escudo %}" height="55"
-                                class="img-escudo mb-1">
+                                class="img-escudo mb-1" alt="Escudo de {{ proximo_partido.rival.nombre }}">
                             <div class="small fw-bold d-block">{{ proximo_partido.rival.nombre }}</div>
                         </div>
                     </div>
@@ -82,24 +79,20 @@
                 <div class="card-header bg-dark d-flex justify-content-between align-items-center py-2">
                     <span class="text-white fw-bold small">ÚLTIMO RESULTADO</span>
                     <a href="{% url 'detalle_partido' ultimo_partido.id %}" class="btn-pill-light"
-                        style="background: rgba(255,255,255,0.2); color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; border: 1px solid white; text-decoration: none;">Ver</a>
+                        style="background: rgba(255,255,255,0.2); color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; border: 1px solid white; text-decoration: none;">Ver Ficha del Partido</a>
                 </div>
                 <div class="card-body py-4">
                     <div class="row align-items-center text-center">
                         <div class="col">
-                            <!--<img src="{% static 'img/logo_chabas.png' %}" height="50" class="img-escudo">-->
-                            <h3 class="fw-bold mb-0">{{ ultimo_partido.goles_chabas }}</h3>
+                            <div class="h3 fw-bold mb-0">{{ ultimo_partido.goles_chabas }}</div>
                             <small class="text-muted fw-bold">CACH</small>
                         </div>
                         <div class="col-auto px-3 px-md-5 border-start border-end">
                             <small class="text-muted d-block hide-mobile">{{ ultimo_partido.torneo.nombre|truncatechars:30 }}</small>
                             <small class="text-muted d-block hide-mobile">{{ ultimo_partido.instancia|truncatechars:30 }}</small>
-
-
                         </div>
                         <div class="col">
-                            <!--<img src="{% static 'img/escudos/'|add:ultimo_partido.rival.escudo %}" height="50" class="img-escudo">-->
-                            <h3 class="fw-bold mb-0">{{ ultimo_partido.goles_rival }}</h3>
+                            <div class="h3 fw-bold mb-0">{{ ultimo_partido.goles_rival }}</div>
                             <small class="text-muted fw-bold">{{ ultimo_partido.rival.nombre }}</small>
                         </div>
                     </div>
@@ -109,7 +102,6 @@
         </div>
     </div>
 
-    <!-- Goleada y Efemérides -->
     <div class="row g-3 mb-5">
         <div class="col-12 col-md-6">
             {% if maxima_goleada %}
@@ -117,13 +109,12 @@
                 <div class="card-body d-flex align-items-center justify-content-between">
                     <div>
                         <h6 class="text-uppercase opacity-75 extra-small fw-bold mb-1">Mayor Goleada</h6>
-                        <h2 class="fw-bold mb-0">{{ maxima_goleada.goles_chabas }}-{{ maxima_goleada.goles_rival }}</h2>
+                        <div class="h2 fw-bold mb-0">{{ maxima_goleada.goles_chabas }}-{{ maxima_goleada.goles_rival }}</div>
                         <p class="mb-0 small text-truncate">vs {{ maxima_goleada.rival.nombre }}</p>
-                        <p class="mb-0 small"> {{ maxima_goleada.fecha|date:"Y" }}</p>
-
+                        <p class="mb-0 small"> Año {{ maxima_goleada.fecha|date:"Y" }}</p>
                     </div>
                     <a href="{% url 'detalle_partido' maxima_goleada.id %}"
-                        class="btn btn-sm btn-light rounded-pill px-3 fw-bold text-success">Ver</a>
+                        class="btn btn-sm btn-light rounded-pill px-3 fw-bold text-success">Ver Detalle</a>
                 </div>
             </div>
             {% endif %}
@@ -135,11 +126,11 @@
                     {% with e=efemerides.0 %}
                     <div>
                         <h6 class="text-uppercase opacity-75 extra-small fw-bold mb-1">Un día como hoy</h6>
-                        <h4 class="mb-0 fw-bold">{{ e.fecha|date:"Y" }}: {{ e.goles_chabas }}-{{ e.goles_rival }}</h4>
+                        <div class="h4 mb-0 fw-bold">{{ e.fecha|date:"Y" }}: {{ e.goles_chabas }}-{{ e.goles_rival }}</div>
                         <p class="mb-0 small">vs {{ e.rival.nombre|truncatechars:15 }}</p>
                     </div>
                     <a href="{% url 'detalle_partido' e.id %}"
-                        class="btn btn-sm btn-light rounded-pill px-3 fw-bold text-info">Ver</a>
+                        class="btn btn-sm btn-light rounded-pill px-3 fw-bold text-info">Ver Efeméride</a>
                     {% endwith %}
                 </div>
             </div>
@@ -147,11 +138,10 @@
         </div>
     </div>
 
-    <!-- Resultados Recientes -->
     <div class="mb-5">
         <div class="d-flex justify-content-between align-items-center mb-3">
-            <h5 class="mb-0 fw-bold text-dark">Resultados Recientes</h5>
-            <a href="{% url 'partidos' %}" class="btn btn-sm btn-dark rounded-pill px-3">Ver Todo</a>
+            <h2 class="h5 mb-0 fw-bold text-dark">Resultados Recientes del León</h2>
+            <a href="{% url 'partidos' %}" class="btn btn-sm btn-dark rounded-pill px-3">Ver Todo el Archivo</a>
         </div>
 
         <div class="card border-0 shadow-sm overflow-hidden">
@@ -162,7 +152,7 @@
                             <th class="ps-3">Fecha</th>
                             <th class="hide-mobile">Instancia</th>
                             <th class="text-center">Partido</th>
-                            <th class="text-center">Ficha</th>
+                            <th class="text-center">Detalle</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -183,8 +173,9 @@
                             </td>
                             <td class="text-center">
                                 <a href="{% url 'detalle_partido' p.id %}"
-                                    class="btn btn-sm btn-outline-dark rounded-pill px-2 py-1"><i
-                                        class="fas fa-eye"></i></a>
+                                    class="btn btn-sm btn-outline-dark rounded-pill px-2 py-1" aria-label="Ver ficha del partido contra {{ p.rival.nombre }}">
+                                    <i class="fas fa-eye"></i>
+                                </a>
                             </td>
                         </tr>
                         {% endfor %}
@@ -194,12 +185,11 @@
         </div>
     </div>
 
-    <!-- Estadísticas de Temporada -->
+
     <div class="row g-3 mb-5">
-        <!-- Goleadores -->
         <div class="col-12 col-md-4">
             <div class="card border-0 shadow-sm h-100 overflow-hidden">
-                <div class="card-header bg-primary text-white py-2 fw-bold small text-center">TOP GOLEADORES</div>
+                <div class="card-header bg-primary text-white py-2 fw-bold small text-center">TOP GOLEADORES TEMPORADA</div>
                 <div class="card-body p-0">
                     <table class="table table-sm table-hover mb-0">
                         <tbody>
@@ -215,10 +205,9 @@
             </div>
         </div>
 
-        <!-- Amonestados -->
         <div class="col-12 col-md-4">
             <div class="card border-0 shadow-sm h-100 overflow-hidden">
-                <div class="card-header bg-warning text-dark py-2 fw-bold small text-center">TOP AMONESTADOS</div>
+                <div class="card-header bg-warning text-dark py-2 fw-bold small text-center">TOP AMONESTADOS TEMPORADA</div>
                 <div class="card-body p-0">
                     <table class="table table-sm table-hover mb-0">
                         <tbody>
@@ -234,10 +223,9 @@
             </div>
         </div>
 
-        <!-- Expulsados -->
         <div class="col-12 col-md-4">
             <div class="card border-0 shadow-sm h-100 overflow-hidden">
-                <div class="card-header bg-danger text-white py-2 fw-bold small text-center">TOP EXPULSADOS</div>
+                <div class="card-header bg-danger text-white py-2 fw-bold small text-center">TOP EXPULSADOS TEMPORADA</div>
                 <div class="card-body p-0">
                     <table class="table table-sm table-hover mb-0">
                         <tbody>
@@ -254,20 +242,132 @@
         </div>
     </div>
 
-    <!-- Botones Finales -->
+    <div class="row mb-5 justify-content-center">
+        <div class="col-lg">
+            <div class="p-4 p-md-5 shadow-lg" 
+                style="border-radius: 30px; background-color: #1a1d20 !important; border: 1px solid #2d3238;">
+                
+                <div class="row align-items-center">
+                    <div class="col-md-4 mb-4 mb-md-0 text-center">
+                        <img src="{% static 'img/Leon.png' %}" 
+                            class="img-fluid" 
+                            style="max-height: 250px; filter: drop-shadow(0 10px 15px rgba(0,0,0,0.5));" 
+                            alt="Club Atlético Chabás">
+                    </div>
+
+                    <div class="col-md-8 text-md-start">
+                        <span class="badge bg-primary text-white mb-3 px-3 py-2 rounded-pill fw-bold">PATRIMONIO DEPORTIVO</span>
+                        
+                        <h2 class="display-6 fw-bold mb-3" style="color: #ffffff !important;">Estadísticas del CACH</h2>
+                        
+                        <p class="lead mb-4" style="color: #a0aec0 !important; line-height: 1.6;">
+                            Este portal es mucho más que una base de datos; es la <strong>memoria viva del León</strong>. Nuestra misión es centralizar cada grito de gol, cada formación y cada hazaña para que las futuras generaciones de hinchas conozcan la grandeza de nuestra institución. Desde los torneos de la Liga Casildense hasta los hitos que forjaron nuestra identidad, aquí la historia se escribe con números y pasión.
+                        </p>
+
+                        <div class="row g-4">
+                            <div class="col-sm-6">
+                                <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 15px;">
+                                    <i class="fas fa-chart-bar text-primary mb-2 d-block"></i>
+                                    <strong style="color: #ffffff;">Historial vs Rivales</strong>
+                                    <p class="small mb-0" style="color: #a0aec0;">Análisis detallado de paternidades, rachas y diferencias históricas.</p>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 15px;">
+                                    <i class="fas fa-clock text-warning mb-2 d-block"></i>
+                                    <strong style="color: #ffffff;">Minuto a Minuto</strong>
+                                    <p class="small mb-0" style="color: #a0aec0;">Seguimiento en tiempo real de los eventos en cancha (goles y tarjetas).</p>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 15px;">
+                                    <i class="fas fa-history text-info mb-2 d-block"></i>
+                                    <strong style="color: #ffffff;">Línea de Tiempo</strong>
+                                    <p class="small mb-0" style="color: #a0aec0;">Un recorrido cronológico por las décadas de gloria y crecimiento del club.</p>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 15px;">
+                                    <i class="fas fa-video text-danger mb-2 d-block "></i>
+                                    <strong style="color: #ffffff;">Multimedia</strong>
+                                    <p class="small mb-0" style="color: #a0aec0;">Registros fílmicos de vueltas olímpicas y goles que quedaron grabados en la retina.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+   <div class="row g-3 mb-5">
+        <div class="col-6 col-md-3">
+            <div class="stat-card">
+                <div class="stat-icon bg-soft-primary text-primary">
+                    <i class="fas fa-marching-ants"></i>
+                </div>
+                <div class="stat-content">
+                    <h4 class="fw-black mb-0">108</h4>
+                    <p class="extra-small text-muted mb-0 text-uppercase">Años de Historia</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="stat-card">
+                <div class="stat-icon bg-soft-success text-success">
+                    <i class="fas fa-futbol"></i>
+                </div>
+                <div class="stat-content">
+                    <h4 class="fw-black mb-0">{{ partidos_totales }}</h4>
+                    <p class="extra-small text-muted mb-0 text-uppercase">Partidos Cargados</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="stat-card">
+                <div class="stat-icon bg-soft-warning text-warning">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="stat-content">
+                    <h4 class="fw-black mb-0">{{ jugadores_totales }}</h4>
+                    <p class="extra-small text-muted mb-0 text-uppercase">Jugadores Cargados</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="stat-card">
+                <div class="stat-icon bg-soft-danger text-danger">
+                    <i class="fas fa-trophy"></i>
+                </div>
+                <div class="stat-content">
+                    <h4 class="fw-black mb-0">12</h4>
+                    <p class="extra-small text-muted mb-0 text-uppercase">Ligas Casildenses</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="row g-3">
-        <div class="col-12 col-md-6">
+        <div class="col-12 col-md-4">
             <a href="{% url 'historia' %}"
                 class="card border-0 shadow-sm text-center py-4 text-decoration-none bg-white h-100">
-                <h4 class="text-dark fw-bold">Historia</h4>
+                <div class="h4 text-dark fw-bold">Nuestra Historia</div>
                 <div class="btn btn-primary rounded-pill mx-auto px-4">Línea de Tiempo</div>
             </a>
         </div>
-        <div class="col-12 col-md-6">
+        <div class="col-12 col-md-4">
             <a href="{% url 'partidos' %}"
                 class="card border-0 shadow-sm text-center py-4 text-decoration-none bg-white h-100">
-                <h4 class="text-dark fw-bold">Archivo</h4>
+                <div class="h4 text-dark fw-bold">Archivo Digital</div>
                 <div class="btn btn-dark rounded-pill mx-auto px-4">Partidos Históricos</div>
+            </a>
+        </div>
+        <div class="col-12 col-md-4">
+            <a href="{% url 'videos' %}"
+                class="card border-0 shadow-sm text-center py-4 text-decoration-none bg-white h-100">
+                <div class="h4 text-dark fw-bold">Multimedia CACH</div>
+                <div class="btn btn-primary rounded-pill mx-auto px-4">Filmaciones Históricas</div>
             </a>
         </div>
     </div>

@@ -4,11 +4,9 @@ from django.contrib import admin
 from django.utils.html import format_html
 from .models import Club, Jugador, ParticipacionJugador, Torneo, Partido, Gol, TarjetaAmarilla, TarjetaRoja, VideoPartido, HitoHistorico
 
-# Configuración global del admin
 admin.site.site_header = "Club Atlético Chabás - Administración"
 admin.site.index_title = "Panel de Control"
 
-# --- ACCIÓN EXCEL ---
 @admin.action(description="Descargar Excel Optimizado (Lectura + Power BI)")
 def exportar_partidos_excel(modeladmin, request, queryset):
     wb = openpyxl.Workbook()
@@ -76,9 +74,6 @@ def exportar_partidos_excel(modeladmin, request, queryset):
     wb.save(response)
     return response
 
-# En tu clase PartidoAdmin recordá agregar la acción:
-# actions = [exportar_partidos_completo]
-# --- ACCIÓN SQL ---
 @admin.action(description="Exportar seleccionados a .SQL (INSERTS)")
 def exportar_partidos_sql(modeladmin, request, queryset):
     sql_output = "-- Backup de Partidos - Club Atlético Chabás\n"
@@ -98,7 +93,6 @@ def exportar_partidos_sql(modeladmin, request, queryset):
     response['Content-Disposition'] = 'attachment; filename="partidos_backup.sql"'
     return response
 
-# 1. CLUBES
 @admin.register(Club)
 class ClubAdmin(admin.ModelAdmin):
     list_display = ('nombre', 'localidad', 'fundacion', 'escudo_admin', 'activo')
@@ -125,12 +119,10 @@ class ClubAdmin(admin.ModelAdmin):
         return "Sin escudo"
     escudo_admin.short_description = 'Escudo'
 
-
 class ParticipacionJugadorInline(admin.TabularInline):
     model = ParticipacionJugador
     extra = 1
 
-# 2. JUGADORES
 @admin.register(Jugador)
 class JugadorAdmin(admin.ModelAdmin):
     list_display = ('nombre_completo', 'posicion', 'estado', 'foto_admin', 'torneos_jugados', 
@@ -168,8 +160,6 @@ class JugadorAdmin(admin.ModelAdmin):
         return ", ".join(t.nombre for t in obj.torneos.all())
     torneos_jugados.short_description = 'Torneos Jugados'
 
-
-# 3. TORNEOS
 @admin.register(Torneo)
 class TorneoAdmin(admin.ModelAdmin):
     list_display = ('nombre', 'rango_fechas', 'duracion_dias')
@@ -184,7 +174,6 @@ class TorneoAdmin(admin.ModelAdmin):
         return (obj.fecha_fin - obj.fecha_inicio).days
     duracion_dias.short_description = 'Duración (días)'
 
-# 4. ESTADÍSTICAS (Tablas intermedias)
 class EstadisticaBaseAdmin(admin.ModelAdmin):
     list_display = ('partido', 'jugador', 'minuto')
     list_select_related = ('partido', 'jugador')
@@ -203,7 +192,6 @@ class TarjetaAmarillaAdmin(EstadisticaBaseAdmin):
 class TarjetaRojaAdmin(EstadisticaBaseAdmin):
     pass
 
-# 5. PARTIDOS (con inlines)
 class GolInline(admin.TabularInline):
     model = Gol
     extra = 1
@@ -291,7 +279,6 @@ class PartidoAdmin(admin.ModelAdmin):
     def detalle_link(self, obj):
         return format_html('<a href="../partido/{}/">📝 Editar</a>', obj.id)
     detalle_link.short_description = 'Acciones'
-
 
 @admin.register(VideoPartido)
 class VideoPartidoAdmin(admin.ModelAdmin):

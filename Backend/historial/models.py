@@ -2,7 +2,7 @@ import re
 from django.db import models
 from django.core.validators import MinValueValidator
 
-class Club(models.Model):   # Rivales
+class Club(models.Model):
     nombre = models.CharField(max_length=100)
     localidad = models.CharField(max_length=100)
     fundacion = models.DateField()
@@ -36,8 +36,7 @@ class Jugador(models.Model):
     estado = models.CharField(max_length=1, choices=ESTADO_OPCIONES, default='A')
 
     torneos = models.ManyToManyField('Torneo', through='ParticipacionJugador', blank=True)
-    
-    # Estadísticas generales (acumulativas)
+
     goles_totales = models.PositiveIntegerField(default=0)
     amarillas_totales = models.PositiveIntegerField(default=0)
     rojas_totales = models.PositiveIntegerField(default=0)
@@ -111,7 +110,6 @@ class Partido(models.Model):
     descripcion = models.TextField(blank=True, null=True)
     estado = models.CharField( max_length=1, choices=ESTADO, default='P')
 
-    # Relaciones para estadísticas
     goleadores = models.ManyToManyField(
         Jugador, 
         through='Gol',
@@ -165,7 +163,7 @@ class VideoPartido(models.Model):
     url_youtube = models.URLField(help_text="Pegá la URL completa (propia o ajena)")
 
     class Meta:
-        ordering = ['-fecha', 'orden'] # Esto asegura que siempre salgan en orden 1, 2, 3...
+        ordering = ['-fecha', 'orden']
 
     def get_youtube_id(self):
         youtube_regex = r'(?:https?://)?(?:www\.)?(?:youtube\.com|youtu\.be)/(?:watch\?v=|embed/|v/|)([\w-]{11})'
@@ -179,14 +177,11 @@ class VideoPartido(models.Model):
         video_id = self.get_youtube_id()
         if video_id:
             return f"https://img.youtube.com/vi/{video_id}/hqdefault.jpg"
-        return None  # O una imagen por defecto si prefieres
+        return None 
 
     def save(self, *args, **kwargs):
-        # Todo esto tiene que tener un nivel de sangría (tabulación) hacia adentro
         if not self.fecha and self.partido:
             self.fecha = self.partido.fecha
-        
-        # El super().save también debe estar indentado
         super().save(*args, **kwargs)
 
     def __str__(self):
