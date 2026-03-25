@@ -7,13 +7,13 @@ from .models import Club, Jugador, ParticipacionJugador, Torneo, Partido, Gol, T
 admin.site.site_header = "Club Atlético Chabás - Administración"
 admin.site.index_title = "Panel de Control"
 
-@admin.action(description="Descargar Excel Optimizado (Lectura + Power BI)")
+@admin.action(description="Descargar Excel Optimizado")
 def exportar_partidos_excel(modeladmin, request, queryset):
+    # Usamos un libro de trabajo normal pero optimizado
     wb = openpyxl.Workbook()
     ws = wb.active
     ws.title = "Datos_Partidos"
 
-    # Encabezados pensados para análisis de datos
     headers = [
         'ID_Partido', 'Fecha', 'Temporada', 'Rival', 'Condicion', 
         'Instancia', 'Altura', 'Goles_Chabas', 'Goles_Rival', 
@@ -23,14 +23,19 @@ def exportar_partidos_excel(modeladmin, request, queryset):
     ]
     ws.append(headers)
 
-    # Optimizamos la carga de datos relacionados
+    # Optimizamos consultas (select_related es clave)
     queryset = queryset.select_related('torneo', 'rival').prefetch_related(
-        'gol_set__jugador', 'tarjetaamarilla_set__jugador', 'tarjetaroja_set__jugador'
+        'gol_set__jugador', 
+        'tarjetaamarilla_set__jugador', 
+        'tarjetaroja_set__jugador'
     )
 
     for p in queryset:
-        # 1. Lógica de Resultado y Puntos
-        diferencia = p.goles_chabas - p.goles_rival
+        # Aseguramos que no haya errores si los goles son None
+        g_chabas = p.goles_chabas or 0
+        g_rival = p.goles_rival or 0
+        diferencia = g_chabas - g_rival
+        
         if diferencia > 0:
             res_texto, puntos = "Victoria", 3
         elif diferencia < 0:
@@ -38,39 +43,42 @@ def exportar_partidos_excel(modeladmin, request, queryset):
         else:
             res_texto, puntos = "Empate", 1
 
-        # 2. Limpieza de Goleadores (Solo nombres para que Power BI agrupe bien)
-        nombres_goleadores = ", ".join([g.jugador.apellido for g in p.gol_set.all()])
-        
-        # 3. Otros datos
-        temporada = p.torneo.nombre
-        condicion = p.get_tipo_display() # Local o Visitante
+        # Limpiamos fechas para Excel (Excel no soporta timezones de Python fácilmente)
+        fecha_limpia = p.fecha.replace(tzinfo=None) if p.fecha else ""
 
         ws.append([
             p.id,
-            p.fecha,
-            temporada,
-            p.rival.nombre,
-            condicion,
+            fecha_limpia,
+            str(p.torneo),
+            p.rival.nombre if p.rival else "N/A",
+            p.get_tipo_display(),
             p.get_instancia_display(),
             p.get_altura_display(),
-            p.goles_chabas,
-            p.goles_rival,
+            g_chabas,
+            g_rival,
             diferencia,
             res_texto,
             puntos,
-            nombres_goleadores,
+            ", ".join([g.jugador.apellido for g in p.gol_set.all()]),
             ", ".join([a.jugador.apellido for a in p.tarjetaamarilla_set.all()]),
             ", ".join([r.jugador.apellido for r in p.tarjetaroja_set.all()]),
             p.arbitro,
             "Sí" if p.jugado else "No"
         ])
 
-    # Ajuste de diseño para el humano que lo lee
-    for col in ws.columns:
-        ws.column_dimensions[col[0].column_letter].width = 18
+    # --- CAMBIO CRUCIAL AQUÍ ---
+    # En lugar de iterar por 'ws.columns' (que es pesadísimo),
+    # definimos los anchos manualmente por letra de columna.
+    anchos = {'A': 10, 'B': 15, 'C': 20, 'D': 20, 'E': 15, 'M': 30, 'N': 30, 'O': 30}
+    for col_letra, ancho in anchos.items():
+        ws.column_dimensions[col_letra].width = ancho
 
-    response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-    response['Content-Disposition'] = 'attachment; filename="reporte_club_atletico_chabas.xlsx"'
+    response = HttpResponse(
+        content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    )
+    response['Content-Disposition'] = 'attachment; filename="reporte_partidos.xlsx"'
+    
+    # Guardamos directamente al objeto response para no crear archivos temporales
     wb.save(response)
     return response
 
@@ -115,9 +123,9 @@ class ClubAdmin(admin.ModelAdmin):
 
     def escudo_admin(self, obj):
         if obj.escudo:
-            return format_html('<img src="{}" width="50" />', obj.escudo.url)
+            url_imagen = static(f'img/escudos/{obj.escudo}')
+            return format_html('<img src="{}" width="40" height="40" style="object-fit: contain;" />', url_imagen)
         return "Sin escudo"
-    escudo_admin.short_description = 'Escudo'
 
 class ParticipacionJugadorInline(admin.TabularInline):
     model = ParticipacionJugador
