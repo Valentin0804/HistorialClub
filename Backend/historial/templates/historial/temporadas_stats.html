@@ -150,8 +150,7 @@
                                     {% if item.goleador %}
                                     <div class="flex-grow-1">
                                         <span class="text-secondary small uppercase">Máximo Goleador</span>
-                                        <div class="fw-bold fs-5">{{ item.goleador.nombre }} {{ item.goleador.apellido
-                                            }}</div>
+                                        <div class="fw-bold fs-5">{{ item.goleador.nombre }} {{ item.goleador.apellido }}</div>
                                     </div>
                                     <div class="h1 fw-bold text-primary mb-0">{{ item.goles_goleador }}</div>
                                     {% else %}
@@ -190,16 +189,13 @@
 
                     <div class="row g-2 mb-3 small">
                         <div class="col-12 d-flex justify-content-between bg-light p-2 rounded">
-                            <span><i class="fas fa-square text-warning me-1"></i> Amarillas: <b>{{ item.amarillas
-                                    }}</b></span>
+                            <span><i class="fas fa-square text-warning me-1"></i> Amarillas: <b>{{ item.amarillas }}</b></span>
                             <span><i class="fas fa-square text-danger me-1"></i> Rojas: <b>{{ item.rojas }}</b></span>
-                            <span><i class="fas fa-shield-alt text-info me-1"></i> Arcos en 0: <b>{{
-                                    item.vallas_invictas }}</b></span>
+                            <span><i class="fas fa-shield-alt text-info me-1"></i> Arcos en 0: <b>{{ item.vallas_invictas }}</b></span>
                         </div>
                         <div class="col-12 mt-2">
                             <div class="text-muted" style="font-size: 0.75rem;">
-                                Racha Invicta Máxima: <b class="text-dark">{{ item.max_racha_no_perdidos }} part.</b> |
-                                Promedio Goles: <b class="text-dark">{{ item.promedio_gf }}</b>
+                                Racha Invicta Máxima: <b class="text-dark">{{ item.max_racha_no_perdidos }} part.</b> | Promedio Goles: <b class="text-dark">{{ item.promedio_gf }}</b>
                             </div>
                         </div>
                     </div>
