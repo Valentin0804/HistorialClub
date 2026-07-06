@@ -2,14 +2,21 @@
 {% load static %}
 
 {% block content %}
+<!-- HERO SECTION CON LA GLORIA MÁXIMA -->
 <div class="hero-section py-5 text-center px-3"
-    style="background: linear-gradient(135deg, #019ee3, #01689e); border-radius: 0 0 30px 30px; margin-bottom: 30px;">
-    <img src="{% static 'img/logo_chabas.png' %}" style="max-height: 80px;" class="mb-3 img-fluid" alt="Logotipo Club Atlético Chabás">
-    <h1 class="display-6 fw-bold text-white">Club Atlético Chabás</h1>
+    style="background: linear-gradient(135deg, #019ee3, #01689e); border-radius: 0 0 30px 30px; margin-bottom: 20px; position: relative; overflow: hidden;">
+    <img src="{% static 'img/logo_chabas.png' %}" style="max-height: 95px; filter: drop-shadow(0px 4px 8px rgba(0,0,0,0.2));" class="mb-2 img-fluid" alt="Logotipo Club Atlético Chabás">
+    <h1 class="display-5 fw-bold text-white mb-0" style="letter-spacing: 1px;">Club Atlético Chabás</h1>
+    <div class="text-warning my-1" style="font-size: 1.3rem;">
+        <i class="fas fa-star animate__animated animate__bounceIn"></i>
+        <span class="text-uppercase fw-black text-white small mx-2" style="letter-spacing: 3px;">¡13 VECES CAMPEÓN!</span>
+        <i class="fas fa-star animate__animated animate__bounceIn"></i>
+    </div>
 </div>
 
-<div class="container pb-5 mt-n4">
+<div class="container pb-5">
 
+    <!-- SECCIÓN PRÓXIMO / ÚLTIMO PARTIDO -->
     <div class="row justify-content-center g-3 mb-4">
         <div class="col-12 col-lg-10">
             {% if proximo_partido %}
@@ -77,14 +84,14 @@
             {% if ultimo_partido %}
             <div class="card border-0 shadow-sm">
                 <div class="card-header bg-dark d-flex justify-content-between align-items-center py-2">
-                    <span class="text-white fw-bold small">ÚLTIMO RESULTADO</span>
+                    <span class="text-white fw-bold small">ÚLTIMO RESULTADO EN LIGA</span>
                     <a href="{% url 'detalle_partido' ultimo_partido.id %}" class="btn-pill-light"
                         style="background: rgba(255,255,255,0.2); color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; border: 1px solid white; text-decoration: none;">Ver Ficha del Partido</a>
                 </div>
                 <div class="card-body py-4">
                     <div class="row align-items-center text-center">
                         <div class="col">
-                            <div class="h3 fw-bold mb-0">{{ ultimo_partido.goles_chabas }}</div>
+                            <div class="h3 fw-bold mb-0 text-success">{{ ultimo_partido.goles_chabas }}</div>
                             <small class="text-muted fw-bold">CACH</small>
                         </div>
                         <div class="col-auto px-3 px-md-5 border-start border-end">
@@ -102,6 +109,72 @@
         </div>
     </div>
 
+   <div class="row justify-content-center g-3 mb-4">
+    <div class="col-12 col-lg-10">
+        <div class="card border-0 shadow-lg position-relative overflow-hidden" 
+             style="background: var(--gold-metalic) !important; border: 2px solid var(--gold-dark); border-radius: 25px;">
+            
+            <div class="card-body p-4" style="background-image: url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%224%22 height=%224%22 viewBox=%220 0 4 4%22><circle cx=%222%22 cy=%222%22 r=%221%22 fill=%22%23000000%22 fill-opacity=%220.05%22/></svg>');">
+                
+                <div class="text-center mb-4">
+                    <span class="badge bg-dark text-warning px-4 py-2 rounded-pill fw-bold text-uppercase shadow-sm" style="letter-spacing: 2px; font-size: 0.85rem;">
+                        🏆 CAMPEÓN APERTURA LIGA CASILDENSE 2026 🏆
+                    </span>
+                </div>
+
+                <div class="row align-items-center justify-content-center text-center g-2">
+                    
+                    <div class="col-5 col-md-4 text-end">
+                        <h4 class="fw-bold mb-0" style="color: #1a1a1a;">Atlético Chabás</h4>
+                        <span class="small fw-bold text-uppercase" style="color: #4a4a4a; letter-spacing: 1px;">El León</span>
+                        
+                        <div class="mt-2">
+                            <span class="badge bg-dark text-warning rounded-pill px-3 py-1 fw-bold fs-4 shadow-sm">4</span>
+                        </div>
+                    </div>
+                    
+                    <div class="col-2 col-md-2 text-center d-flex flex-column justify-content-center align-items-center">
+                        <span class="fw-bold text-uppercase" style="color: #1a1a1a; font-size: 0.8rem; letter-spacing: 1px;">VS</span>
+                        <hr class="w-70 my-1 d-none d-md-block" style="border-top: 2px solid #1a1a1a; opacity: 0.5;">
+                        <span class="badge bg-dark text-light small text-uppercase px-2 py-1" style="font-size: 0.65rem; letter-spacing: 0.5px;">GLOBAL</span>
+                    </div>
+
+                    <div class="col-5 col-md-4 text-start">
+                        <h4 class="fw-bold mb-0" style="color: #1a1a1a;">Unión Casildense</h4>
+                        <span class="small fw-bold text-uppercase" style="color: #4a4a4a; letter-spacing: 1px;">Trico</span>
+                        
+                        <div class="mt-2">
+                            <span class="badge bg-secondary text-white rounded-pill px-3 py-1 fw-bold fs-4 shadow-sm">2</span>
+                        </div>
+                    </div>
+                </div>
+
+                <hr style="border-top: 2px solid rgba(0,0,0,0.15); margin: 25px 0;">
+
+                <div class="row text-center g-3 justify-content-center">
+                    <div class="col-12 col-md-5">
+                        <div class="p-3 rounded h-100 shadow-sm" style="background: rgba(255,255,255,0.4); border-left: 5px solid #019ee3;">
+                            <small class="d-block fw-bold text-uppercase mb-1" style="color: #2b2b2b; letter-spacing: 0.5px;">PARTIDO IDA (Local)</small>
+                            <span class="fw-bold fs-5" style="color: #016b9b;">Ganamos 1 - 0</span>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-5">
+                        <div class="p-3 rounded h-100 shadow-sm" style="background: rgba(255,255,255,0.4); border-left: 5px solid #cc9a06;">
+                            <small class="d-block fw-bold text-uppercase mb-1" style="color: #2b2b2b; letter-spacing: 0.5px;">PARTIDO VUELTA (Visitante)</small>
+                            <span class="fw-bold fs-5" style="color: #856404;">Ganamos 3 - 2</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <p class="text-center mb-0 mt-4 fw-bold fst-italic" style="color: #1a1a1a; font-size: 0.95rem;">
+                    ¡Histórico 5 de Julio de 2026! El León rugió en Casilda y dio la vuelta olímpica.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <!-- SECCIÓN EFEMÉRIDES / GOLEADAS -->
     <div class="row g-3 mb-5">
         <div class="col-12 col-md-6">
             {% if maxima_goleada %}
@@ -138,6 +211,7 @@
         </div>
     </div>
 
+    <!-- TABLA DE RESULTADOS RECIENTES -->
     <div class="mb-5">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h2 class="h5 mb-0 fw-bold text-dark">Resultados Recientes del León</h2>
@@ -185,7 +259,36 @@
         </div>
     </div>
 
+    <!-- NUEVO: EL SALÓN DE LA GLORIA - LAS 13 ESTRELLAS HISTÓRICAS -->
+    <div class="mb-5">
+        <h2 class="h5 mb-3 fw-bold text-dark text-center text-md-start">⭐ Vitrina Histórica de Campeonatos</h2>
+        <div class="card border-0 shadow-sm p-4 text-center" style="background: #fdfdfd; border-radius: 20px;">
+            <div class="row row-cols-3 row-cols-sm-4 row-cols-md-7 g-3 justify-content-center">
+                <!-- Estrellas antiguas -->
+                <div class="col"><div class="p-2 border rounded shadow-2xs bg-white"><i class="fas fa-trophy text-muted small d-block mb-1"></i><span class="fw-bold d-block text-dark">1936</span></div></div>
+                <div class="col"><div class="p-2 border rounded shadow-2xs bg-white"><i class="fas fa-trophy text-muted small d-block mb-1"></i><span class="fw-bold d-block text-dark">1937</span></div></div>
+                <div class="col"><div class="p-2 border rounded shadow-2xs bg-white"><i class="fas fa-trophy text-muted small d-block mb-1"></i><span class="fw-bold d-block text-dark">1938</span></div></div>
+                <div class="col"><div class="p-2 border rounded shadow-2xs bg-white"><i class="fas fa-trophy text-muted small d-block mb-1"></i><span class="fw-bold d-block text-dark">1941</span></div></div>
+                <div class="col"><div class="p-2 border rounded shadow-2xs bg-white"><i class="fas fa-trophy text-muted small d-block mb-1"></i><span class="fw-bold d-block text-dark">1964</span></div></div>
+                <div class="col"><div class="p-2 border rounded shadow-2xs bg-white"><i class="fas fa-trophy text-muted small d-block mb-1"></i><span class="fw-bold d-block text-dark">1965</span></div></div>
+                <div class="col"><div class="p-2 border rounded shadow-2xs bg-white"><i class="fas fa-trophy text-muted small d-block mb-1"></i><span class="fw-bold d-block text-dark">1980</span></div></div>
+                <div class="col"><div class="p-2 border rounded shadow-2xs bg-white"><i class="fas fa-trophy text-muted small d-block mb-1"></i><span class="fw-bold d-block text-dark">1984</span></div></div>
+                <div class="col"><div class="p-2 border rounded shadow-2xs bg-white"><i class="fas fa-trophy text-muted small d-block mb-1"></i><span class="fw-bold d-block text-dark">1988</span></div></div>
+                <div class="col"><div class="p-2 border rounded shadow-2xs bg-white"><i class="fas fa-trophy text-muted small d-block mb-1"></i><span class="fw-bold d-block text-dark">1992</span></div></div>
+                <div class="col"><div class="p-2 border rounded shadow-2xs bg-white"><i class="fas fa-trophy text-muted small d-block mb-1"></i><span class="fw-bold d-block text-dark">2003</span></div></div>
+                <div class="col"><div class="p-2 border rounded shadow-2xs bg-white"><i class="fas fa-trophy text-muted small d-block mb-1"></i><span class="fw-bold d-block text-dark">2006</span></div></div>
+                <!-- Estrella Actual Destacada -->
+                <div class="col">
+                    <div class="p-2 border rounded shadow-sm bg-warning-soft" style="background: #fffdf0; border: 1px solid #ffc107 !important;">
+                        <i class="fas fa-star text-warning d-block mb-1 animate__animated animate__flash animate__infinite animate__slower"></i>
+                        <span class="fw-black d-block text-warning" style="font-size: 1.05rem;">2026</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <!-- TOP TABLAS DE ESTADÍSTICAS -->
     <div class="row g-3 mb-5">
         <div class="col-12 col-md-4">
             <div class="card border-0 shadow-sm h-100 overflow-hidden">
@@ -242,6 +345,7 @@
         </div>
     </div>
 
+    <!-- SECCIÓN INSTITUCIONAL MÍSTICA -->
     <div class="row mb-5 justify-content-center">
         <div class="col-lg">
             <div class="p-4 p-md-5 shadow-lg" 
@@ -256,12 +360,12 @@
                     </div>
 
                     <div class="col-md-8 text-md-start">
-                        <span class="badge bg-primary text-white mb-3 px-3 py-2 rounded-pill fw-bold">PATRIMONIO DEPORTIVO</span>
+                        <span class="badge bg-warning text-dark mb-3 px-3 py-2 rounded-pill fw-bold">⭐ PATRIMONIO Y GLORIA DEPORTIVA ⭐</span>
                         
                         <h2 class="display-6 fw-bold mb-3" style="color: #ffffff !important;">Estadísticas del CACH</h2>
                         
                         <p class="lead mb-4" style="color: #a0aec0 !important; line-height: 1.6;">
-                            Este portal es mucho más que una base de datos; es la <strong>memoria viva del León</strong>. Nuestra misión es centralizar cada grito de gol, cada formación y cada hazaña para que las futuras generaciones de hinchas conozcan la grandeza de nuestra institución. Desde los torneos de la Liga Casildense hasta los hitos que forjaron nuestra identidad, aquí la historia se escribe con números y pasión.
+                            Este portal es mucho más que una base de datos; es la <strong>memoria viva del León</strong>. Nuestra misión es centralizar cada grito de gol, cada formación y cada hazaña para que las futuras generaciones de hinchas conozcan la grandeza de nuestra institución. Desde los gloriosos tetracampeonatos de los años 30 hasta este inolvidable torneo de 2026, aquí la historia se escribe con números y pasión.
                         </p>
 
                         <div class="row g-4">
@@ -301,11 +405,12 @@
         </div>
     </div>
 
-   <div class="row g-3 mb-5">
+    <!-- TARJETAS DE CONTADORES FINALES -->
+    <div class="row g-3 mb-5">
         <div class="col-6 col-md-3">
             <div class="stat-card">
                 <div class="stat-icon bg-soft-primary text-primary">
-                    <i class="fas fa-marching-ants"></i>
+                    <i class="fas fa-birthday-cake"></i>
                 </div>
                 <div class="stat-content">
                     <h4 class="fw-black mb-0">108</h4>
@@ -337,17 +442,18 @@
         </div>
         <div class="col-6 col-md-3">
             <div class="stat-card">
-                <div class="stat-icon bg-soft-danger text-danger">
+                <div class="stat-icon text-dark">
                     <i class="fas fa-trophy"></i>
                 </div>
                 <div class="stat-content">
-                    <h4 class="fw-black mb-0">12</h4>
-                    <p class="extra-small text-muted mb-0 text-uppercase">Ligas Casildenses</p>
+                    <h4 class="fw-black mb-0 text-warning" style="text-shadow: 0 1px 2px rgba(0,0,0,0.1);">13</h4>
+                    <p class="extra-small fw-bold text-dark mb-0 text-uppercase">Ligas Casildenses</p>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- BOTONES DE ENLACES -->
     <div class="row g-3">
         <div class="col-12 col-md-4">
             <a href="{% url 'historia' %}"

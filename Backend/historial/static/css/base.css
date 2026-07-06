@@ -1,232 +1,300 @@
-:root {
-  --primary-color: #019ee3;
-  --primary-light: #4cc2f0;
-  --primary-dark: #019ee3;
+  :root {
+    --primary-color: #019ee3;
+    --primary-light: #4cc2f0;
+    --primary-dark: #019ee3;
 
-  --success-color: #28a745;
-  --neutral-color: #ffb74d;
-  --failure-color: #d62727;
+    --success-color: #28a745;
+    --neutral-color: #ffb74d;
+    --failure-color: #d62727;
 
-  --secondary-color: #f8f9fa;
-  --text-color: #1a1a1a;
-  --light-text: #555;
-  --white: #ffffff;
-  --black: #000000;
-}
+    --secondary-color: #f8f9fa;
+    --text-color: #1a1a1a;
+    --light-text: #555;
+    --white: #ffffff;
+    --black: #000000;
 
-
-body {
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  color: var(--text-color);
-  background-color: #f4f7f9;
-}
-
-.titulo1 {
-  color: var(--primary-color);
-}
-
-/* Navbar */
-.navbar {
-  background-color: var(--primary-dark) !important;
-  padding: 0.8rem 0;
-}
-
-.navbar-brand {
-  font-weight: 700;
-  font-size: 1.5rem;
-}
-
-.nav-link {
-  font-weight: 500;
-  padding: 0.5rem 1rem;
-  border-radius: 0.5rem;
-  transition: all 0.3s ease;
-}
-
-.nav-link:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-  color: var(--white) !important;
-}
-
-.nav-link.active {
-  background-color: rgba(255, 255, 255, 0.2);
-  font-weight: 600;
-}
-
-/* Hero */
-.hero-section {
-  background: linear-gradient(135deg,
-      var(--primary-light) 0%,
-      var(--primary-color) 100%);
-  color: var(--white);
-  border-radius: 0 0 2rem 2rem;
-  margin-bottom: 3rem;
-}
-
-/* Card */
-.card,
-.stats-card {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  border-radius: 1rem;
-  overflow: hidden;
-  background: var(--white);
-}
-
-.escudo-container {
-  width: 100px;
-  height: 100px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-}
-
-.escudo-img {
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
-}
-
-
-.card:hover,
-.stats-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-}
-
-.btn-primary {
-  background-color: var(--primary-dark);
-  border-color: var(--primary-dark);
-  padding: 0.5rem 1.5rem;
-  font-weight: 500;
-  color: var(--white);
-}
-
-.btn-primary:hover {
-  background-color: var(--primary-dark);
-  border-color: var(--primary-dark);
-}
-
-.btn-outline-primary {
-  color: var(--primary-color);
-  border-color: var(--primary-color);
-}
-
-.btn-outline-primary:hover {
-  background-color: var(--primary-color);
-  color: var(--white);
-}
-
-.bg-primary {
-  background-color: var(--primary-color) !important;
-  color: var(--white) !important;
-}
-
-footer a, 
-footer a:hover, 
-footer a:focus, 
-footer a:active {
-    text-decoration: none !important;
-    outline: none;
-}
-
-footer {
-  background-color: var(--primary-color);
-  color: var(--white);
-}
-
-footer a {
-  color: var(--white);
-  transition: opacity 0.3s ease;
-}
-
-footer a:hover {
-  opacity: 0.8;
-}
-
-@media (max-width: 768px) {
-  .hero-section h1 {
-    font-size: 2.2rem;
+    --gold-main: #ffc107;
+    --gold-dark: #cc9a06;
+    --gold-light: #fff9db;
+    --gold-gradient: linear-gradient(135deg, #ffd700, #ffc107, #b8860b);
+    --gold-light: #fffcf0;
+    --gold-text: #b8860b;
+    /* Oro viejo para que las letras se lean bien */
+    --gold-metalic: linear-gradient(135deg, #bf953f 0%, #fcf6ba 25%, #b38728 50%, #fbf5b7 75%, #aa771c 100%);
+    --gold-shine: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.8) 50%, rgba(255, 255, 255, 0) 100%);
   }
 
-  .btn-lg {
-    padding: 0.5rem 1rem;
-    font-size: 0.9rem;
+
+  body {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    color: var(--text-color);
+    background-color: #f4f7f9;
+  }
+
+  /* Navbar con efecto dorado metálico */
+  .navbar-custom {
+    background: var(--gold-metalic) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  /* Ajuste de los enlaces del Navbar para que contrasten bien sobre el dorado */
+  .navbar-custom .navbar-brand,
+  .navbar-custom .nav-link {
+    color: #1a1a1a !important;
+    /* Texto oscuro para legibilidad sobre oro */
+    font-weight: 600;
+  }
+
+  .navbar-custom .nav-link:hover {
+    background-color: rgba(0, 0, 0, 0.08);
+    color: #000000 !important;
+  }
+
+  .navbar-custom .nav-link.active {
+    background-color: rgba(0, 0, 0, 0.15);
+    color: #000000 !important;
+  }
+
+  /* Ajuste del ícono de menú hamburguesa en móviles */
+  .navbar-custom .navbar-toggler {
+    border-color: rgba(0, 0, 0, 0.2);
+  }
+
+  .navbar-custom .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(0, 0, 0, 0.8)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+  }
+
+  .titulo1 {
+    color: var(--gold-main);
+  }
+
+  /* Navbar */
+  .navbar {
+    padding: 0.8rem 0;
   }
 
   .navbar-brand {
-    font-size: 1.3rem;
-  }
-
-  .nav-link {
-    padding: 0.5rem 0.75rem;
-  }
-}
-
-.table-responsive {
-  border: none;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-}
-
-@media (max-width: 576px) {
-  .display-6 {
+    font-weight: 700;
     font-size: 1.5rem;
   }
 
-  .card-body {
-    padding: 1rem;
+  .nav-link {
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    transition: all 0.3s ease;
   }
 
-  .card-body img {
-    height: 40px !important;
+  .nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--white) !important;
   }
 
-  .card-body h4 {
-    font-size: 1.2rem;
+  .nav-link.active {
+    background-color: rgba(255, 255, 255, 0.2);
+    font-weight: 600;
   }
 
-  .col-instancia {
-    display: none;
+  /* Hero */
+  .hero-section {
+    background: linear-gradient(135deg,
+        var(--primary-light) 0%,
+        var(--primary-color) 100%);
+    color: var(--white);
+    border-radius: 0 0 2rem 2rem;
+    margin-bottom: 3rem;
   }
 
-  .team-name-table {
-    font-size: 0.75rem;
-    max-width: 70px;
-    white-space: nowrap;
+  /* Card */
+  .card,
+  .stats-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 1rem;
     overflow: hidden;
-    text-overflow: ellipsis;
+    background: var(--white);
   }
 
-  .badge-score {
-    padding: 0.4rem 0.6rem !important;
-    font-size: 0.8rem !important;
+  .escudo-container {
+    width: 100px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
   }
-}
 
-.bg-loss {
-  background-color: var(--failure-color) !important;
-  color: var(--white) !important;
-}
+  .escudo-img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+  }
 
-.match-result-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-}
 
-.team-label {
-  font-weight: 700;
-  font-size: 0.85rem;
-  flex: 1;
-}
+  .card:hover,
+  .stats-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  }
 
-.team-label.text-end {
-  text-align: right;
-}
+  .btn-primary {
+    background-color: var(--primary-dark);
+    border-color: var(--primary-dark);
+    padding: 0.5rem 1.5rem;
+    font-weight: 500;
+    color: var(--white);
+  }
 
-.team-label.text-start {
-  text-align: left;
-}
+  .btn-primary:hover {
+    background-color: var(--primary-dark);
+    border-color: var(--primary-dark);
+  }
 
+  .btn-outline-primary {
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+  }
+
+  .btn-outline-primary:hover {
+    background-color: var(--primary-color);
+    color: var(--white);
+  }
+
+  .bg-primary {
+    background-color: var(--primary-color) !important;
+    color: var(--white) !important;
+  }
+
+  footer a,
+  footer a:hover,
+  footer a:focus,
+  footer a:active {
+    text-decoration: none !important;
+    outline: none;
+  }
+
+  /* Footer con efecto dorado metálico */
+  footer {
+    background: var(--gold-metalic) !important;
+    color: #1a1a1a !important;
+    /* Texto oscuro principal */
+    border-top: 3px solid var(--gold-dark);
+  }
+
+  /* Enlaces y elementos del Footer */
+  footer h5,
+  footer p,
+  footer span {
+    color: #1a1a1a !important;
+  }
+
+  footer a {
+    color: #1a1a1a !important;
+    font-weight: 500;
+    transition: transform 0.2s ease, opacity 0.3s ease;
+  }
+
+  footer a:hover {
+    opacity: 0.8;
+    transform: scale(1.05);
+  }
+
+  /* Ajuste de la línea divisoria interna del footer */
+  footer hr {
+    background-color: #1a1a1a !important;
+    opacity: 0.25;
+  }
+
+  footer a {
+    color: var(--white);
+    transition: opacity 0.3s ease;
+  }
+
+  footer a:hover {
+    opacity: 0.8;
+  }
+
+  @media (max-width: 768px) {
+    .hero-section h1 {
+      font-size: 2.2rem;
+    }
+
+    .btn-lg {
+      padding: 0.5rem 1rem;
+      font-size: 0.9rem;
+    }
+
+    .navbar-brand {
+      font-size: 1.3rem;
+    }
+
+    .nav-link {
+      padding: 0.5rem 0.75rem;
+    }
+  }
+
+  .table-responsive {
+    border: none;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  @media (max-width: 576px) {
+    .display-6 {
+      font-size: 1.5rem;
+    }
+
+    .card-body {
+      padding: 1rem;
+    }
+
+    .card-body img {
+      height: 40px !important;
+    }
+
+    .card-body h4 {
+      font-size: 1.2rem;
+    }
+
+    .col-instancia {
+      display: none;
+    }
+
+    .team-name-table {
+      font-size: 0.75rem;
+      max-width: 70px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .badge-score {
+      padding: 0.4rem 0.6rem !important;
+      font-size: 0.8rem !important;
+    }
+  }
+
+  .bg-loss {
+    background-color: var(--failure-color) !important;
+    color: var(--white) !important;
+  }
+
+  .match-result-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .team-label {
+    font-weight: 700;
+    font-size: 0.85rem;
+    flex: 1;
+  }
+
+  .team-label.text-end {
+    text-align: right;
+  }
+
+  .team-label.text-start {
+    text-align: left;
+  }
