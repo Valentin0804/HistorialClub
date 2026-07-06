@@ -2,7 +2,7 @@ import re
 from django.db import models
 from django.core.validators import MinValueValidator
 
-class Club(models.Model):   # Rivales
+class Club(models.Model):
     nombre = models.CharField(max_length=100)
     localidad = models.CharField(max_length=100)
     fundacion = models.DateField()
@@ -36,8 +36,7 @@ class Jugador(models.Model):
     estado = models.CharField(max_length=1, choices=ESTADO_OPCIONES, default='A')
 
     torneos = models.ManyToManyField('Torneo', through='ParticipacionJugador', blank=True)
-    
-    # Estadísticas generales (acumulativas)
+
     goles_totales = models.PositiveIntegerField(default=0)
     amarillas_totales = models.PositiveIntegerField(default=0)
     rojas_totales = models.PositiveIntegerField(default=0)
@@ -92,6 +91,13 @@ class Partido(models.Model):
         ('No definido', 'ND'),
     ]
     
+    ESTADO = [
+    ('J', 'Jugado'),
+    ('P', 'Próximo'),
+    ('V', 'En vivo'),
+    ]
+
+    
     fecha = models.DateField(blank=True, null=True)
     torneo = models.ForeignKey(Torneo, on_delete=models.PROTECT)
     rival = models.ForeignKey(Club, on_delete=models.PROTECT)
@@ -102,9 +108,8 @@ class Partido(models.Model):
     goles_chabas = models.PositiveIntegerField(default=0)
     goles_rival = models.PositiveIntegerField(default=0)
     descripcion = models.TextField(blank=True, null=True)
-    jugado = models.BooleanField(default=True, help_text="Marcar si el partido ya fue jugado")
+    estado = models.CharField( max_length=1, choices=ESTADO, default='P')
 
-    # Relaciones para estadísticas
     goleadores = models.ManyToManyField(
         Jugador, 
         through='Gol',
@@ -141,12 +146,10 @@ class VideoPartido(models.Model):
     CLASIFICACION_CHOICES = [
         ('Completo', 'Partido Completo'),
         ('Resumen', 'Resumen'),
-        ('Goles', 'Goles'), # Puedes agregar más clasificaciones como "Goles" o "Momentos destacados"
+        ('Goles', 'Goles'),
         ('Otros', 'Otros'),
     ]
 
-    partido = models.ForeignKey(Partido, on_delete=models.CASCADE, related_name='videos')
-    url_youtube = models.URLField(max_length=200, help_text="URL del video de YouTube")
     clasificacion = models.CharField(
         max_length=10, 
         choices=CLASIFICACION_CHOICES, 
@@ -154,21 +157,35 @@ class VideoPartido(models.Model):
         help_text="Clasificación del video (ej. Partido Completo, Resumen)"
     )
     titulo = models.CharField(max_length=200, blank=True, null=True, help_text="Título opcional para el video")
+    fecha = models.DateField(blank=True, null=True, help_text="Si se vincula a un partido, se usará la fecha de este automáticamente.")
+    orden = models.PositiveIntegerField(default=1, help_text="Orden de aparición (ej: 1 para parte 1)")
+    partido = models.ForeignKey('Partido', on_delete=models.SET_NULL, null=True, blank=True, related_name='videos_archivo')
+    url_youtube = models.URLField(help_text="Pegá la URL completa (propia o ajena)")
+
+    class Meta:
+        ordering = ['-fecha', 'orden']
 
     def get_youtube_id(self):
-        youtube_regex = (
-            r'(?:https?://)?(?:www\.)?'
-            r'(?:youtube\.com|youtu\.be)/'
-            r'(?:watch\?v=|embed/|v/|)'
-            r'([\w-]{11})'
-        )
+        youtube_regex = r'(?:https?://)?(?:www\.)?(?:youtube\.com|youtu\.be)/(?:watch\?v=|embed/|v/|)([\w-]{11})'
         match = re.search(youtube_regex, self.url_youtube)
         if match:
             return match.group(1)
         return None 
 
+    def get_thumbnail_url(self):
+        """Devuelve la URL de la imagen de portada de alta calidad"""
+        video_id = self.get_youtube_id()
+        if video_id:
+            return f"https://img.youtube.com/vi/{video_id}/hqdefault.jpg"
+        return None 
+
+    def save(self, *args, **kwargs):
+        if not self.fecha and self.partido:
+            self.fecha = self.partido.fecha
+        super().save(*args, **kwargs)
+
     def __str__(self):
-        return f"Video de {self.clasificacion} para {self.partido}"
+        return f"{self.titulo or 'Video'} - {self.clasificacion}"
     
 class HitoHistorico(models.Model):
     TIPO_CHOICES = [

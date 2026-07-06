@@ -4,18 +4,16 @@ from django.contrib import admin
 from django.utils.html import format_html
 from .models import Club, Jugador, ParticipacionJugador, Torneo, Partido, Gol, TarjetaAmarilla, TarjetaRoja, VideoPartido, HitoHistorico
 
-# Configuración global del admin
 admin.site.site_header = "Club Atlético Chabás - Administración"
 admin.site.index_title = "Panel de Control"
 
-# --- ACCIÓN EXCEL ---
-@admin.action(description="Descargar Excel Optimizado (Lectura + Power BI)")
+@admin.action(description="Descargar Excel Optimizado")
 def exportar_partidos_excel(modeladmin, request, queryset):
+    # Usamos un libro de trabajo normal pero optimizado
     wb = openpyxl.Workbook()
     ws = wb.active
     ws.title = "Datos_Partidos"
 
-    # Encabezados pensados para análisis de datos
     headers = [
         'ID_Partido', 'Fecha', 'Temporada', 'Rival', 'Condicion', 
         'Instancia', 'Altura', 'Goles_Chabas', 'Goles_Rival', 
@@ -25,14 +23,19 @@ def exportar_partidos_excel(modeladmin, request, queryset):
     ]
     ws.append(headers)
 
-    # Optimizamos la carga de datos relacionados
+    # Optimizamos consultas (select_related es clave)
     queryset = queryset.select_related('torneo', 'rival').prefetch_related(
-        'gol_set__jugador', 'tarjetaamarilla_set__jugador', 'tarjetaroja_set__jugador'
+        'gol_set__jugador', 
+        'tarjetaamarilla_set__jugador', 
+        'tarjetaroja_set__jugador'
     )
 
     for p in queryset:
-        # 1. Lógica de Resultado y Puntos
-        diferencia = p.goles_chabas - p.goles_rival
+        # Aseguramos que no haya errores si los goles son None
+        g_chabas = p.goles_chabas or 0
+        g_rival = p.goles_rival or 0
+        diferencia = g_chabas - g_rival
+        
         if diferencia > 0:
             res_texto, puntos = "Victoria", 3
         elif diferencia < 0:
@@ -40,45 +43,45 @@ def exportar_partidos_excel(modeladmin, request, queryset):
         else:
             res_texto, puntos = "Empate", 1
 
-        # 2. Limpieza de Goleadores (Solo nombres para que Power BI agrupe bien)
-        nombres_goleadores = ", ".join([g.jugador.apellido for g in p.gol_set.all()])
-        
-        # 3. Otros datos
-        temporada = p.torneo.nombre
-        condicion = p.get_tipo_display() # Local o Visitante
+        # Limpiamos fechas para Excel (Excel no soporta timezones de Python fácilmente)
+        fecha_limpia = p.fecha.replace(tzinfo=None) if p.fecha else ""
 
         ws.append([
             p.id,
-            p.fecha,
-            temporada,
-            p.rival.nombre,
-            condicion,
+            fecha_limpia,
+            str(p.torneo),
+            p.rival.nombre if p.rival else "N/A",
+            p.get_tipo_display(),
             p.get_instancia_display(),
             p.get_altura_display(),
-            p.goles_chabas,
-            p.goles_rival,
+            g_chabas,
+            g_rival,
             diferencia,
             res_texto,
             puntos,
-            nombres_goleadores,
+            ", ".join([g.jugador.apellido for g in p.gol_set.all()]),
             ", ".join([a.jugador.apellido for a in p.tarjetaamarilla_set.all()]),
             ", ".join([r.jugador.apellido for r in p.tarjetaroja_set.all()]),
             p.arbitro,
             "Sí" if p.jugado else "No"
         ])
 
-    # Ajuste de diseño para el humano que lo lee
-    for col in ws.columns:
-        ws.column_dimensions[col[0].column_letter].width = 18
+    # --- CAMBIO CRUCIAL AQUÍ ---
+    # En lugar de iterar por 'ws.columns' (que es pesadísimo),
+    # definimos los anchos manualmente por letra de columna.
+    anchos = {'A': 10, 'B': 15, 'C': 20, 'D': 20, 'E': 15, 'M': 30, 'N': 30, 'O': 30}
+    for col_letra, ancho in anchos.items():
+        ws.column_dimensions[col_letra].width = ancho
 
-    response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-    response['Content-Disposition'] = 'attachment; filename="reporte_club_atletico_chabas.xlsx"'
+    response = HttpResponse(
+        content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    )
+    response['Content-Disposition'] = 'attachment; filename="reporte_partidos.xlsx"'
+    
+    # Guardamos directamente al objeto response para no crear archivos temporales
     wb.save(response)
     return response
 
-# En tu clase PartidoAdmin recordá agregar la acción:
-# actions = [exportar_partidos_completo]
-# --- ACCIÓN SQL ---
 @admin.action(description="Exportar seleccionados a .SQL (INSERTS)")
 def exportar_partidos_sql(modeladmin, request, queryset):
     sql_output = "-- Backup de Partidos - Club Atlético Chabás\n"
@@ -98,7 +101,6 @@ def exportar_partidos_sql(modeladmin, request, queryset):
     response['Content-Disposition'] = 'attachment; filename="partidos_backup.sql"'
     return response
 
-# 1. CLUBES
 @admin.register(Club)
 class ClubAdmin(admin.ModelAdmin):
     list_display = ('nombre', 'localidad', 'fundacion', 'escudo_admin', 'activo')
@@ -121,16 +123,14 @@ class ClubAdmin(admin.ModelAdmin):
 
     def escudo_admin(self, obj):
         if obj.escudo:
-            return format_html('<img src="{}" width="50" />', obj.escudo.url)
+            url_imagen = static(f'img/escudos/{obj.escudo}')
+            return format_html('<img src="{}" width="40" height="40" style="object-fit: contain;" />', url_imagen)
         return "Sin escudo"
-    escudo_admin.short_description = 'Escudo'
-
 
 class ParticipacionJugadorInline(admin.TabularInline):
     model = ParticipacionJugador
     extra = 1
 
-# 2. JUGADORES
 @admin.register(Jugador)
 class JugadorAdmin(admin.ModelAdmin):
     list_display = ('nombre_completo', 'posicion', 'estado', 'foto_admin', 'torneos_jugados', 
@@ -168,8 +168,6 @@ class JugadorAdmin(admin.ModelAdmin):
         return ", ".join(t.nombre for t in obj.torneos.all())
     torneos_jugados.short_description = 'Torneos Jugados'
 
-
-# 3. TORNEOS
 @admin.register(Torneo)
 class TorneoAdmin(admin.ModelAdmin):
     list_display = ('nombre', 'rango_fechas', 'duracion_dias')
@@ -184,7 +182,6 @@ class TorneoAdmin(admin.ModelAdmin):
         return (obj.fecha_fin - obj.fecha_inicio).days
     duracion_dias.short_description = 'Duración (días)'
 
-# 4. ESTADÍSTICAS (Tablas intermedias)
 class EstadisticaBaseAdmin(admin.ModelAdmin):
     list_display = ('partido', 'jugador', 'minuto')
     list_select_related = ('partido', 'jugador')
@@ -203,34 +200,41 @@ class TarjetaAmarillaAdmin(EstadisticaBaseAdmin):
 class TarjetaRojaAdmin(EstadisticaBaseAdmin):
     pass
 
-# 5. PARTIDOS (con inlines)
 class GolInline(admin.TabularInline):
     model = Gol
     extra = 1
     fields = ('jugador', 'minuto')
+    autocomplete_fields = ['jugador']
 
 class AmarillaInline(admin.TabularInline):
     model = TarjetaAmarilla
     extra = 1
     fields = ('jugador', 'minuto')
+    autocomplete_fields = ['jugador']
 
 class RojaInline(admin.TabularInline):
     model = TarjetaRoja
     extra = 1
     fields = ('jugador', 'minuto')
+    autocomplete_fields = ['jugador']
 
 class VideoPartidoInline(admin.TabularInline):
     model = VideoPartido
     extra = 1
-    fields = ('url_youtube', 'clasificacion', 'titulo')
+    # Agregamos 'fecha' aquí por si quieres poner una distinta a la del partido
+    fields = ('url_youtube', 'clasificacion', 'titulo', 'fecha', 'video_preview')
     readonly_fields = ('video_preview',)
+    
     def video_preview(self, obj):
-         if obj.url_youtube:
-             # Esto es solo un ejemplo, necesitarías una forma más robusta de obtener el ID y embeberlo
-             youtube_id = obj.get_youtube_id() # Si has implementado este método en el modelo
-             if youtube_id:
-                    return format_html('<iframe width="200" height="113" src="https://www.youtube.com/embed/{}" frameborder="0" allowfullscreen></iframe>', youtube_id)
-             return "No preview"
+        if obj.id and obj.url_youtube: # Verificamos que el objeto ya exista
+            youtube_id = obj.get_youtube_id()
+            if youtube_id:
+                return format_html(
+                    '<iframe width="160" height="90" src="https://www.youtube.com/embed/{}" '
+                    'frameborder="0" allowfullscreen style="border-radius:5px;"></iframe>', 
+                    youtube_id
+                )
+        return "Guardar para ver preview"
     video_preview.short_description = "Previsualización"
 
 @admin.register(HitoHistorico)
@@ -250,7 +254,7 @@ class HitoHistoricoAdmin(admin.ModelAdmin):
 
 @admin.register(Partido)
 class PartidoAdmin(admin.ModelAdmin):
-    list_display = ('fecha','instancia', 'vs_rival', 'jugado','resultado', 'arbitro','altura','torneo_link', 'detalle_link')
+    list_display = ('fecha','instancia', 'vs_rival', 'estado','resultado', 'arbitro','altura','torneo_link', 'detalle_link')
     list_filter = ('torneo', 'fecha', 'tipo', 'altura')
     search_fields = ('rival__nombre', 'torneo__nombre', 'arbitro')
     inlines = [GolInline, AmarillaInline, RojaInline, VideoPartidoInline]
@@ -260,7 +264,7 @@ class PartidoAdmin(admin.ModelAdmin):
     
     fieldsets = (
         (None, {
-            'fields': ('fecha', 'torneo', 'rival', 'tipo', 'arbitro', 'instancia', 'altura', 'descripcion', 'jugado')
+            'fields': ('fecha', 'torneo', 'rival', 'tipo', 'arbitro', 'instancia', 'altura', 'descripcion', 'estado')
         }),
         ('Resultado', {
             'fields': ('goles_chabas', 'goles_rival')
@@ -284,3 +288,16 @@ class PartidoAdmin(admin.ModelAdmin):
         return format_html('<a href="../partido/{}/">📝 Editar</a>', obj.id)
     detalle_link.short_description = 'Acciones'
 
+@admin.register(VideoPartido)
+class VideoPartidoAdmin(admin.ModelAdmin):
+    # Columnas que verás en la lista de videos
+    list_display = ('titulo', 'clasificacion', 'fecha', 'partido', 'orden')
+    
+    # Filtros laterales para encontrar videos rápido
+    list_filter = ('clasificacion', 'fecha')
+    
+    # Buscador por título o nombre del rival
+    search_fields = ('titulo', 'partido__rival__nombre')
+    
+    # Esto permite editar el orden directamente desde la lista sin entrar al video
+    list_editable = ('orden',)

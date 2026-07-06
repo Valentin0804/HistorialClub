@@ -1,25 +1,30 @@
 from datetime import date
 from django.shortcuts import render, get_object_or_404
-from .models import Partido, Jugador, Club, Gol, TarjetaAmarilla, TarjetaRoja, Torneo, HitoHistorico
+from .models import Partido, Jugador, Club, Gol, TarjetaAmarilla, TarjetaRoja, Torneo, HitoHistorico, VideoPartido
 from django.db.models import Count, F, Q, Sum
 from django.utils import timezone
+from collections import defaultdict
+from django.http import HttpResponse
 import random
 
 def home(request):
     hoy = date.today()
     
-    # 1. Partidos principales
-    ultimo_partido = Partido.objects.select_related('rival', 'torneo').filter(jugado=True).order_by('-fecha').first()
-    proximo_partido = Partido.objects.select_related('rival', 'torneo').filter(jugado=False).order_by('fecha').first()
+    # Partidos principales
+    ultimo_partido = Partido.objects.select_related('rival', 'torneo').filter(estado="J").order_by('-fecha').first()
+    proximo_partido = Partido.objects.select_related('rival', 'torneo').filter(estado__in=['V', 'P']).order_by('fecha').first()
 
-    # 2. Torneo Actual (El último creado por fecha)
+    partidos_totales = Partido.objects.all().count
+    jugadores_totales = Jugador.objects.all().count
+
+    # Torneo Actual (El último creado por fecha)
     torneo_actual = Torneo.objects.order_by('-fecha_inicio').first()
     partidos_recientes = []
     top_goleadores = []
 
     if torneo_actual:
         # Últimos 5 resultados del torneo actual
-        partidos_recientes = Partido.objects.filter(torneo=torneo_actual, jugado=True).order_by('-fecha')[:5]
+        partidos_recientes = Partido.objects.filter(torneo=torneo_actual, estado="J").order_by('-fecha')[:5]
         
         # Top 5 Goleadores del torneo actual
         # Contamos cuántas veces aparece cada jugador en la tabla Gol para este torneo
@@ -31,15 +36,15 @@ def home(request):
         top_5_amonestados = Jugador.objects.filter(tarjetaamarilla__partido__torneo=torneo_actual)\
             .annotate(total_tarjetas=Count('tarjetaamarilla')).order_by('-total_tarjetas')[:5]
 
-    # --- EXPULSADOS ---
+            # Top 5 Expulsados
         top_5_expulsados = Jugador.objects.filter(tarjetaroja__partido__torneo=torneo_actual)\
             .annotate(total_rojas=Count('tarjetaroja')).order_by('-total_rojas')[:5]
         
         # Obtenemos los últimos 5 partidos ya jugados del torneo actual
-        partidos_recientes = Partido.objects.filter(torneo=torneo_actual, jugado=True).order_by('-fecha')[:5]
+        partidos_recientes = Partido.objects.filter(torneo=torneo_actual, estado="J").order_by('-fecha')[:5]
 
-    # 3. Efemérides y Máxima Goleada
-    efemerides = Partido.objects.filter(fecha__day=hoy.day, fecha__month=hoy.month, jugado=True).order_by('-fecha')
+    # Efemérides y Máxima Goleada
+    efemerides = Partido.objects.filter(fecha__day=hoy.day, fecha__month=hoy.month, estado="J").order_by('-fecha')
     
     maxima_goleada = Partido.objects.filter(goles_chabas__gt=F('goles_rival'))\
         .annotate(dif=F('goles_chabas') - F('goles_rival'))\
@@ -56,6 +61,8 @@ def home(request):
         'top_amonestados': top_5_amonestados,
         'partidos_recientes': partidos_recientes,
         'top_expulsados': top_5_expulsados,
+        'partidos_totales': partidos_totales,
+        'jugadores_totales': jugadores_totales
     })
     
 def lista_partidos(request):
@@ -83,17 +90,15 @@ def detalle_partido(request, partido_id):
         'instancia': partido.get_instancia_display(),
         'altura': partido.get_altura_display(),
         'descripcion': partido.descripcion,
-        'videos': partido.videos.all()
+        'videos': partido.videos_archivo.all()
     })
 
 def temporada_actual(request):
-    # Obtener el año actual
+
     año_actual = timezone.now().year
 
-    # Filtrar partidos cuya fecha sea en el año actual
-
     partidos = Partido.objects.filter(
-        fecha__year=año_actual, jugado=True
+        fecha__year=año_actual, estado="J"
     ).order_by('fecha')
 
     return render(request, 'historial/temporada_actual.html', {
@@ -118,10 +123,9 @@ def partidos(request, club_id=None):
     ultimos_n = request.GET.get('ultimos')
     desde_partido_id = request.GET.get('desde_partido')
     jugador_id = request.GET.get('jugador')
-    accion = request.GET.get('accion')  # 'gol', 'amarilla', 'roja'
+    accion = request.GET.get('accion')
 
-    # Aplicar filtros
-    partidos = Partido.objects.filter(jugado=True)
+    partidos = Partido.objects.filter(estado="J")
 
     if club_id:
         partidos = partidos.filter(rival__id=club_id)
@@ -227,7 +231,7 @@ def partidos(request, club_id=None):
     }
 
     return render(request, 'historial/partidos.html', {
-        'partidos': partidos_mostrados,  # Se muestran en la tabla
+        'partidos': partidos_mostrados,
         'temporadas': temporadas,
         'equipos': equipos,
         'años': [año.year for año in años_disponibles],
@@ -315,7 +319,7 @@ def rivales(request):
     data = []
 
     for club in clubes:
-        partidos = Partido.objects.filter(rival=club, jugado=True)
+        partidos = Partido.objects.filter(rival=club, estado="J")
 
         ganados = partidos.filter(goles_chabas__gt=F('goles_rival')).count()
         empatados = partidos.filter(goles_chabas=F('goles_rival')).count()
@@ -371,6 +375,7 @@ def historia(request):
     return render(request, 'historia.html', {'hitos': hitos})
 
 def temporadas_stats(request):
+
     todos_los_torneos = Torneo.objects.all().order_by('-fecha_inicio')
     seleccionados_ids = request.GET.getlist('t')
     
@@ -384,8 +389,8 @@ def temporadas_stats(request):
     stats_resultados = []
 
     for torneo in torneos_a_procesar:
-        # 1. Definimos los partidos de ESTE torneo específico dentro del bucle
-        partidos_todos = Partido.objects.filter(torneo=torneo, jugado=True).order_by('fecha')
+        # Definimos los partidos de ESTE torneo específico dentro del bucle
+        partidos_todos = Partido.objects.filter(torneo=torneo, estado="J").order_by('fecha')
         
         # Partidos de Fase Regular ("Fecha") para puntos
         partidos_fecha = partidos_todos.filter(instancia='Fecha')
@@ -397,7 +402,7 @@ def temporadas_stats(request):
         puntos_posibles = pj_fecha * 3
         porcentaje_puntos = round((puntos_obtenidos / puntos_posibles * 100), 1) if puntos_posibles > 0 else 0
 
-        # 2. Estadísticas Generales del torneo completo
+        # Estadísticas Generales del torneo completo
         pj_total = partidos_todos.count()
         gf = partidos_todos.aggregate(Sum('goles_chabas'))['goles_chabas__sum'] or 0
         gc = partidos_todos.aggregate(Sum('goles_rival'))['goles_rival__sum'] or 0
@@ -410,18 +415,16 @@ def temporadas_stats(request):
         racha_act_np, max_racha_np = 0, 0
         racha_act_g, max_racha_g = 0, 0
         for p in partidos_todos:
-            # No perdidos
             if p.goles_chabas >= p.goles_rival:
                 racha_act_np += 1
                 max_racha_np = max(max_racha_np, racha_act_np)
             else: racha_act_np = 0
-            # Ganados
             if p.goles_chabas > p.goles_rival:
                 racha_act_g += 1
                 max_racha_g = max(max_racha_g, racha_act_g)
             else: racha_act_g = 0
 
-        # 3. Cálculo de la Racha (Últimos 5 partidos)
+        # Cálculo de la Racha (Últimos 5 partidos)
         # Traemos los últimos 5 jugados de este torneo
         ultimos_partidos = partidos_todos.order_by('-fecha')[:5]
         racha = []
@@ -433,10 +436,10 @@ def temporadas_stats(request):
             else:
                 racha.append('E')
 
-        # 4. Datos Curiosos Dinámicos
+        # Datos Curiosos Dinámicos
         candidatos = []
         
-        # --- Dato: Goleada (La paliza) ---
+        # Dato: Goleada
         gran_victoria = partidos_todos.filter(goles_chabas__gt=F('goles_rival')).order_by('-goles_chabas').first()
         if gran_victoria:
             if gran_victoria.tipo == 'L':
@@ -444,20 +447,18 @@ def temporadas_stats(request):
             else:
                 candidatos.append(f"Lo más lindo: el {gran_victoria.goles_chabas}-{gran_victoria.goles_rival} a {gran_victoria.rival.nombre} en su casa.")
 
-        # --- Dato: Valla Invicta (Arco cerrado) ---
+        # Dato: Valla Invicta (Arco cerrado)
         vallas_invictas = partidos_todos.filter(goles_rival=0).count()
         if vallas_invictas > 7:
             candidatos.append(f"En {vallas_invictas} partidos nuestro arco se fue en 0")
 
-        # --- Dato: Tarjetas (Hacha y tiza) ---
+        # Dato: Tarjetas
         amarillas = TarjetaAmarilla.objects.filter(partido__torneo=torneo).count()
         rojas = TarjetaRoja.objects.filter(partido__torneo=torneo).count()
         if rojas > 3 and amarillas > 10:
             candidatos.append(f"Se jugó con el cuchillo entre los dientes: metimos {amarillas} amarillas y {rojas} rojas.")
-        # elif amarillas < 5 and pj_total > 5:
-        #    candidatos.append(f"Unos señores: apenas {amarillas} amarillas en todo el torneo. Fair play puro.")
 
-        # --- Dato: Instancia Máxima ---
+        # Dato: Instancia Máxima
         # Definimos un orden de importancia para las instancias
         orden_instancias = ['Final', 'FinVue', 'FinIda', 'Semi', 'SemVue', 'SemIda', 'Cua', 'CuaVue', 'CuaIda', 'Oct', 'OctVue', 'OctIda']
         instancia_maxima = "Fase de Grupos"
@@ -476,13 +477,13 @@ def temporadas_stats(request):
         if instancia_maxima != "Fase de Grupos":
             candidatos.append(f"Nuestra temporada se termino en {instancia_maxima}.")
 
-        # --- Dato: Efectividad (El laburo de la temporada) ---
+        # Dato: Efectividad (El laburo de la temporada)
         if porcentaje_puntos >= 70:
             candidatos.append(f"Campaña de locos. Sacamos el {porcentaje_puntos}% de los puntos.")
         elif porcentaje_puntos <= 35 and pj_total > 0:
             candidatos.append("Torneo para el olvido. A barajar y dar de nuevo.")
 
-       # --- Dato: El Clásico (Contra Huracán) ---
+       # Dato: El Clásico (Contra Huracán)
         partidos_clasico = partidos_todos.filter(rival__nombre__icontains='Huracan')
         if partidos_clasico.exists():
             v_c = sum(1 for p in partidos_clasico if p.goles_chabas > p.goles_rival)
@@ -508,7 +509,7 @@ def temporadas_stats(request):
             .annotate(g=Count('id'))\
             .filter(g__gte=3)\
             .order_by('-g')\
-            .first() # Ahora con order_by no tira error
+            .first()
         
         if hat_trick:
             candidatos.append(f"{hat_trick['jugador__nombre']} {hat_trick['jugador__apellido']} clavó tres en un mismo partido y se llevó la pelota.")
@@ -520,7 +521,7 @@ def temporadas_stats(request):
         else:
             datos_curiosos = candidatos
 
-        # 5. Máximo Goleador
+        # Máximo Goleador
         top_g = Jugador.objects.filter(gol__partido__torneo=torneo).annotate(goles_t=Count('gol')).order_by('-goles_t').first()
 
         stats_resultados.append({
@@ -554,3 +555,38 @@ def temporadas_stats(request):
         'stats': stats_resultados,
         'modo_comparativa': modo_comparativa,
     })
+
+def galeria_videos(request):
+    try:
+        query = request.GET.get('q', '').strip()
+        orden_pref = request.GET.get('orden', 'desc')
+
+        videos_qs = VideoPartido.objects.all().select_related('partido', 'partido__rival')
+
+        if query:
+            if query.isdigit():
+                videos_qs = videos_qs.filter(fecha__isnull=False, fecha__year=query)
+            else:
+                videos_qs = videos_qs.filter(
+                    Q(titulo__icontains=query) | 
+                    Q(partido__rival__nombre__icontains=query) | 
+                    Q(clasificacion__icontains=query)
+                )
+
+        videos_qs = videos_qs.order_by('fecha', 'orden') if orden_pref == 'asc' else videos_qs.order_by('-fecha', 'orden')
+
+        videos_por_anio = defaultdict(list)
+        for video in videos_qs:
+            anio = video.fecha.year if video.fecha else "Sin Fecha"
+            videos_por_anio[anio].append(video)
+
+        reversa = (orden_pref == 'desc')
+        context = {
+            'videos_agrupados': dict(sorted(videos_por_anio.items(), key=lambda x: str(x[0]), reverse=reversa)),
+            'query': query,
+            'orden': orden_pref,
+        }
+        return render(request, 'historial/videos.html', context)
+    
+    except Exception as e:
+        return HttpResponse(f"Error crítico en la vista de videos: {e}")

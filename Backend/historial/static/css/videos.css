@@ -1,0 +1,97 @@
+:root {
+    --celeste-primario: #019ee3;
+    --celeste-claro: #e0f7fa;
+    --celeste-oscuro: #007bb1;
+    --verde-positivo: #28a745;
+    --naranja-neutral: #ffb74d;
+    --rojo-negativo: #d62727;
+    --blanco: #ffffff;
+    --texto-principal: #1a1a1a;
+}
+
+/* Títulos de año con el estilo de tu sitio */
+.anio-section-title {
+    color: var(--celeste-oscuro);
+    border-left: 5px solid var(--celeste-primario);
+    padding-left: 15px;
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Tarjeta de video siguiendo la línea del detalle_partido */
+.video-card {
+    border: none;
+    border-radius: 15px;
+    overflow: hidden;
+    background: var(--blanco);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.video-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(1, 158, 227, 0.2);
+}
+
+/* Contenedor de la imagen */
+.thumbnail-container {
+    position: relative;
+    padding-top: 56.25%; /* 16:9 */
+    background: #000;
+}
+
+.video-thumbnail {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    object-fit: cover;
+}
+
+/* Overlay de Play con tu celeste */
+.play-overlay {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(1, 158, 227, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.video-card:hover .play-overlay {
+    opacity: 1;
+}
+
+.play-icon {
+    font-size: 3.5rem;
+    color: white;
+    filter: drop-shadow(0 2px 10px rgba(0,0,0,0.3));
+}
+
+/* Info del video debajo de la imagen */
+.video-card-body {
+    padding: 1.25rem;
+    border-top: 3px solid var(--celeste-primario);
+}
+
+.video-title {
+    font-weight: 700;
+    color: var(--texto-principal);
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    line-height: 1.2;
+}
+
+.video-meta {
+    font-size: 0.85rem;
+    color: #666;
+}
+
+/* Estilo para los filtros */
+.filter-card {
+    background-color: var(--celeste-claro);
+    border: none;
+    border-radius: 12px;
+}
