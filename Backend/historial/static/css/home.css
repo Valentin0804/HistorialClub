@@ -3,11 +3,10 @@
     --success-color: #28a745;
     --neutral-color: #ffb74d;
 
-    /* --- Colores de Gala (Campeón 13 Estrellas) --- */
-  --gold-main: #ffc107;       /* El dorado clásico brillante de Bootstrap */
-  --gold-dark: #cc9a06;       /* Un dorado más oscuro para sombras y bordes */
-  --gold-light: #fff9db;      /* Fondo dorado muy suave para resaltar tarjetas */
-  --gold-gradient: linear-gradient(135deg, #ffd700, #ffc107, #b8860b); /* Brillo metálico */
+  --gold-main: #ffc107;
+  --gold-dark: #cc9a06;
+  --gold-light: #fff9db;
+  --gold-gradient: linear-gradient(135deg, #ffd700, #ffc107, #b8860b);
 }
 
 @media (max-width: 768px) {

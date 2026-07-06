@@ -28,18 +28,27 @@
 
     <div class="accordion accordion-flush shadow-sm rounded-4 overflow-hidden" id="accordionStats">
         {% for item in stats %}
-        <div class="accordion-item border-bottom">
+
+        <!-- Evaluamos directamente en una estructura limpia de Django -->
+        <div
+            class="accordion-item border-bottom {% if item.torneo.nombre.lower == 'torneo 2026 apertura' %}torneo-dorado{% endif %}">
             <h2 class="accordion-header">
-                <button class="accordion-button {% if not forloop.first %}collapsed{% endif %} py-3" type="button"
-                    data-bs-toggle="collapse" data-bs-target="#collapse{{ item.torneo.id }}">
+                <button
+                    class="accordion-button {% if not forloop.first %}collapsed{% endif %} py-3 {% if item.torneo.nombre.lower == 'torneo 2026 apertura' %}btn-dorado{% endif %}"
+                    type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ item.torneo.id }}">
                     <div class="d-flex justify-content-between w-100 align-items-center pe-3">
                         <div>
-                            <span class="fw-bold text-dark h5 mb-0">{{ item.torneo.nombre }}</span>
+                            <span
+                                class="fw-bold h5 mb-0 {% if item.torneo.nombre.lower == 'torneo 2026 apertura' %}text-dark-gold{% else %}text-dark{% endif %}">
+                                {{ item.torneo.nombre }}
+                                {% if item.torneo.nombre.lower == 'torneo 2026 apertura' %} <i
+                                    class="fas fa-trophy ms-1 text-warning animate-bounce"></i>{% endif %}
+                            </span>
                             <small class="text-muted d-block" style="font-size: 0.7rem;">{{ item.torneo.fecha_inicio|date:"Y" }}</small>
                         </div>
                         <div class="text-end">
                             <span
-                                class="badge {% if item.porcentaje_puntos >= 60 %}bg-success{% elif item.porcentaje_puntos >= 40 %}bg-warning text-dark{% else %}bg-danger{% endif %} rounded-pill">
+                                class="badge {% if item.torneo.nombre.lower == 'torneo 2026 apertura' %}bg-dark text-white{% elif item.porcentaje_puntos >= 60 %}bg-success{% elif item.porcentaje_puntos >= 40 %}bg-warning text-dark{% else %}bg-danger{% endif %} rounded-pill">
                                 {{ item.porcentaje_puntos }}% Efectividad
                             </span>
                         </div>
@@ -52,16 +61,26 @@
                 data-bs-parent="#accordionStats">
                 <div class="accordion-body bg-white border-top">
 
-                    {% if item.datos_curiosos %}
-                    <div class="p-3 mb-4 rounded-4" style="background-color: #eef8ff; border-left: 5px solid #019ee3;">
-                        <h6 class="fw-bold text-primary mb-2 small uppercase"><i class="fas fa-robot me-2"></i>Análisis de Campaña</h6>
+                    <!-- Sección de análisis modificada -->
+                    {% if item.datos_curiosos or item.torneo.nombre.lower == 'torneo 2026 apertura' %}
+                    <div class="p-3 mb-4 rounded-4 shadow-sm"style="{% if item.torneo.nombre.lower == 'torneo 2026 apertura' %}background: linear-gradient(135deg, #fffdf0 0%, #fff9d6 100%); border-left: 5px solid #d4af37;{% else %}background-color: #eef8ff; border-left: 5px solid #019ee3;{% endif %}">
+                        <h6
+                            class="fw-bold mb-2 small uppercase {% if item.torneo.nombre.lower == 'torneo 2026 apertura' %}text-warning-gold{% else %}text-primary{% endif %}">
+                            <i class="fas fa-star me-2"></i>Análisis de Campaña
+                        </h6>
                         <ul class="mb-0 small text-dark">
+                            {% if item.torneo.nombre.lower == 'torneo 2026 apertura' %}
+                            <li class="mb-1 fw-bold text-dark-gold">¡Nuestra temporada terminó en final, pudiendo dar la
+                                vuelta! 🏆</li>
+                            {% endif %}
                             {% for dato in item.datos_curiosos %}
                             <li class="mb-1">{{ dato }}</li>
                             {% endfor %}
                         </ul>
                     </div>
                     {% endif %}
+
+                    <!-- El resto de las columnas de estadísticas (puntos, goles, etc.) se mantienen exactamente igual -->
 
                     <div class="row g-3">
                         <div class="col-12 col-md-4">
@@ -131,7 +150,8 @@
                                     {% if item.goleador %}
                                     <div class="flex-grow-1">
                                         <span class="text-secondary small uppercase">Máximo Goleador</span>
-                                        <div class="fw-bold fs-5">{{ item.goleador.nombre }} {{ item.goleador.apellido }}</div>
+                                        <div class="fw-bold fs-5">{{ item.goleador.nombre }} {{ item.goleador.apellido
+                                            }}</div>
                                     </div>
                                     <div class="h1 fw-bold text-primary mb-0">{{ item.goles_goleador }}</div>
                                     {% else %}
@@ -170,9 +190,11 @@
 
                     <div class="row g-2 mb-3 small">
                         <div class="col-12 d-flex justify-content-between bg-light p-2 rounded">
-                            <span><i class="fas fa-square text-warning me-1"></i> Amarillas: <b>{{ item.amarillas }}</b></span>
+                            <span><i class="fas fa-square text-warning me-1"></i> Amarillas: <b>{{ item.amarillas
+                                    }}</b></span>
                             <span><i class="fas fa-square text-danger me-1"></i> Rojas: <b>{{ item.rojas }}</b></span>
-                            <span><i class="fas fa-shield-alt text-info me-1"></i> Arcos en 0: <b>{{ item.vallas_invictas }}</b></span>
+                            <span><i class="fas fa-shield-alt text-info me-1"></i> Arcos en 0: <b>{{
+                                    item.vallas_invictas }}</b></span>
                         </div>
                         <div class="col-12 mt-2">
                             <div class="text-muted" style="font-size: 0.75rem;">
