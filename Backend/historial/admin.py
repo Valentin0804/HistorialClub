@@ -44,7 +44,7 @@ def exportar_partidos_excel(modeladmin, request, queryset):
             res_texto, puntos = "Empate", 1
 
         # Limpiamos fechas para Excel (Excel no soporta timezones de Python fácilmente)
-        fecha_limpia = p.fecha.replace(tzinfo=None) if p.fecha else ""
+        fecha_limpia = p.fecha if p.fecha else ""
 
         ws.append([
             p.id,
