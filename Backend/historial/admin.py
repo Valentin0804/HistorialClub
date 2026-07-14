@@ -63,7 +63,7 @@ def exportar_partidos_excel(modeladmin, request, queryset):
             ", ".join([a.jugador.apellido for a in p.tarjetaamarilla_set.all()]),
             ", ".join([r.jugador.apellido for r in p.tarjetaroja_set.all()]),
             p.arbitro,
-            "Sí" if p.jugado else "No"
+            "Sí" if p.estado == 'J' else "No"
         ])
 
     # --- CAMBIO CRUCIAL AQUÍ ---
@@ -93,8 +93,8 @@ def exportar_partidos_sql(modeladmin, request, queryset):
         arbitro = p.arbitro.replace("'", "''")
         
         sql_output += (
-            f"INSERT INTO {table_name} (fecha, torneo_id, rival_id, arbitro, instancia, tipo, goles_chabas, goles_rival, jugado) "
-            f"VALUES ('{p.fecha}', {p.torneo.id}, {p.rival.id}, '{arbitro}', '{p.instancia}', '{p.tipo}', {p.goles_chabas}, {p.goles_rival}, {1 if p.jugado else 0});\n"
+            f"INSERT INTO {table_name} (fecha, torneo_id, rival_id, arbitro, instancia, tipo, goles_chabas, goles_rival, estado) "
+            f"VALUES ('{p.fecha}', {p.torneo.id}, {p.rival.id}, '{arbitro}', '{p.instancia}', '{p.tipo}', {p.goles_chabas}, {p.goles_rival}, '{p.estado}');\n"
         )
 
     response = HttpResponse(sql_output, content_type='text/plain')
